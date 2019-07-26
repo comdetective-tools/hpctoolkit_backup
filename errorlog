@@ -1,0 +1,645 @@
+Making all in src
+make[1]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src'
+Making all in lib
+make[2]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib'
+Making all in prof-lean
+make[3]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib/prof-lean'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib/prof-lean'
+Making all in support-lean
+make[3]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib/support-lean'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib/support-lean'
+Making all in analysis
+make[3]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib/analysis'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib/analysis'
+Making all in banal
+make[3]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib/banal'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib/banal'
+Making all in binutils
+make[3]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib/binutils'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib/binutils'
+Making all in isa
+make[3]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib/isa'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib/isa'
+Making all in prof
+make[3]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib/prof'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib/prof'
+Making all in profxml
+make[3]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib/profxml'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib/profxml'
+Making all in xml
+make[3]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib/xml'
+make  all-am
+make[4]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib/xml'
+make[4]: Nothing to be done for 'all-am'.
+make[4]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib/xml'
+make[3]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib/xml'
+Making all in support
+make[3]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib/support'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib/support'
+Making all in stubs-gcc_s
+make[3]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib/stubs-gcc_s'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib/stubs-gcc_s'
+make[3]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib'
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib'
+make[2]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/lib'
+Making all in tool
+make[2]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/tool'
+Making all in hpcstruct
+make[3]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/tool/hpcstruct'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/tool/hpcstruct'
+Making all in hpcprof
+make[3]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/tool/hpcprof'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/tool/hpcprof'
+Making all in hpcproftt
+make[3]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/tool/hpcproftt'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/tool/hpcproftt'
+Making all in hpclump
+make[3]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/tool/hpclump'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/tool/hpclump'
+Making all in misc
+make[3]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/tool/misc'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/tool/misc'
+Making all in hpcrun
+make[3]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/tool/hpcrun'
+make  all-recursive
+make[4]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/tool/hpcrun'
+make[5]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/tool/hpcrun'
+/bin/bash ../../../libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../../../src/include  -D_GNU_SOURCE -DINLINE_FN=1  -DUSE_LIBUNWIND -I../../../src/tool -I./messages -I./fnbounds -I./memory -I./os/linux -I./cct -I./unwind/common -I./utilities -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libunwind/include -I../../../src/tool/hpcfnbounds  -I/home/msasongko17/project/feather-project/libmonitor-bin/include -I/home/msasongko17/project/feather-project/master/src/adamant-double/include    -I./utilities/arch/x86-family        -I./unwind/x86-family -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xed2/include   -g -O3 -Wall -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/perfmon/include -D ENABLE_PERFMON   -MT sample-sources/libhpcrun_la-watchpoint_clients.lo -MD -MP -MF sample-sources/.deps/libhpcrun_la-watchpoint_clients.Tpo -c -o sample-sources/libhpcrun_la-watchpoint_clients.lo `test -f 'sample-sources/watchpoint_clients.c' || echo './'`sample-sources/watchpoint_clients.c
+gcc -DHAVE_CONFIG_H -I. -I../../../src/include  -DHPCRUN_STATIC_LINK -D_GNU_SOURCE -DINLINE_FN=1  -DUSE_LIBUNWIND -I../../../src/tool -I./messages -I./fnbounds -I./memory -I./os/linux -I./cct -I./unwind/common -I./utilities -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libunwind/include -I../../../src/tool/hpcfnbounds  -I/home/msasongko17/project/feather-project/libmonitor-bin/include -I/home/msasongko17/project/feather-project/master/src/adamant-double/include    -I./utilities/arch/x86-family      -I./unwind/x86-family -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xed2/include   -g -O3 -Wall -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/perfmon/include -D ENABLE_PERFMON  -MT sample-sources/libhpcrun_o-watchpoint_clients.o -MD -MP -MF sample-sources/.deps/libhpcrun_o-watchpoint_clients.Tpo -c -o sample-sources/libhpcrun_o-watchpoint_clients.o `test -f 'sample-sources/watchpoint_clients.c' || echo './'`sample-sources/watchpoint_clients.c
+libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../../src/include -D_GNU_SOURCE -DINLINE_FN=1 -DUSE_LIBUNWIND -I../../../src/tool -I./messages -I./fnbounds -I./memory -I./os/linux -I./cct -I./unwind/common -I./utilities -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libunwind/include -I../../../src/tool/hpcfnbounds -I/home/msasongko17/project/feather-project/libmonitor-bin/include -I/home/msasongko17/project/feather-project/master/src/adamant-double/include -I./utilities/arch/x86-family -I./unwind/x86-family -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xed2/include -g -O3 -Wall -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/perfmon/include -D ENABLE_PERFMON -MT sample-sources/libhpcrun_la-watchpoint_clients.lo -MD -MP -MF sample-sources/.deps/libhpcrun_la-watchpoint_clients.Tpo -c sample-sources/watchpoint_clients.c  -fPIC -DPIC -o sample-sources/.libs/libhpcrun_la-watchpoint_clients.o
+sample-sources/watchpoint_clients.c: In function ‘hashSearch’:
+sample-sources/watchpoint_clients.c:266:53: warning: comparison between pointer and integer
+    while(bulletinBoard.hashTable[hashIndex].address != -1 && iter < HASHTABLESIZE) {
+                                                     ^
+sample-sources/watchpoint_clients.c: In function ‘hashUpdateMatrix’:
+sample-sources/watchpoint_clients.c:302:66: warning: comparison between pointer and integer
+       if(bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress == -1)
+                                                                  ^
+sample-sources/watchpoint_clients.c:341:10: warning: implicit declaration of function ‘matrix_size_set’ [-Wimplicit-function-declaration]
+          matrix_size_set(max_thread_num);
+          ^
+sample-sources/watchpoint_clients.c:348:11: warning: implicit declaration of function ‘inc_true_count’ [-Wimplicit-function-declaration]
+           inc_true_count((uint64_t) searchedAddress, global_sampling_period);
+           ^
+sample-sources/watchpoint_clients.c:352:10: warning: implicit declaration of function ‘inc_false_count’ [-Wimplicit-function-declaration]
+          inc_false_count((uint64_t) searchedAddress, global_sampling_period);
+          ^
+sample-sources/watchpoint_clients.c:365:57: warning: comparison between pointer and integer
+   if(bulletinBoard.hashTable[iter].cacheLineBaseAddress != -1 && bulletinBoard.hashTable[iter].time > latest_time && bulletinBoard.hashTable[iter].tid != tid) {
+                                                         ^
+sample-sources/watchpoint_clients.c: In function ‘hashInsert’:
+sample-sources/watchpoint_clients.c:390:53: warning: comparison between pointer and integer
+    while(bulletinBoard.hashTable[hashIndex].address != -1 && bulletinBoard.hashTable[hashIndex].address != item.address && iter < HASHTABLESIZE) {
+                                                     ^
+sample-sources/watchpoint_clients.c: In function ‘getEntryFromBulletinBoard’:
+sample-sources/watchpoint_clients.c:404:65: warning: comparison between pointer and integer
+  while((bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress != -1) && (cacheLineBaseAddress != bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress) && iter < HASHTABLESIZE) {
+                                                                 ^
+sample-sources/watchpoint_clients.c: In function ‘getEntryRandomlyFromBulletinBoard’:
+sample-sources/watchpoint_clients.c:422:63: warning: comparison between pointer and integer
+   if((bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress != -1) && (bulletinBoard.hashTable[hashIndex].tid != tid) && ((cur_time - bulletinBoard.hashTable[hashIndex].time) < bulletinBoard.hashTable[hashIndex].expiration_period))
+                                                               ^
+sample-sources/watchpoint_clients.c: In function ‘hashInsertwithTime’:
+sample-sources/watchpoint_clients.c:437:66: warning: comparison between pointer and integer
+    while(bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress != -1 && cacheLineBaseAddress != bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress && iter < HASHTABLESIZE) {
+                                                                  ^
+sample-sources/watchpoint_clients.c:442:64: warning: comparison between pointer and integer
+    if (bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress == -1) {
+                                                                ^
+sample-sources/watchpoint_clients.c: In function ‘hashDisplay’:
+sample-sources/watchpoint_clients.c:473:45: warning: comparison between pointer and integer
+       if(bulletinBoard.hashTable[i].address != -1)
+                                             ^
+sample-sources/watchpoint_clients.c: In function ‘PopulateBlackListAddresses’:
+sample-sources/watchpoint_clients.c:698:19: warning: unused variable ‘perms’ [-Wunused-variable]
+             char* perms = strtok_r(NULL, delim, &save);
+                   ^
+sample-sources/watchpoint_clients.c: In function ‘TopN’:
+sample-sources/watchpoint_clients.c:858:20: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     int metricID = (int)arg;
+                    ^
+sample-sources/watchpoint_clients.c: In function ‘PrintTopN’:
+sample-sources/watchpoint_clients.c:900:42: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     hpcrun_cct_walk_node_1st(root, TopN, (void *) metricID);
+                                          ^
+sample-sources/watchpoint_clients.c: In function ‘IsAddressReadable’:
+sample-sources/watchpoint_clients.c:1396:23: warning: unused variable ‘i’ [-Wunused-variable]
+         volatile char i = *(char*)(addr);
+                       ^
+sample-sources/watchpoint_clients.c: In function ‘FalseSharingWPCallback’:
+sample-sources/watchpoint_clients.c:1766:12: warning: unused variable ‘increment_untweaked’ [-Wunused-variable]
+     double increment_untweaked = (double) CACHE_LINE_SZ/MAX_WP_LENGTH / wpConfig.maxWP * global_sampling_period;
+            ^
+sample-sources/watchpoint_clients.c:1764:12: warning: unused variable ‘cacheLineBaseAddress’ [-Wunused-variable]
+     void * cacheLineBaseAddress = (void *) ALIGN_TO_CACHE_LINE((size_t)wt->va);    
+            ^
+sample-sources/watchpoint_clients.c: In function ‘OnSample’:
+sample-sources/watchpoint_clients.c:2719:24: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+     void * data_addr = mmap_data->addr;
+                        ^
+sample-sources/watchpoint_clients.c:2720:24: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+     void * precisePC = (mmap_data->header_misc & PERF_RECORD_MISC_EXACT_IP) ? mmap_data->ip : 0;
+                        ^
+sample-sources/watchpoint_clients.c:2939:36: warning: comparison between pointer and integer
+      if((item.cacheLineBaseAddress == -1) || (item_not_found == 1)) {
+                                    ^
+sample-sources/watchpoint_clients.c:2991:60: warning: comparison between pointer and integer
+      if((sType == ALL_LOAD) || ((item.cacheLineBaseAddress != -1) && ((curtime1 - item.time) <= (storeCurTime - storeLastTime)))) {
+                                                            ^
+sample-sources/watchpoint_clients.c:3011:9: warning: unused variable ‘bb_flag’ [-Wunused-variable]
+     int bb_flag = 0;
+         ^
+sample-sources/watchpoint_clients.c:2998:23: warning: variable ‘inserted_item’ set but not used [-Wunused-but-set-variable]
+     struct SharedData inserted_item;
+                       ^
+sample-sources/watchpoint_clients.c:3095:6: warning: "/*" within comment [-Wcomment]
+      /*struct DataItem *item = (struct DataItem*) malloc(sizeof(struct DataItem));
+      ^
+sample-sources/watchpoint_clients.c:3147:44: warning: comparison between pointer and integer
+   if((localSharedData.cacheLineBaseAddress != -1) && !do_not_arm_watchpoint) {
+                                            ^
+sample-sources/watchpoint_clients.c:2933:10: warning: unused variable ‘update_flag’ [-Wunused-variable]
+      int update_flag = 0; 
+          ^
+sample-sources/watchpoint_clients.c:2926:26: warning: unused variable ‘localSharedData’ [-Wunused-variable]
+             SharedData_t localSharedData;
+                          ^
+sample-sources/watchpoint_clients.c: At top level:
+sample-sources/watchpoint_clients.c:1329:21: warning: ‘UpdateMetrics’ defined but not used [-Wunused-function]
+ static cct_node_t * UpdateMetrics(void *ctxt, cct_node_t * oldNode, void * joinNode, int checkedMetric, int foundMetric, int checkedMetricInc, int foundMetricInc){
+                     ^
+sample-sources/watchpoint_clients.c: In function ‘hashInsert’:
+sample-sources/watchpoint_clients.c:379:6: note: The ABI for passing parameters with 64-byte alignment has changed in GCC 4.6
+ void hashInsert(struct SharedData item) {
+      ^
+sample-sources/watchpoint_clients.c: In function ‘PopulateBlackListAddresses’:
+sample-sources/watchpoint_clients.c:702:13: warning: ignoring return value of ‘realpath’, declared with attribute warn_unused_result [-Wunused-result]
+             realpath(name, tmpname);
+             ^
+sample-sources/watchpoint_clients.c: In function ‘TopN’:
+sample-sources/watchpoint_clients.c:885:40: warning: ‘t’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+             if (val > min) topNNode[t] = node;
+                                        ^
+sample-sources/watchpoint_clients.c: In function ‘PrintTopN’:
+sample-sources/watchpoint_clients.c:973:21: warning: ‘libhpcrunId’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+             else if (hpcrun_cct_addr(node)->ip_norm.lm_id == libhpcrunId) {
+                     ^
+sample-sources/watchpoint_clients.c:964:16: warning: ‘libmonitorId’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+             if (hpcrun_cct_addr(node)->ip_norm.lm_id !=  libmonitorId && hpcrun_cct_addr(node)->ip_norm.lm_id != libhpcrunId) {
+                ^
+sample-sources/watchpoint_clients.c: In function ‘hashSearch’:
+sample-sources/watchpoint_clients.c:266:53: warning: comparison between pointer and integer
+    while(bulletinBoard.hashTable[hashIndex].address != -1 && iter < HASHTABLESIZE) {
+                                                     ^
+sample-sources/watchpoint_clients.c: In function ‘hashUpdateMatrix’:
+sample-sources/watchpoint_clients.c:302:66: warning: comparison between pointer and integer
+       if(bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress == -1)
+                                                                  ^
+sample-sources/watchpoint_clients.c:341:10: warning: implicit declaration of function ‘matrix_size_set’ [-Wimplicit-function-declaration]
+          matrix_size_set(max_thread_num);
+          ^
+sample-sources/watchpoint_clients.c:348:11: warning: implicit declaration of function ‘inc_true_count’ [-Wimplicit-function-declaration]
+           inc_true_count((uint64_t) searchedAddress, global_sampling_period);
+           ^
+sample-sources/watchpoint_clients.c:352:10: warning: implicit declaration of function ‘inc_false_count’ [-Wimplicit-function-declaration]
+          inc_false_count((uint64_t) searchedAddress, global_sampling_period);
+          ^
+sample-sources/watchpoint_clients.c:365:57: warning: comparison between pointer and integer
+   if(bulletinBoard.hashTable[iter].cacheLineBaseAddress != -1 && bulletinBoard.hashTable[iter].time > latest_time && bulletinBoard.hashTable[iter].tid != tid) {
+                                                         ^
+sample-sources/watchpoint_clients.c: In function ‘hashInsert’:
+sample-sources/watchpoint_clients.c:390:53: warning: comparison between pointer and integer
+    while(bulletinBoard.hashTable[hashIndex].address != -1 && bulletinBoard.hashTable[hashIndex].address != item.address && iter < HASHTABLESIZE) {
+                                                     ^
+sample-sources/watchpoint_clients.c: In function ‘getEntryFromBulletinBoard’:
+sample-sources/watchpoint_clients.c:404:65: warning: comparison between pointer and integer
+  while((bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress != -1) && (cacheLineBaseAddress != bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress) && iter < HASHTABLESIZE) {
+                                                                 ^
+sample-sources/watchpoint_clients.c: In function ‘getEntryRandomlyFromBulletinBoard’:
+sample-sources/watchpoint_clients.c:422:63: warning: comparison between pointer and integer
+   if((bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress != -1) && (bulletinBoard.hashTable[hashIndex].tid != tid) && ((cur_time - bulletinBoard.hashTable[hashIndex].time) < bulletinBoard.hashTable[hashIndex].expiration_period))
+                                                               ^
+sample-sources/watchpoint_clients.c: In function ‘hashInsertwithTime’:
+sample-sources/watchpoint_clients.c:437:66: warning: comparison between pointer and integer
+    while(bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress != -1 && cacheLineBaseAddress != bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress && iter < HASHTABLESIZE) {
+                                                                  ^
+sample-sources/watchpoint_clients.c:442:64: warning: comparison between pointer and integer
+    if (bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress == -1) {
+                                                                ^
+sample-sources/watchpoint_clients.c: In function ‘hashDisplay’:
+sample-sources/watchpoint_clients.c:473:45: warning: comparison between pointer and integer
+       if(bulletinBoard.hashTable[i].address != -1)
+                                             ^
+sample-sources/watchpoint_clients.c: In function ‘PopulateBlackListAddresses’:
+sample-sources/watchpoint_clients.c:698:19: warning: unused variable ‘perms’ [-Wunused-variable]
+             char* perms = strtok_r(NULL, delim, &save);
+                   ^
+sample-sources/watchpoint_clients.c: In function ‘TopN’:
+sample-sources/watchpoint_clients.c:858:20: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     int metricID = (int)arg;
+                    ^
+sample-sources/watchpoint_clients.c: In function ‘PrintTopN’:
+sample-sources/watchpoint_clients.c:900:42: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     hpcrun_cct_walk_node_1st(root, TopN, (void *) metricID);
+                                          ^
+sample-sources/watchpoint_clients.c: In function ‘IsAddressReadable’:
+sample-sources/watchpoint_clients.c:1396:23: warning: unused variable ‘i’ [-Wunused-variable]
+         volatile char i = *(char*)(addr);
+                       ^
+sample-sources/watchpoint_clients.c: In function ‘FalseSharingWPCallback’:
+sample-sources/watchpoint_clients.c:1766:12: warning: unused variable ‘increment_untweaked’ [-Wunused-variable]
+     double increment_untweaked = (double) CACHE_LINE_SZ/MAX_WP_LENGTH / wpConfig.maxWP * global_sampling_period;
+            ^
+sample-sources/watchpoint_clients.c:1764:12: warning: unused variable ‘cacheLineBaseAddress’ [-Wunused-variable]
+     void * cacheLineBaseAddress = (void *) ALIGN_TO_CACHE_LINE((size_t)wt->va);    
+            ^
+sample-sources/watchpoint_clients.c: In function ‘OnSample’:
+sample-sources/watchpoint_clients.c:2719:24: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+     void * data_addr = mmap_data->addr;
+                        ^
+sample-sources/watchpoint_clients.c:2720:24: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+     void * precisePC = (mmap_data->header_misc & PERF_RECORD_MISC_EXACT_IP) ? mmap_data->ip : 0;
+                        ^
+sample-sources/watchpoint_clients.c:2939:36: warning: comparison between pointer and integer
+      if((item.cacheLineBaseAddress == -1) || (item_not_found == 1)) {
+                                    ^
+sample-sources/watchpoint_clients.c:2991:60: warning: comparison between pointer and integer
+      if((sType == ALL_LOAD) || ((item.cacheLineBaseAddress != -1) && ((curtime1 - item.time) <= (storeCurTime - storeLastTime)))) {
+                                                            ^
+sample-sources/watchpoint_clients.c:3011:9: warning: unused variable ‘bb_flag’ [-Wunused-variable]
+     int bb_flag = 0;
+         ^
+sample-sources/watchpoint_clients.c:2998:23: warning: variable ‘inserted_item’ set but not used [-Wunused-but-set-variable]
+     struct SharedData inserted_item;
+                       ^
+sample-sources/watchpoint_clients.c:3095:6: warning: "/*" within comment [-Wcomment]
+      /*struct DataItem *item = (struct DataItem*) malloc(sizeof(struct DataItem));
+      ^
+sample-sources/watchpoint_clients.c:3147:44: warning: comparison between pointer and integer
+   if((localSharedData.cacheLineBaseAddress != -1) && !do_not_arm_watchpoint) {
+                                            ^
+sample-sources/watchpoint_clients.c:2933:10: warning: unused variable ‘update_flag’ [-Wunused-variable]
+      int update_flag = 0; 
+          ^
+sample-sources/watchpoint_clients.c:2926:26: warning: unused variable ‘localSharedData’ [-Wunused-variable]
+             SharedData_t localSharedData;
+                          ^
+sample-sources/watchpoint_clients.c: At top level:
+sample-sources/watchpoint_clients.c:1329:21: warning: ‘UpdateMetrics’ defined but not used [-Wunused-function]
+ static cct_node_t * UpdateMetrics(void *ctxt, cct_node_t * oldNode, void * joinNode, int checkedMetric, int foundMetric, int checkedMetricInc, int foundMetricInc){
+                     ^
+sample-sources/watchpoint_clients.c: In function ‘hashInsert’:
+sample-sources/watchpoint_clients.c:379:6: note: The ABI for passing parameters with 64-byte alignment has changed in GCC 4.6
+ void hashInsert(struct SharedData item) {
+      ^
+sample-sources/watchpoint_clients.c: In function ‘PopulateBlackListAddresses’:
+sample-sources/watchpoint_clients.c:702:13: warning: ignoring return value of ‘realpath’, declared with attribute warn_unused_result [-Wunused-result]
+             realpath(name, tmpname);
+             ^
+sample-sources/watchpoint_clients.c: In function ‘TopN’:
+sample-sources/watchpoint_clients.c:885:40: warning: ‘t’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+             if (val > min) topNNode[t] = node;
+                                        ^
+sample-sources/watchpoint_clients.c: In function ‘PrintTopN’:
+sample-sources/watchpoint_clients.c:973:21: warning: ‘libhpcrunId’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+             else if (hpcrun_cct_addr(node)->ip_norm.lm_id == libhpcrunId) {
+                     ^
+sample-sources/watchpoint_clients.c:964:16: warning: ‘libmonitorId’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+             if (hpcrun_cct_addr(node)->ip_norm.lm_id !=  libmonitorId && hpcrun_cct_addr(node)->ip_norm.lm_id != libhpcrunId) {
+                ^
+mv -f sample-sources/.deps/libhpcrun_o-watchpoint_clients.Tpo sample-sources/.deps/libhpcrun_o-watchpoint_clients.Po
+/bin/bash ../../../libtool  --tag=CC   --mode=link gcc  -g -O3 -Wall -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/perfmon/include -D ENABLE_PERFMON  /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libunwind/lib/libunwind.a /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/lzma/lib/liblzma.a /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/perfmon/lib/libpfm.a /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xed2/lib/libxed.a  /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xed2/lib/libxed.a  -o libhpcrun.o utilities/libhpcrun_o-first_func.o libhpcrun_o-main.o libhpcrun_o-disabled.o libhpcrun_o-cct_insert_backtrace.o libhpcrun_o-cct_backtrace_finalize.o libhpcrun_o-env.o libhpcrun_o-epoch.o libhpcrun_o-files.o libhpcrun_o-handling_sample.o libhpcrun_o-hpcrun_options.o libhpcrun_o-hpcrun_stats.o libhpcrun_o-loadmap.o libhpcrun_o-metrics.o libhpcrun_o-name.o libhpcrun_o-rank.o libhpcrun_o-sample_event.o libhpcrun_o-sample_prob.o libhpcrun_o-sample_sources_all.o sample-sources/blame-shift/libhpcrun_o-blame-shift.o sample-sources/blame-shift/libhpcrun_o-blame-map.o sample-sources/libhpcrun_o-common.o sample-sources/libhpcrun_o-display.o sample-sources/libhpcrun_o-ga.o sample-sources/libhpcrun_o-io.o sample-sources/libhpcrun_o-itimer.o sample-sources/libhpcrun_o-idle.o sample-sources/libhpcrun_o-memleak.o sample-sources/libhpcrun_o-pthread-blame.o sample-sources/libhpcrun_o-none.o sample-sources/libhpcrun_o-retcnt.o sample-sources/libhpcrun_o-sync.o libhpcrun_o-sample_sources_registered.o libhpcrun_o-segv_handler.o libhpcrun_o-start-stop.o libhpcrun_o-term_handler.o libhpcrun_o-thread_data.o libhpcrun_o-thread_use.o libhpcrun_o-threadmgr.o libhpcrun_o-trace.o libhpcrun_o-weak.o libhpcrun_o-write_data.o cct/libhpcrun_o-cct_bundle.o cct/libhpcrun_o-cct_ctxt.o cct/libhpcrun_o-cct.o libhpcrun_o-cct2metrics.o trampoline/common/libhpcrun_o-trampoline.o lush/libhpcrun_o-lush-backtrace.o lush/libhpcrun_o-lush.o lush/libhpcrun_o-lush-pthread.o lush/libhpcrun_o-lush-support-rt.o lush/libhpcrun_o-lushi-cb.o fnbounds/libhpcrun_o-fnbounds_common.o memory/libhpcrun_o-mem.o memory/libhpcrun_o-mmap.o messages/libhpcrun_o-debug-flag.o messages/libhpcrun_o-messages-sync.o messages/libhpcrun_o-messages-async.o messages/libhpcrun_o-fmt.o utilities/libhpcrun_o-executable-path.o utilities/libhpcrun_o-ip-normalized.o utilities/libhpcrun_o-line_wrapping.o utilities/libhpcrun_o-tokenize.o utilities/libhpcrun_o-unlink.o sample-sources/perf/libhpcrun_o-perfmon-util.o sample-sources/perf/libhpcrun_o-event_custom.o sample-sources/perf/libhpcrun_o-linux_perf.o sample-sources/perf/libhpcrun_o-perf-util.o sample-sources/perf/libhpcrun_o-perf_mmap.o sample-sources/libhpcrun_o-watchpoint_support.o sample-sources/libhpcrun_o-watchpoint_clients.o sample-sources/perf/libhpcrun_o-kernel_blocking.o  fnbounds/libhpcrun_o-fnbounds_static.o libhpcrun_o-custom-init-static.o   trampoline/x86-family/libhpcrun_o-x86-tramp.o utilities/arch/x86-family/libhpcrun_o-x86-context-pc.o     unwind/common/libhpcrun_o-backtrace.o unwind/common/libhpcrun_o-unw-throw.o unwind/common/libhpcrun_o-binarytree_uwi.o unwind/common/libhpcrun_o-interval_t.o unwind/common/libhpcrun_o-libunw_intervals.o unwind/common/libhpcrun_o-stack_troll.o unwind/common/libhpcrun_o-uw_recipe_map.o unwind/x86-family/libhpcrun_o-x86-all.o unwind/x86-family/libhpcrun_o-amd-xop.o unwind/x86-family/libhpcrun_o-x86-cold-path.o unwind/x86-family/libhpcrun_o-x86-validate-retn-addr.o unwind/x86-family/libhpcrun_o-x86-unwind-interval.o unwind/x86-family/libhpcrun_o-x86-unwind-interval-fixup.o unwind/x86-family/libhpcrun_o-x86-unwind.o unwind/x86-family/libhpcrun_o-x86-unwind-support.o unwind/x86-family/manual-intervals/libhpcrun_o-x86-gcc-main64.o unwind/x86-family/manual-intervals/libhpcrun_o-x86-linux-dlresolver.o unwind/x86-family/manual-intervals/libhpcrun_o-x86-intel11-f90main.o unwind/x86-family/manual-intervals/libhpcrun_o-x86-intel-align32.o unwind/x86-family/manual-intervals/libhpcrun_o-x86-intel-align64.o unwind/x86-family/manual-intervals/libhpcrun_o-x86-intel-composer2013-mic.o unwind/x86-family/manual-intervals/libhpcrun_o-x86-32bit-main.o unwind/x86-family/manual-intervals/libhpcrun_o-x86-32bit-icc-variant.o unwind/x86-family/manual-intervals/libhpcrun_o-x86-pgi-mp_pexit.o utilities/libhpcrun_o-last_func.o ../../../src/lib/prof-lean/libHPCprof-lean.la ../../../src/lib/support-lean/libHPCsupport-lean.la  
+libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../../src/include -D_GNU_SOURCE -DINLINE_FN=1 -DUSE_LIBUNWIND -I../../../src/tool -I./messages -I./fnbounds -I./memory -I./os/linux -I./cct -I./unwind/common -I./utilities -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libunwind/include -I../../../src/tool/hpcfnbounds -I/home/msasongko17/project/feather-project/libmonitor-bin/include -I/home/msasongko17/project/feather-project/master/src/adamant-double/include -I./utilities/arch/x86-family -I./unwind/x86-family -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xed2/include -g -O3 -Wall -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/perfmon/include -D ENABLE_PERFMON -MT sample-sources/libhpcrun_la-watchpoint_clients.lo -MD -MP -MF sample-sources/.deps/libhpcrun_la-watchpoint_clients.Tpo -c sample-sources/watchpoint_clients.c -o sample-sources/libhpcrun_la-watchpoint_clients.o >/dev/null 2>&1
+libtool: link: /usr/bin/ld -m elf_x86_64 -r -o libhpcrun.o utilities/libhpcrun_o-first_func.o libhpcrun_o-main.o libhpcrun_o-disabled.o libhpcrun_o-cct_insert_backtrace.o libhpcrun_o-cct_backtrace_finalize.o libhpcrun_o-env.o libhpcrun_o-epoch.o libhpcrun_o-files.o libhpcrun_o-handling_sample.o libhpcrun_o-hpcrun_options.o libhpcrun_o-hpcrun_stats.o libhpcrun_o-loadmap.o libhpcrun_o-metrics.o libhpcrun_o-name.o libhpcrun_o-rank.o libhpcrun_o-sample_event.o libhpcrun_o-sample_prob.o libhpcrun_o-sample_sources_all.o sample-sources/blame-shift/libhpcrun_o-blame-shift.o sample-sources/blame-shift/libhpcrun_o-blame-map.o sample-sources/libhpcrun_o-common.o sample-sources/libhpcrun_o-display.o sample-sources/libhpcrun_o-ga.o sample-sources/libhpcrun_o-io.o sample-sources/libhpcrun_o-itimer.o sample-sources/libhpcrun_o-idle.o sample-sources/libhpcrun_o-memleak.o sample-sources/libhpcrun_o-pthread-blame.o sample-sources/libhpcrun_o-none.o sample-sources/libhpcrun_o-retcnt.o sample-sources/libhpcrun_o-sync.o libhpcrun_o-sample_sources_registered.o libhpcrun_o-segv_handler.o libhpcrun_o-start-stop.o libhpcrun_o-term_handler.o libhpcrun_o-thread_data.o libhpcrun_o-thread_use.o libhpcrun_o-threadmgr.o libhpcrun_o-trace.o libhpcrun_o-weak.o libhpcrun_o-write_data.o cct/libhpcrun_o-cct_bundle.o cct/libhpcrun_o-cct_ctxt.o cct/libhpcrun_o-cct.o libhpcrun_o-cct2metrics.o trampoline/common/libhpcrun_o-trampoline.o lush/libhpcrun_o-lush-backtrace.o lush/libhpcrun_o-lush.o lush/libhpcrun_o-lush-pthread.o lush/libhpcrun_o-lush-support-rt.o lush/libhpcrun_o-lushi-cb.o fnbounds/libhpcrun_o-fnbounds_common.o memory/libhpcrun_o-mem.o memory/libhpcrun_o-mmap.o messages/libhpcrun_o-debug-flag.o messages/libhpcrun_o-messages-sync.o messages/libhpcrun_o-messages-async.o messages/libhpcrun_o-fmt.o utilities/libhpcrun_o-executable-path.o utilities/libhpcrun_o-ip-normalized.o utilities/libhpcrun_o-line_wrapping.o utilities/libhpcrun_o-tokenize.o utilities/libhpcrun_o-unlink.o sample-sources/perf/libhpcrun_o-perfmon-util.o sample-sources/perf/libhpcrun_o-event_custom.o sample-sources/perf/libhpcrun_o-linux_perf.o sample-sources/perf/libhpcrun_o-perf-util.o sample-sources/perf/libhpcrun_o-perf_mmap.o sample-sources/libhpcrun_o-watchpoint_support.o sample-sources/libhpcrun_o-watchpoint_clients.o sample-sources/perf/libhpcrun_o-kernel_blocking.o fnbounds/libhpcrun_o-fnbounds_static.o libhpcrun_o-custom-init-static.o trampoline/x86-family/libhpcrun_o-x86-tramp.o utilities/arch/x86-family/libhpcrun_o-x86-context-pc.o unwind/common/libhpcrun_o-backtrace.o unwind/common/libhpcrun_o-unw-throw.o unwind/common/libhpcrun_o-binarytree_uwi.o unwind/common/libhpcrun_o-interval_t.o unwind/common/libhpcrun_o-libunw_intervals.o unwind/common/libhpcrun_o-stack_troll.o unwind/common/libhpcrun_o-uw_recipe_map.o unwind/x86-family/libhpcrun_o-x86-all.o unwind/x86-family/libhpcrun_o-amd-xop.o unwind/x86-family/libhpcrun_o-x86-cold-path.o unwind/x86-family/libhpcrun_o-x86-validate-retn-addr.o unwind/x86-family/libhpcrun_o-x86-unwind-interval.o unwind/x86-family/libhpcrun_o-x86-unwind-interval-fixup.o unwind/x86-family/libhpcrun_o-x86-unwind.o unwind/x86-family/libhpcrun_o-x86-unwind-support.o unwind/x86-family/manual-intervals/libhpcrun_o-x86-gcc-main64.o unwind/x86-family/manual-intervals/libhpcrun_o-x86-linux-dlresolver.o unwind/x86-family/manual-intervals/libhpcrun_o-x86-intel11-f90main.o unwind/x86-family/manual-intervals/libhpcrun_o-x86-intel-align32.o unwind/x86-family/manual-intervals/libhpcrun_o-x86-intel-align64.o unwind/x86-family/manual-intervals/libhpcrun_o-x86-intel-composer2013-mic.o unwind/x86-family/manual-intervals/libhpcrun_o-x86-32bit-main.o unwind/x86-family/manual-intervals/libhpcrun_o-x86-32bit-icc-variant.o unwind/x86-family/manual-intervals/libhpcrun_o-x86-pgi-mp_pexit.o utilities/libhpcrun_o-last_func.o /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libunwind/lib/libunwind.a /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/lzma/lib/liblzma.a /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/perfmon/lib/libpfm.a /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xed2/lib/libxed.a /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xed2/lib/libxed.a    --whole-archive ../../../src/lib/prof-lean/.libs/libHPCprof-lean.a ../../../src/lib/support-lean/.libs/libHPCsupport-lean.a --no-whole-archive
+mv -f sample-sources/.deps/libhpcrun_la-watchpoint_clients.Tpo sample-sources/.deps/libhpcrun_la-watchpoint_clients.Plo
+/bin/bash ../../../libtool  --tag=CC   --mode=link gcc  -g -O3 -Wall -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/perfmon/include -D ENABLE_PERFMON   -Wl,-Bsymbolic -L/home/msasongko17/project/feather-project/libmonitor-bin/lib -lmonitor -L/home/msasongko17/project/feather-project/master/src/adamant-double/src	-ladm -lpthread -lrt -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libunwind/lib -lunwind -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/lzma/lib -llzma -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/perfmon/lib -lpfm -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xed2/lib -lxed   -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xed2/lib -lxed  -o libhpcrun.la -rpath /home/msasongko17/project/feather-project/hpctoolkit-bin/lib/hpctoolkit utilities/libhpcrun_la-first_func.lo libhpcrun_la-main.lo libhpcrun_la-disabled.lo libhpcrun_la-cct_insert_backtrace.lo libhpcrun_la-cct_backtrace_finalize.lo libhpcrun_la-env.lo libhpcrun_la-epoch.lo libhpcrun_la-files.lo libhpcrun_la-handling_sample.lo libhpcrun_la-hpcrun_options.lo libhpcrun_la-hpcrun_stats.lo libhpcrun_la-loadmap.lo libhpcrun_la-matrix.lo libhpcrun_la-metrics.lo libhpcrun_la-name.lo libhpcrun_la-rank.lo libhpcrun_la-sample_event.lo libhpcrun_la-sample_prob.lo libhpcrun_la-sample_sources_all.lo sample-sources/blame-shift/libhpcrun_la-blame-shift.lo sample-sources/blame-shift/libhpcrun_la-blame-map.lo sample-sources/libhpcrun_la-common.lo sample-sources/libhpcrun_la-display.lo sample-sources/libhpcrun_la-ga.lo sample-sources/libhpcrun_la-io.lo sample-sources/libhpcrun_la-itimer.lo sample-sources/libhpcrun_la-idle.lo sample-sources/libhpcrun_la-memleak.lo sample-sources/libhpcrun_la-pthread-blame.lo sample-sources/libhpcrun_la-none.lo sample-sources/libhpcrun_la-retcnt.lo sample-sources/libhpcrun_la-sync.lo libhpcrun_la-sample_sources_registered.lo libhpcrun_la-segv_handler.lo libhpcrun_la-start-stop.lo libhpcrun_la-term_handler.lo libhpcrun_la-thread_data.lo libhpcrun_la-thread_use.lo libhpcrun_la-threadmgr.lo libhpcrun_la-trace.lo libhpcrun_la-weak.lo libhpcrun_la-write_data.lo cct/libhpcrun_la-cct_bundle.lo cct/libhpcrun_la-cct_ctxt.lo cct/libhpcrun_la-cct.lo libhpcrun_la-cct2metrics.lo trampoline/common/libhpcrun_la-trampoline.lo lush/libhpcrun_la-lush-backtrace.lo lush/libhpcrun_la-lush.lo lush/libhpcrun_la-lush-pthread.lo lush/libhpcrun_la-lush-support-rt.lo lush/libhpcrun_la-lushi-cb.lo fnbounds/libhpcrun_la-fnbounds_common.lo memory/libhpcrun_la-mem.lo memory/libhpcrun_la-mmap.lo messages/libhpcrun_la-debug-flag.lo messages/libhpcrun_la-messages-sync.lo messages/libhpcrun_la-messages-async.lo messages/libhpcrun_la-fmt.lo utilities/libhpcrun_la-executable-path.lo utilities/libhpcrun_la-ip-normalized.lo utilities/libhpcrun_la-line_wrapping.lo utilities/libhpcrun_la-tokenize.lo utilities/libhpcrun_la-unlink.lo sample-sources/perf/libhpcrun_la-perfmon-util.lo sample-sources/perf/libhpcrun_la-event_custom.lo sample-sources/perf/libhpcrun_la-linux_perf.lo sample-sources/perf/libhpcrun_la-perf-util.lo sample-sources/perf/libhpcrun_la-perf_mmap.lo sample-sources/libhpcrun_la-watchpoint_support.lo sample-sources/libhpcrun_la-watchpoint_clients.lo sample-sources/perf/libhpcrun_la-kernel_blocking.lo  fnbounds/libhpcrun_la-fnbounds_client.lo fnbounds/libhpcrun_la-fnbounds_dynamic.lo monitor-exts/libhpcrun_la-openmp.lo libhpcrun_la-hpcrun_dlfns.lo libhpcrun_la-custom-init-dynamic.lo os/linux/libhpcrun_la-dylib.lo   trampoline/x86-family/libhpcrun_la-x86-tramp.lo utilities/arch/x86-family/libhpcrun_la-x86-context-pc.lo      unwind/common/libhpcrun_la-backtrace.lo unwind/common/libhpcrun_la-unw-throw.lo unwind/common/libhpcrun_la-binarytree_uwi.lo unwind/common/libhpcrun_la-interval_t.lo unwind/common/libhpcrun_la-libunw_intervals.lo unwind/common/libhpcrun_la-stack_troll.lo unwind/common/libhpcrun_la-uw_recipe_map.lo unwind/x86-family/libhpcrun_la-x86-all.lo unwind/x86-family/libhpcrun_la-amd-xop.lo unwind/x86-family/libhpcrun_la-x86-cold-path.lo unwind/x86-family/libhpcrun_la-x86-validate-retn-addr.lo unwind/x86-family/libhpcrun_la-x86-unwind-interval.lo unwind/x86-family/libhpcrun_la-x86-unwind-interval-fixup.lo unwind/x86-family/libhpcrun_la-x86-unwind.lo unwind/x86-family/libhpcrun_la-x86-unwind-support.lo unwind/x86-family/manual-intervals/libhpcrun_la-x86-gcc-main64.lo unwind/x86-family/manual-intervals/libhpcrun_la-x86-linux-dlresolver.lo unwind/x86-family/manual-intervals/libhpcrun_la-x86-intel11-f90main.lo unwind/x86-family/manual-intervals/libhpcrun_la-x86-intel-align32.lo unwind/x86-family/manual-intervals/libhpcrun_la-x86-intel-align64.lo unwind/x86-family/manual-intervals/libhpcrun_la-x86-intel-composer2013-mic.lo unwind/x86-family/manual-intervals/libhpcrun_la-x86-32bit-main.lo unwind/x86-family/manual-intervals/libhpcrun_la-x86-32bit-icc-variant.lo unwind/x86-family/manual-intervals/libhpcrun_la-x86-pgi-mp_pexit.lo utilities/libhpcrun_la-last_func.lo ../../../src/lib/prof-lean/libHPCprof-lean.la ../../../src/lib/support-lean/libHPCsupport-lean.la  
+libtool: link: gcc -shared  -fPIC -DPIC  utilities/.libs/libhpcrun_la-first_func.o .libs/libhpcrun_la-main.o .libs/libhpcrun_la-disabled.o .libs/libhpcrun_la-cct_insert_backtrace.o .libs/libhpcrun_la-cct_backtrace_finalize.o .libs/libhpcrun_la-env.o .libs/libhpcrun_la-epoch.o .libs/libhpcrun_la-files.o .libs/libhpcrun_la-handling_sample.o .libs/libhpcrun_la-hpcrun_options.o .libs/libhpcrun_la-hpcrun_stats.o .libs/libhpcrun_la-loadmap.o .libs/libhpcrun_la-matrix.o .libs/libhpcrun_la-metrics.o .libs/libhpcrun_la-name.o .libs/libhpcrun_la-rank.o .libs/libhpcrun_la-sample_event.o .libs/libhpcrun_la-sample_prob.o .libs/libhpcrun_la-sample_sources_all.o sample-sources/blame-shift/.libs/libhpcrun_la-blame-shift.o sample-sources/blame-shift/.libs/libhpcrun_la-blame-map.o sample-sources/.libs/libhpcrun_la-common.o sample-sources/.libs/libhpcrun_la-display.o sample-sources/.libs/libhpcrun_la-ga.o sample-sources/.libs/libhpcrun_la-io.o sample-sources/.libs/libhpcrun_la-itimer.o sample-sources/.libs/libhpcrun_la-idle.o sample-sources/.libs/libhpcrun_la-memleak.o sample-sources/.libs/libhpcrun_la-pthread-blame.o sample-sources/.libs/libhpcrun_la-none.o sample-sources/.libs/libhpcrun_la-retcnt.o sample-sources/.libs/libhpcrun_la-sync.o .libs/libhpcrun_la-sample_sources_registered.o .libs/libhpcrun_la-segv_handler.o .libs/libhpcrun_la-start-stop.o .libs/libhpcrun_la-term_handler.o .libs/libhpcrun_la-thread_data.o .libs/libhpcrun_la-thread_use.o .libs/libhpcrun_la-threadmgr.o .libs/libhpcrun_la-trace.o .libs/libhpcrun_la-weak.o .libs/libhpcrun_la-write_data.o cct/.libs/libhpcrun_la-cct_bundle.o cct/.libs/libhpcrun_la-cct_ctxt.o cct/.libs/libhpcrun_la-cct.o .libs/libhpcrun_la-cct2metrics.o trampoline/common/.libs/libhpcrun_la-trampoline.o lush/.libs/libhpcrun_la-lush-backtrace.o lush/.libs/libhpcrun_la-lush.o lush/.libs/libhpcrun_la-lush-pthread.o lush/.libs/libhpcrun_la-lush-support-rt.o lush/.libs/libhpcrun_la-lushi-cb.o fnbounds/.libs/libhpcrun_la-fnbounds_common.o memory/.libs/libhpcrun_la-mem.o memory/.libs/libhpcrun_la-mmap.o messages/.libs/libhpcrun_la-debug-flag.o messages/.libs/libhpcrun_la-messages-sync.o messages/.libs/libhpcrun_la-messages-async.o messages/.libs/libhpcrun_la-fmt.o utilities/.libs/libhpcrun_la-executable-path.o utilities/.libs/libhpcrun_la-ip-normalized.o utilities/.libs/libhpcrun_la-line_wrapping.o utilities/.libs/libhpcrun_la-tokenize.o utilities/.libs/libhpcrun_la-unlink.o sample-sources/perf/.libs/libhpcrun_la-perfmon-util.o sample-sources/perf/.libs/libhpcrun_la-event_custom.o sample-sources/perf/.libs/libhpcrun_la-linux_perf.o sample-sources/perf/.libs/libhpcrun_la-perf-util.o sample-sources/perf/.libs/libhpcrun_la-perf_mmap.o sample-sources/.libs/libhpcrun_la-watchpoint_support.o sample-sources/.libs/libhpcrun_la-watchpoint_clients.o sample-sources/perf/.libs/libhpcrun_la-kernel_blocking.o fnbounds/.libs/libhpcrun_la-fnbounds_client.o fnbounds/.libs/libhpcrun_la-fnbounds_dynamic.o monitor-exts/.libs/libhpcrun_la-openmp.o .libs/libhpcrun_la-hpcrun_dlfns.o .libs/libhpcrun_la-custom-init-dynamic.o os/linux/.libs/libhpcrun_la-dylib.o trampoline/x86-family/.libs/libhpcrun_la-x86-tramp.o utilities/arch/x86-family/.libs/libhpcrun_la-x86-context-pc.o unwind/common/.libs/libhpcrun_la-backtrace.o unwind/common/.libs/libhpcrun_la-unw-throw.o unwind/common/.libs/libhpcrun_la-binarytree_uwi.o unwind/common/.libs/libhpcrun_la-interval_t.o unwind/common/.libs/libhpcrun_la-libunw_intervals.o unwind/common/.libs/libhpcrun_la-stack_troll.o unwind/common/.libs/libhpcrun_la-uw_recipe_map.o unwind/x86-family/.libs/libhpcrun_la-x86-all.o unwind/x86-family/.libs/libhpcrun_la-amd-xop.o unwind/x86-family/.libs/libhpcrun_la-x86-cold-path.o unwind/x86-family/.libs/libhpcrun_la-x86-validate-retn-addr.o unwind/x86-family/.libs/libhpcrun_la-x86-unwind-interval.o unwind/x86-family/.libs/libhpcrun_la-x86-unwind-interval-fixup.o unwind/x86-family/.libs/libhpcrun_la-x86-unwind.o unwind/x86-family/.libs/libhpcrun_la-x86-unwind-support.o unwind/x86-family/manual-intervals/.libs/libhpcrun_la-x86-gcc-main64.o unwind/x86-family/manual-intervals/.libs/libhpcrun_la-x86-linux-dlresolver.o unwind/x86-family/manual-intervals/.libs/libhpcrun_la-x86-intel11-f90main.o unwind/x86-family/manual-intervals/.libs/libhpcrun_la-x86-intel-align32.o unwind/x86-family/manual-intervals/.libs/libhpcrun_la-x86-intel-align64.o unwind/x86-family/manual-intervals/.libs/libhpcrun_la-x86-intel-composer2013-mic.o unwind/x86-family/manual-intervals/.libs/libhpcrun_la-x86-32bit-main.o unwind/x86-family/manual-intervals/.libs/libhpcrun_la-x86-32bit-icc-variant.o unwind/x86-family/manual-intervals/.libs/libhpcrun_la-x86-pgi-mp_pexit.o utilities/.libs/libhpcrun_la-last_func.o  -Wl,--whole-archive ../../../src/lib/prof-lean/.libs/libHPCprof-lean.a ../../../src/lib/support-lean/.libs/libHPCsupport-lean.a -Wl,--no-whole-archive  -Wl,-rpath -Wl,/home/msasongko17/project/feather-project/libmonitor-bin/lib -Wl,-rpath -Wl,/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libunwind/lib -Wl,-rpath -Wl,/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/lzma/lib -Wl,-rpath -Wl,/home/msasongko17/project/feather-project/libmonitor-bin/lib -Wl,-rpath -Wl,/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libunwind/lib -Wl,-rpath -Wl,/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/lzma/lib -L/home/msasongko17/project/feather-project/libmonitor-bin/lib /home/msasongko17/project/feather-project/libmonitor-bin/lib/libmonitor.so -ldl -L/home/msasongko17/project/feather-project/master/src/adamant-double/src -ladm -lpthread -lrt -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libunwind/lib /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libunwind/lib/libunwind.so -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/lzma/lib -lc -lgcc_s /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/lzma/lib/liblzma.so -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/perfmon/lib -lpfm -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xed2/lib -lxed  -g -O3 -Wl,-Bsymbolic   -pthread -Wl,-soname -Wl,libhpcrun.so.0 -o .libs/libhpcrun.so.0.0.0
+libtool: link: (cd ".libs" && rm -f "libhpcrun.so.0" && ln -s "libhpcrun.so.0.0.0" "libhpcrun.so.0")
+libtool: link: (cd ".libs" && rm -f "libhpcrun.so" && ln -s "libhpcrun.so.0.0.0" "libhpcrun.so")
+libtool: link: (cd .libs/libhpcrun.lax/libHPCprof-lean.a && ar x "/home/msasongko17/project/feather-project/ComDetective_newest/src/tool/hpcrun/../../../src/lib/prof-lean/.libs/libHPCprof-lean.a")
+libtool: link: (cd .libs/libhpcrun.lax/libHPCsupport-lean.a && ar x "/home/msasongko17/project/feather-project/ComDetective_newest/src/tool/hpcrun/../../../src/lib/support-lean/.libs/libHPCsupport-lean.a")
+libtool: link: ar cru .libs/libhpcrun.a  utilities/libhpcrun_la-first_func.o libhpcrun_la-main.o libhpcrun_la-disabled.o libhpcrun_la-cct_insert_backtrace.o libhpcrun_la-cct_backtrace_finalize.o libhpcrun_la-env.o libhpcrun_la-epoch.o libhpcrun_la-files.o libhpcrun_la-handling_sample.o libhpcrun_la-hpcrun_options.o libhpcrun_la-hpcrun_stats.o libhpcrun_la-loadmap.o libhpcrun_la-matrix.o libhpcrun_la-metrics.o libhpcrun_la-name.o libhpcrun_la-rank.o libhpcrun_la-sample_event.o libhpcrun_la-sample_prob.o libhpcrun_la-sample_sources_all.o sample-sources/blame-shift/libhpcrun_la-blame-shift.o sample-sources/blame-shift/libhpcrun_la-blame-map.o sample-sources/libhpcrun_la-common.o sample-sources/libhpcrun_la-display.o sample-sources/libhpcrun_la-ga.o sample-sources/libhpcrun_la-io.o sample-sources/libhpcrun_la-itimer.o sample-sources/libhpcrun_la-idle.o sample-sources/libhpcrun_la-memleak.o sample-sources/libhpcrun_la-pthread-blame.o sample-sources/libhpcrun_la-none.o sample-sources/libhpcrun_la-retcnt.o sample-sources/libhpcrun_la-sync.o libhpcrun_la-sample_sources_registered.o libhpcrun_la-segv_handler.o libhpcrun_la-start-stop.o libhpcrun_la-term_handler.o libhpcrun_la-thread_data.o libhpcrun_la-thread_use.o libhpcrun_la-threadmgr.o libhpcrun_la-trace.o libhpcrun_la-weak.o libhpcrun_la-write_data.o cct/libhpcrun_la-cct_bundle.o cct/libhpcrun_la-cct_ctxt.o cct/libhpcrun_la-cct.o libhpcrun_la-cct2metrics.o trampoline/common/libhpcrun_la-trampoline.o lush/libhpcrun_la-lush-backtrace.o lush/libhpcrun_la-lush.o lush/libhpcrun_la-lush-pthread.o lush/libhpcrun_la-lush-support-rt.o lush/libhpcrun_la-lushi-cb.o fnbounds/libhpcrun_la-fnbounds_common.o memory/libhpcrun_la-mem.o memory/libhpcrun_la-mmap.o messages/libhpcrun_la-debug-flag.o messages/libhpcrun_la-messages-sync.o messages/libhpcrun_la-messages-async.o messages/libhpcrun_la-fmt.o utilities/libhpcrun_la-executable-path.o utilities/libhpcrun_la-ip-normalized.o utilities/libhpcrun_la-line_wrapping.o utilities/libhpcrun_la-tokenize.o utilities/libhpcrun_la-unlink.o sample-sources/perf/libhpcrun_la-perfmon-util.o sample-sources/perf/libhpcrun_la-event_custom.o sample-sources/perf/libhpcrun_la-linux_perf.o sample-sources/perf/libhpcrun_la-perf-util.o sample-sources/perf/libhpcrun_la-perf_mmap.o sample-sources/libhpcrun_la-watchpoint_support.o sample-sources/libhpcrun_la-watchpoint_clients.o sample-sources/perf/libhpcrun_la-kernel_blocking.o fnbounds/libhpcrun_la-fnbounds_client.o fnbounds/libhpcrun_la-fnbounds_dynamic.o monitor-exts/libhpcrun_la-openmp.o libhpcrun_la-hpcrun_dlfns.o libhpcrun_la-custom-init-dynamic.o os/linux/libhpcrun_la-dylib.o trampoline/x86-family/libhpcrun_la-x86-tramp.o utilities/arch/x86-family/libhpcrun_la-x86-context-pc.o unwind/common/libhpcrun_la-backtrace.o unwind/common/libhpcrun_la-unw-throw.o unwind/common/libhpcrun_la-binarytree_uwi.o unwind/common/libhpcrun_la-interval_t.o unwind/common/libhpcrun_la-libunw_intervals.o unwind/common/libhpcrun_la-stack_troll.o unwind/common/libhpcrun_la-uw_recipe_map.o unwind/x86-family/libhpcrun_la-x86-all.o unwind/x86-family/libhpcrun_la-amd-xop.o unwind/x86-family/libhpcrun_la-x86-cold-path.o unwind/x86-family/libhpcrun_la-x86-validate-retn-addr.o unwind/x86-family/libhpcrun_la-x86-unwind-interval.o unwind/x86-family/libhpcrun_la-x86-unwind-interval-fixup.o unwind/x86-family/libhpcrun_la-x86-unwind.o unwind/x86-family/libhpcrun_la-x86-unwind-support.o unwind/x86-family/manual-intervals/libhpcrun_la-x86-gcc-main64.o unwind/x86-family/manual-intervals/libhpcrun_la-x86-linux-dlresolver.o unwind/x86-family/manual-intervals/libhpcrun_la-x86-intel11-f90main.o unwind/x86-family/manual-intervals/libhpcrun_la-x86-intel-align32.o unwind/x86-family/manual-intervals/libhpcrun_la-x86-intel-align64.o unwind/x86-family/manual-intervals/libhpcrun_la-x86-intel-composer2013-mic.o unwind/x86-family/manual-intervals/libhpcrun_la-x86-32bit-main.o unwind/x86-family/manual-intervals/libhpcrun_la-x86-32bit-icc-variant.o unwind/x86-family/manual-intervals/libhpcrun_la-x86-pgi-mp_pexit.o utilities/libhpcrun_la-last_func.o  .libs/libhpcrun.lax/libHPCprof-lean.a/libHPCprof_lean_la-BalancedTree.o .libs/libhpcrun.lax/libHPCprof-lean.a/libHPCprof_lean_la-binarytree.o .libs/libhpcrun.lax/libHPCprof-lean.a/libHPCprof_lean_la-cskiplist.o .libs/libhpcrun.lax/libHPCprof-lean.a/libHPCprof_lean_la-generic_pair.o .libs/libhpcrun.lax/libHPCprof-lean.a/libHPCprof_lean_la-hpcfmt.o .libs/libhpcrun.lax/libHPCprof-lean.a/libHPCprof_lean_la-hpcio-buffer.o .libs/libhpcrun.lax/libHPCprof-lean.a/libHPCprof_lean_la-hpcio.o .libs/libhpcrun.lax/libHPCprof-lean.a/libHPCprof_lean_la-hpcrun-fmt.o .libs/libhpcrun.lax/libHPCprof-lean.a/libHPCprof_lean_la-lush-support.o .libs/libhpcrun.lax/libHPCprof-lean.a/libHPCprof_lean_la-mcs-lock.o .libs/libhpcrun.lax/libHPCprof-lean.a/libHPCprof_lean_la-pfq-rwlock.o .libs/libhpcrun.lax/libHPCprof-lean.a/libHPCprof_lean_la-placeholders.o .libs/libhpcrun.lax/libHPCprof-lean.a/libHPCprof_lean_la-randomizer.o .libs/libhpcrun.lax/libHPCprof-lean.a/libHPCprof_lean_la-spinlock.o .libs/libhpcrun.lax/libHPCprof-lean.a/libHPCprof_lean_la-urand.o .libs/libhpcrun.lax/libHPCprof-lean.a/libHPCprof_lean_la-usec_time.o  .libs/libhpcrun.lax/libHPCsupport-lean.a/libHPCsupport_lean_la-OSUtil.o .libs/libhpcrun.lax/libHPCsupport-lean.a/libHPCsupport_lean_la-timer.o 
+ar: `u' modifier ignored since `D' is the default (see `U')
+libtool: link: ranlib .libs/libhpcrun.a
+libtool: link: rm -fr .libs/libhpcrun.lax
+libtool: link: ( cd ".libs" && rm -f "libhpcrun.la" && ln -s "../libhpcrun.la" "libhpcrun.la" )
+make[5]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/tool/hpcrun'
+make[4]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/tool/hpcrun'
+make[3]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/tool/hpcrun'
+Making all in hpcfnbounds
+make[3]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/tool/hpcfnbounds'
+g++ -DHAVE_CONFIG_H -I. -I../../../src/include  -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libelf/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libdwarf/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xed2/include  -g -O3 -Wall -std=c++11  -MT hpcfnbounds_bin-main.o -MD -MP -MF .deps/hpcfnbounds_bin-main.Tpo -c -o hpcfnbounds_bin-main.o `test -f 'main.cpp' || echo './'`main.cpp
+g++ -DHAVE_CONFIG_H -I. -I../../../src/include  -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libelf/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libdwarf/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xed2/include  -g -O3 -Wall -std=c++11  -MT hpcfnbounds_bin-code-ranges.o -MD -MP -MF .deps/hpcfnbounds_bin-code-ranges.Tpo -c -o hpcfnbounds_bin-code-ranges.o `test -f 'code-ranges.cpp' || echo './'`code-ranges.cpp
+g++ -DHAVE_CONFIG_H -I. -I../../../src/include  -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libelf/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libdwarf/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xed2/include  -g -O3 -Wall -std=c++11  -MT hpcfnbounds_bin-function-entries.o -MD -MP -MF .deps/hpcfnbounds_bin-function-entries.Tpo -c -o hpcfnbounds_bin-function-entries.o `test -f 'function-entries.cpp' || echo './'`function-entries.cpp
+g++ -DHAVE_CONFIG_H -I. -I../../../src/include  -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libelf/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libdwarf/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xed2/include  -g -O3 -Wall -std=c++11  -MT hpcfnbounds_bin-intervals.o -MD -MP -MF .deps/hpcfnbounds_bin-intervals.Tpo -c -o hpcfnbounds_bin-intervals.o `test -f 'intervals.cpp' || echo './'`intervals.cpp
+g++ -DHAVE_CONFIG_H -I. -I../../../src/include  -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libelf/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libdwarf/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xed2/include  -g -O3 -Wall -std=c++11  -MT hpcfnbounds_bin-server.o -MD -MP -MF .deps/hpcfnbounds_bin-server.Tpo -c -o hpcfnbounds_bin-server.o `test -f 'server.cpp' || echo './'`server.cpp
+g++ -DHAVE_CONFIG_H -I. -I../../../src/include  -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libelf/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libdwarf/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xed2/include  -g -O3 -Wall -std=c++11  -MT hpcfnbounds_bin-x86-process-ranges.o -MD -MP -MF .deps/hpcfnbounds_bin-x86-process-ranges.Tpo -c -o hpcfnbounds_bin-x86-process-ranges.o `test -f 'x86-process-ranges.cpp' || echo './'`x86-process-ranges.cpp
+gcc -DHAVE_CONFIG_H -I. -I../../../src/include  -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libelf/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libdwarf/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xed2/include    -MT hpcfnbounds_bin-amd-xop.o -MD -MP -MF .deps/hpcfnbounds_bin-amd-xop.Tpo -c -o hpcfnbounds_bin-amd-xop.o `test -f 'amd-xop.c' || echo './'`amd-xop.c
+mv -f .deps/hpcfnbounds_bin-amd-xop.Tpo .deps/hpcfnbounds_bin-amd-xop.Po
+mv -f .deps/hpcfnbounds_bin-server.Tpo .deps/hpcfnbounds_bin-server.Po
+mv -f .deps/hpcfnbounds_bin-code-ranges.Tpo .deps/hpcfnbounds_bin-code-ranges.Po
+mv -f .deps/hpcfnbounds_bin-intervals.Tpo .deps/hpcfnbounds_bin-intervals.Po
+mv -f .deps/hpcfnbounds_bin-x86-process-ranges.Tpo .deps/hpcfnbounds_bin-x86-process-ranges.Po
+mv -f .deps/hpcfnbounds_bin-function-entries.Tpo .deps/hpcfnbounds_bin-function-entries.Po
+In file included from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/smart_ptr/shared_ptr.hpp:28:0,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/shared_ptr.hpp:17,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyn_regs.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyntypes.h:177,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/symutil.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symbol.h:44,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symtab.h:36,
+                 from main.cpp:83:
+/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/smart_ptr/detail/shared_count.hpp:396:33: warning: ‘template<class> class std::auto_ptr’ is deprecated [-Wdeprecated-declarations]
+     explicit shared_count( std::auto_ptr<Y> & r ): pi_( new sp_counted_impl_p<Y>( r.get() ) )
+                                 ^
+In file included from /usr/include/c++/5/memory:81:0,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/config/no_tr1/memory.hpp:21,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/smart_ptr/shared_ptr.hpp:23,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/shared_ptr.hpp:17,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyn_regs.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyntypes.h:177,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/symutil.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symbol.h:44,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symtab.h:36,
+                 from main.cpp:83:
+/usr/include/c++/5/bits/unique_ptr.h:49:28: note: declared here
+   template<typename> class auto_ptr;
+                            ^
+In file included from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/shared_ptr.hpp:17:0,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyn_regs.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyntypes.h:177,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/symutil.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symbol.h:44,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symtab.h:36,
+                 from main.cpp:83:
+/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/smart_ptr/shared_ptr.hpp:249:65: warning: ‘template<class> class std::auto_ptr’ is deprecated [-Wdeprecated-declarations]
+ template< class T, class R > struct sp_enable_if_auto_ptr< std::auto_ptr< T >, R >
+                                                                 ^
+In file included from /usr/include/c++/5/memory:81:0,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/config/no_tr1/memory.hpp:21,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/smart_ptr/shared_ptr.hpp:23,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/shared_ptr.hpp:17,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyn_regs.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyntypes.h:177,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/symutil.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symbol.h:44,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symtab.h:36,
+                 from main.cpp:83:
+/usr/include/c++/5/bits/unique_ptr.h:49:28: note: declared here
+   template<typename> class auto_ptr;
+                            ^
+In file included from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/shared_ptr.hpp:17:0,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyn_regs.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyntypes.h:177,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/symutil.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symbol.h:44,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symtab.h:36,
+                 from main.cpp:83:
+/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/smart_ptr/shared_ptr.hpp:448:31: warning: ‘template<class> class std::auto_ptr’ is deprecated [-Wdeprecated-declarations]
+     explicit shared_ptr( std::auto_ptr<Y> & r ): px(r.get()), pn()
+                               ^
+In file included from /usr/include/c++/5/memory:81:0,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/config/no_tr1/memory.hpp:21,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/smart_ptr/shared_ptr.hpp:23,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/shared_ptr.hpp:17,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyn_regs.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyntypes.h:177,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/symutil.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symbol.h:44,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symtab.h:36,
+                 from main.cpp:83:
+/usr/include/c++/5/bits/unique_ptr.h:49:28: note: declared here
+   template<typename> class auto_ptr;
+                            ^
+In file included from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/shared_ptr.hpp:17:0,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyn_regs.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyntypes.h:177,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/symutil.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symbol.h:44,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symtab.h:36,
+                 from main.cpp:83:
+/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/smart_ptr/shared_ptr.hpp:461:22: warning: ‘template<class> class std::auto_ptr’ is deprecated [-Wdeprecated-declarations]
+     shared_ptr( std::auto_ptr<Y> && r ): px(r.get()), pn()
+                      ^
+In file included from /usr/include/c++/5/memory:81:0,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/config/no_tr1/memory.hpp:21,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/smart_ptr/shared_ptr.hpp:23,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/shared_ptr.hpp:17,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyn_regs.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyntypes.h:177,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/symutil.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symbol.h:44,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symtab.h:36,
+                 from main.cpp:83:
+/usr/include/c++/5/bits/unique_ptr.h:49:28: note: declared here
+   template<typename> class auto_ptr;
+                            ^
+In file included from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/shared_ptr.hpp:17:0,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyn_regs.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyntypes.h:177,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/symutil.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symbol.h:44,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symtab.h:36,
+                 from main.cpp:83:
+/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/smart_ptr/shared_ptr.hpp:538:34: warning: ‘template<class> class std::auto_ptr’ is deprecated [-Wdeprecated-declarations]
+     shared_ptr & operator=( std::auto_ptr<Y> & r )
+                                  ^
+In file included from /usr/include/c++/5/memory:81:0,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/config/no_tr1/memory.hpp:21,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/smart_ptr/shared_ptr.hpp:23,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/shared_ptr.hpp:17,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyn_regs.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyntypes.h:177,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/symutil.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symbol.h:44,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symtab.h:36,
+                 from main.cpp:83:
+/usr/include/c++/5/bits/unique_ptr.h:49:28: note: declared here
+   template<typename> class auto_ptr;
+                            ^
+In file included from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/shared_ptr.hpp:17:0,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyn_regs.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyntypes.h:177,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/symutil.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symbol.h:44,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symtab.h:36,
+                 from main.cpp:83:
+/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/smart_ptr/shared_ptr.hpp:547:34: warning: ‘template<class> class std::auto_ptr’ is deprecated [-Wdeprecated-declarations]
+     shared_ptr & operator=( std::auto_ptr<Y> && r )
+                                  ^
+In file included from /usr/include/c++/5/memory:81:0,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/config/no_tr1/memory.hpp:21,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/smart_ptr/shared_ptr.hpp:23,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/shared_ptr.hpp:17,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyn_regs.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyntypes.h:177,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/symutil.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symbol.h:44,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symtab.h:36,
+                 from main.cpp:83:
+/usr/include/c++/5/bits/unique_ptr.h:49:28: note: declared here
+   template<typename> class auto_ptr;
+                            ^
+In file included from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/shared_ptr.hpp:17:0,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyn_regs.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyntypes.h:177,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/symutil.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symbol.h:44,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symtab.h:36,
+                 from main.cpp:83:
+/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/smart_ptr/shared_ptr.hpp: In member function ‘boost::shared_ptr<T>& boost::shared_ptr<T>::operator=(std::auto_ptr<_Up>&&)’:
+/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/smart_ptr/shared_ptr.hpp:549:38: warning: ‘template<class> class std::auto_ptr’ is deprecated [-Wdeprecated-declarations]
+         this_type( static_cast< std::auto_ptr<Y> && >( r ) ).swap( *this );
+                                      ^
+In file included from /usr/include/c++/5/memory:81:0,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/config/no_tr1/memory.hpp:21,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/smart_ptr/shared_ptr.hpp:23,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/shared_ptr.hpp:17,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyn_regs.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyntypes.h:177,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/symutil.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symbol.h:44,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symtab.h:36,
+                 from main.cpp:83:
+/usr/include/c++/5/bits/unique_ptr.h:49:28: note: declared here
+   template<typename> class auto_ptr;
+                            ^
+In file included from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/scoped_ptr.hpp:14:0,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/RangeLookup.h:46,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Module.h:45,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symtab.h:37,
+                 from main.cpp:83:
+/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/smart_ptr/scoped_ptr.hpp: At global scope:
+/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/smart_ptr/scoped_ptr.hpp:68:31: warning: ‘template<class> class std::auto_ptr’ is deprecated [-Wdeprecated-declarations]
+     explicit scoped_ptr( std::auto_ptr<T> p ) BOOST_NOEXCEPT : px( p.release() )
+                               ^
+In file included from /usr/include/c++/5/memory:81:0,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/config/no_tr1/memory.hpp:21,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/smart_ptr/shared_ptr.hpp:23,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/include/boost/shared_ptr.hpp:17,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyn_regs.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/dyntypes.h:177,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/symutil.h:36,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symbol.h:44,
+                 from /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/include/Symtab.h:36,
+                 from main.cpp:83:
+/usr/include/c++/5/bits/unique_ptr.h:49:28: note: declared here
+   template<typename> class auto_ptr;
+                            ^
+mv -f .deps/hpcfnbounds_bin-main.Tpo .deps/hpcfnbounds_bin-main.Po
+/bin/bash ../../../libtool  --tag=CXX   --mode=link g++ -g -O3 -Wall -std=c++11    -o hpcfnbounds-bin hpcfnbounds_bin-main.o hpcfnbounds_bin-code-ranges.o hpcfnbounds_bin-function-entries.o hpcfnbounds_bin-intervals.o hpcfnbounds_bin-server.o hpcfnbounds_bin-x86-process-ranges.o hpcfnbounds_bin-amd-xop.o  ../../../src/lib/support-lean/libHPCsupport-lean.la -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/lib -lparseAPI -linstructionAPI -lsymtabAPI -lcommon -ldynDwarf -ldynElf -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libdwarf/lib -ldwarf -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libelf/lib -lelf -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/lib -lboost_atomic -lboost_chrono -lboost_date_time -lboost_system -lboost_thread -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/zlib/lib -lz -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xed2/lib -lxed 
+libtool: link: g++ -g -O3 -Wall -std=c++11 -o hpcfnbounds-bin hpcfnbounds_bin-main.o hpcfnbounds_bin-code-ranges.o hpcfnbounds_bin-function-entries.o hpcfnbounds_bin-intervals.o hpcfnbounds_bin-server.o hpcfnbounds_bin-x86-process-ranges.o hpcfnbounds_bin-amd-xop.o  ../../../src/lib/support-lean/.libs/libHPCsupport-lean.a -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/symtabAPI/lib -lparseAPI -linstructionAPI -lsymtabAPI -lcommon -ldynDwarf -ldynElf -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libdwarf/lib -ldwarf -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/libelf/lib -lelf -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/boost/lib -lboost_atomic -lboost_chrono -lboost_date_time -lboost_system -lboost_thread -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/zlib/lib -lz -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xed2/lib -lxed
+make[3]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/tool/hpcfnbounds'
+Making all in hpcprof-mpi
+make[3]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/tool/hpcprof-mpi'
+/opt/intel/compilers_and_libraries_2018.2.199/linux/mpi/intel64/bin/mpicxx -DHAVE_CONFIG_H -I. -I../../../src/include    -g -O3 -Wall -std=c++11 -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/binutils/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xerces/include  -MT hpcprof_mpi_bin-main.o -MD -MP -MF .deps/hpcprof_mpi_bin-main.Tpo -c -o hpcprof_mpi_bin-main.o `test -f 'main.cpp' || echo './'`main.cpp
+/opt/intel/compilers_and_libraries_2018.2.199/linux/mpi/intel64/bin/mpicxx -DHAVE_CONFIG_H -I. -I../../../src/include    -g -O3 -Wall -std=c++11 -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/binutils/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xerces/include  -MT hpcprof_mpi_bin-Args.o -MD -MP -MF .deps/hpcprof_mpi_bin-Args.Tpo -c -o hpcprof_mpi_bin-Args.o `test -f 'Args.cpp' || echo './'`Args.cpp
+/opt/intel/compilers_and_libraries_2018.2.199/linux/mpi/intel64/bin/mpicxx -DHAVE_CONFIG_H -I. -I../../../src/include    -g -O3 -Wall -std=c++11 -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/binutils/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xerces/include  -MT hpcprof_mpi_bin-ParallelAnalysis.o -MD -MP -MF .deps/hpcprof_mpi_bin-ParallelAnalysis.Tpo -c -o hpcprof_mpi_bin-ParallelAnalysis.o `test -f 'ParallelAnalysis.cpp' || echo './'`ParallelAnalysis.cpp
+mv -f .deps/hpcprof_mpi_bin-Args.Tpo .deps/hpcprof_mpi_bin-Args.Po
+mv -f .deps/hpcprof_mpi_bin-ParallelAnalysis.Tpo .deps/hpcprof_mpi_bin-ParallelAnalysis.Po
+main.cpp:980:1: warning: ‘void writeStructure(const Prof::Struct::Tree&, const char*, int)’ defined but not used [-Wunused-function]
+ writeStructure(const Prof::Struct::Tree& structure, const char* baseNm,
+ ^
+main.cpp:991:1: warning: ‘void writeProfile(const Prof::CallPath::Profile&, const char*, int)’ defined but not used [-Wunused-function]
+ writeProfile(const Prof::CallPath::Profile& prof, const char* baseNm,
+ ^
+mv -f .deps/hpcprof_mpi_bin-main.Tpo .deps/hpcprof_mpi_bin-main.Po
+/bin/bash ../../../libtool  --tag=CXX   --mode=link /opt/intel/compilers_and_libraries_2018.2.199/linux/mpi/intel64/bin/mpicxx -g -O3 -Wall -std=c++11 -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/binutils/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xerces/include  -g -O3 -Wall -std=c++11 -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xerces/lib -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/binutils/lib  -o hpcprof-mpi-bin hpcprof_mpi_bin-main.o hpcprof_mpi_bin-Args.o hpcprof_mpi_bin-ParallelAnalysis.o ../../../src/lib/analysis/libHPCanalysis.la ../../../src/lib/banal/libHPCbanal_simple.la ../../../src/lib/profxml/libHPCprofxml.la ../../../src/lib/prof/libHPCprof.la ../../../src/lib/prof-lean/libHPCprof-lean.la ../../../src/lib/binutils/libHPCbinutils.la ../../../src/lib/isa/libHPCisa.la -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xed2/lib -lxed ../../../src/lib/xml/libHPCxml.la ../../../src/lib/support/libHPCsupport.la ../../../src/lib/support-lean/libHPCsupport-lean.la -lxerces-c -lopcodes -lbfd -liberty -ldl -lz -lm  
+libtool: link: /opt/intel/compilers_and_libraries_2018.2.199/linux/mpi/intel64/bin/mpicxx -g -O3 -Wall -std=c++11 -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/ComDetective_newest/src -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/binutils/include -I/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xerces/include -g -O3 -Wall -std=c++11 -o hpcprof-mpi-bin hpcprof_mpi_bin-main.o hpcprof_mpi_bin-Args.o hpcprof_mpi_bin-ParallelAnalysis.o  -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xerces/lib -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/binutils/lib ../../../src/lib/analysis/.libs/libHPCanalysis.a ../../../src/lib/banal/.libs/libHPCbanal_simple.a ../../../src/lib/profxml/.libs/libHPCprofxml.a ../../../src/lib/prof/.libs/libHPCprof.a ../../../src/lib/prof-lean/.libs/libHPCprof-lean.a ../../../src/lib/binutils/.libs/libHPCbinutils.a ../../../src/lib/isa/.libs/libHPCisa.a -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xed2/lib -lxed ../../../src/lib/xml/.libs/libHPCxml.a ../../../src/lib/support/.libs/libHPCsupport.a ../../../src/lib/support-lean/.libs/libHPCsupport-lean.a /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xerces/lib/libxerces-c.so -lnsl -lpthread /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/binutils/lib/libopcodes.a /home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/binutils/lib/libbfd.a -L/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/binutils/work/zlib -liberty -ldl -lz -lm -Wl,-rpath -Wl,/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xerces/lib -Wl,-rpath -Wl,/home/msasongko17/project/feather-project/master/src/hpctoolkit-externals/x86_64-unknown-linux-gnu/xerces/lib
+make[3]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/tool/hpcprof-mpi'
+make[3]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/tool'
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/tool'
+make[2]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src/tool'
+make[2]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/src'
+make[2]: Nothing to be done for 'all-am'.
+make[2]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src'
+make[1]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/src'
+Making all in doc
+make[1]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/doc'
+Making all in www
+make[2]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/doc/www'
+gawk -v varhdr="`cat ./style/header-hpctoolkit.html | tr '\n' ' '`" -v varftr="`cat ./style/footer-hpctoolkit.html | tr '\n' ' '`" ' BEGIN { } /@header-hpctoolkit@/ { printf "%s", varhdr ; next; } /@footer-hpctoolkit@/ { printf "%s", varftr ; next; } { print; } END { } ' index.html.in > index.html
+gawk -v varhdr="`cat ./style/header-hpctoolkit.html | tr '\n' ' '`" -v varftr="`cat ./style/footer-hpctoolkit.html | tr '\n' ' '`" ' BEGIN { } /@header-hpctoolkit@/ { printf "%s", varhdr ; next; } /@footer-hpctoolkit@/ { printf "%s", varftr ; next; } { print; } END { } ' documentation.html.in > documentation.html
+gawk -v varhdr="`cat ./style/header-hpctoolkit.html | tr '\n' ' '`" -v varftr="`cat ./style/footer-hpctoolkit.html | tr '\n' ' '`" ' BEGIN { } /@header-hpctoolkit@/ { printf "%s", varhdr ; next; } /@footer-hpctoolkit@/ { printf "%s", varftr ; next; } { print; } END { } ' examples.html.in > examples.html
+gawk -v varhdr="`cat ./style/header-hpctoolkit.html | tr '\n' ' '`" -v varftr="`cat ./style/footer-hpctoolkit.html | tr '\n' ' '`" ' BEGIN { } /@header-hpctoolkit@/ { printf "%s", varhdr ; next; } /@footer-hpctoolkit@/ { printf "%s", varftr ; next; } { print; } END { } ' overview.html.in > overview.html
+gawk -v varhdr="`cat ./style/header-hpctoolkit.html | tr '\n' ' '`" -v varftr="`cat ./style/footer-hpctoolkit.html | tr '\n' ' '`" ' BEGIN { } /@header-hpctoolkit@/ { printf "%s", varhdr ; next; } /@footer-hpctoolkit@/ { printf "%s", varftr ; next; } { print; } END { } ' publications.html.in > publications.html
+gawk -v varhdr="`cat ./style/header-hpctoolkit.html | tr '\n' ' '`" -v varftr="`cat ./style/footer-hpctoolkit.html | tr '\n' ' '`" ' BEGIN { } /@header-hpctoolkit@/ { printf "%s", varhdr ; next; } /@footer-hpctoolkit@/ { printf "%s", varftr ; next; } { print; } END { } ' software.html.in > software.html
+gawk -v varhdr="`cat ./style/header-hpctoolkit.html | tr '\n' ' '`" -v varftr="`cat ./style/footer-hpctoolkit.html | tr '\n' ' '`" ' BEGIN { } /@header-hpctoolkit@/ { printf "%s", varhdr ; next; } /@footer-hpctoolkit@/ { printf "%s", varftr ; next; } { print; } END { } ' software-instructions.html.in > software-instructions.html
+gawk -v varhdr="`cat ./style/header-hpctoolkit.html | tr '\n' ' '`" -v varftr="`cat ./style/footer-hpctoolkit.html | tr '\n' ' '`" ' BEGIN { } /@header-hpctoolkit@/ { printf "%s", varhdr ; next; } /@footer-hpctoolkit@/ { printf "%s", varftr ; next; } { print; } END { } ' info-acks.html.in > info-acks.html
+gawk -v varhdr="`cat ./style/header-hpctoolkit.html | tr '\n' ' '`" -v varftr="`cat ./style/footer-hpctoolkit.html | tr '\n' ' '`" ' BEGIN { } /@header-hpctoolkit@/ { printf "%s", varhdr ; next; } /@footer-hpctoolkit@/ { printf "%s", varftr ; next; } { print; } END { } ' info-people.html.in > info-people.html
+make  all-am
+make[3]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/doc/www'
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/doc/www'
+make[2]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/doc/www'
+Making all in man
+make[2]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/doc/man'
+sed -e 's/=PACKAGE_VERSION=/2017.11/g' hpctoolkit.tex > hpctoolkit.tex.pp
+sed -e 's/=PACKAGE_VERSION=/2017.11/g' hpcrun.tex > hpcrun.tex.pp
+sed -e 's/=PACKAGE_VERSION=/2017.11/g' hpcrun-flat.tex > hpcrun-flat.tex.pp
+sed -e 's/=PACKAGE_VERSION=/2017.11/g' hpclink.tex > hpclink.tex.pp
+sed -e 's/=PACKAGE_VERSION=/2017.11/g' hpcstruct.tex > hpcstruct.tex.pp
+sed -e 's/=PACKAGE_VERSION=/2017.11/g' hpcprof.tex > hpcprof.tex.pp
+sed -e 's/=PACKAGE_VERSION=/2017.11/g' hpcprof-flat.tex > hpcprof-flat.tex.pp
+sed -e 's/=PACKAGE_VERSION=/2017.11/g' hpcproftt.tex > hpcproftt.tex.pp
+sed -e 's/=PACKAGE_VERSION=/2017.11/g' hpcsummary.tex > hpcsummary.tex.pp
+sed -e 's/=PACKAGE_VERSION=/2017.11/g' hpctraceviewer.tex > hpctraceviewer.tex.pp
+sed -e 's/=PACKAGE_VERSION=/2017.11/g' hpcviewer.tex > hpcviewer.tex.pp
+sed -e 's/=PACKAGE_VERSION=/2017.11/g' hpcprof-mpi.tex > hpcprof-mpi.tex.pp
+/home/msasongko17/project/feather-project/ComDetective_newest/tools/latex2man/latex2man -t ./hpctoolkit-latex2man.trans hpctoolkit.tex.pp hpctoolkit.1hpctoolkit
+/home/msasongko17/project/feather-project/ComDetective_newest/tools/latex2man/latex2man -H -t ./hpctoolkit-latex2man.trans hpctoolkit.tex.pp hpctoolkit.html
+/home/msasongko17/project/feather-project/ComDetective_newest/tools/latex2man/latex2man -t ./hpctoolkit-latex2man.trans hpcrun-flat.tex.pp hpcrun-flat.1hpctoolkit
+/home/msasongko17/project/feather-project/ComDetective_newest/tools/latex2man/latex2man -t ./hpctoolkit-latex2man.trans hpclink.tex.pp hpclink.1hpctoolkit
+/home/msasongko17/project/feather-project/ComDetective_newest/tools/latex2man/latex2man -t ./hpctoolkit-latex2man.trans hpcprof-flat.tex.pp hpcprof-flat.1hpctoolkit
+/home/msasongko17/project/feather-project/ComDetective_newest/tools/latex2man/latex2man -H -t ./hpctoolkit-latex2man.trans hpcrun.tex.pp hpcrun.html
+/home/msasongko17/project/feather-project/ComDetective_newest/tools/latex2man/latex2man -H -t ./hpctoolkit-latex2man.trans hpclink.tex.pp hpclink.html
+/home/msasongko17/project/feather-project/ComDetective_newest/tools/latex2man/latex2man -H -t ./hpctoolkit-latex2man.trans hpcrun-flat.tex.pp hpcrun-flat.html
+/home/msasongko17/project/feather-project/ComDetective_newest/tools/latex2man/latex2man -H -t ./hpctoolkit-latex2man.trans hpcstruct.tex.pp hpcstruct.html
+/home/msasongko17/project/feather-project/ComDetective_newest/tools/latex2man/latex2man -H -t ./hpctoolkit-latex2man.trans hpcprof.tex.pp hpcprof.html
+/home/msasongko17/project/feather-project/ComDetective_newest/tools/latex2man/latex2man -H -t ./hpctoolkit-latex2man.trans hpcprof-flat.tex.pp hpcprof-flat.html
+/home/msasongko17/project/feather-project/ComDetective_newest/tools/latex2man/latex2man -H -t ./hpctoolkit-latex2man.trans hpcproftt.tex.pp hpcproftt.html
+/home/msasongko17/project/feather-project/ComDetective_newest/tools/latex2man/latex2man -H -t ./hpctoolkit-latex2man.trans hpcsummary.tex.pp hpcsummary.html
+/home/msasongko17/project/feather-project/ComDetective_newest/tools/latex2man/latex2man -H -t ./hpctoolkit-latex2man.trans hpctraceviewer.tex.pp hpctraceviewer.html
+/home/msasongko17/project/feather-project/ComDetective_newest/tools/latex2man/latex2man -H -t ./hpctoolkit-latex2man.trans hpcviewer.tex.pp hpcviewer.html
+/home/msasongko17/project/feather-project/ComDetective_newest/tools/latex2man/latex2man -t ./hpctoolkit-latex2man.trans hpcrun.tex.pp hpcrun.1hpctoolkit
+/home/msasongko17/project/feather-project/ComDetective_newest/tools/latex2man/latex2man -t ./hpctoolkit-latex2man.trans hpcstruct.tex.pp hpcstruct.1hpctoolkit
+/home/msasongko17/project/feather-project/ComDetective_newest/tools/latex2man/latex2man -t ./hpctoolkit-latex2man.trans hpcprof.tex.pp hpcprof.1hpctoolkit
+/home/msasongko17/project/feather-project/ComDetective_newest/tools/latex2man/latex2man -t ./hpctoolkit-latex2man.trans hpcproftt.tex.pp hpcproftt.1hpctoolkit
+/home/msasongko17/project/feather-project/ComDetective_newest/tools/latex2man/latex2man -t ./hpctoolkit-latex2man.trans hpcsummary.tex.pp hpcsummary.1hpctoolkit
+/home/msasongko17/project/feather-project/ComDetective_newest/tools/latex2man/latex2man -t ./hpctoolkit-latex2man.trans hpctraceviewer.tex.pp hpctraceviewer.1hpctoolkit
+/home/msasongko17/project/feather-project/ComDetective_newest/tools/latex2man/latex2man -t ./hpctoolkit-latex2man.trans hpcviewer.tex.pp hpcviewer.1hpctoolkit
+/home/msasongko17/project/feather-project/ComDetective_newest/tools/latex2man/latex2man -H -t ./hpctoolkit-latex2man.trans hpcprof-mpi.tex.pp hpcprof-mpi.html
+rm hpcviewer.tex.pp hpctraceviewer.tex.pp hpcprof.tex.pp hpcrun-flat.tex.pp hpcprof-mpi.tex.pp hpctoolkit.tex.pp hpcproftt.tex.pp hpcrun.tex.pp hpcsummary.tex.pp hpclink.tex.pp hpcprof-flat.tex.pp hpcstruct.tex.pp
+make[2]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/doc/man'
+Making all in manual
+make[2]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/doc/manual'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/doc/manual'
+make[2]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/doc'
+make[2]: Nothing to be done for 'all-am'.
+make[2]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/doc'
+make[1]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/doc'
+Making all in lib
+make[1]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest/lib'
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest/lib'
+make[1]: Entering directory '/home/msasongko17/project/feather-project/ComDetective_newest'
+make[1]: Nothing to be done for 'all-am'.
+make[1]: Leaving directory '/home/msasongko17/project/feather-project/ComDetective_newest'

@@ -1,0 +1,76 @@
+#include <stdlib.h>
+#include <stdio.h>
+
+int fs_matrix_size;
+int ts_matrix_size;
+int as_matrix_size;
+
+double fs_matrix[2000][2000];
+double ts_matrix[2000][2000];
+double as_matrix[2000][2000];
+long number_of_traps;
+
+// before
+double ts_prev_values[50];
+double fs_prev_values[50];
+double prev_values[50];
+double consecutive_new_values_untweaked[50];
+double ts_consecutive_new_values_untweaked[50];
+double fs_consecutive_new_values_untweaked[50];
+int consecutive_indices_unique[100];
+int ts_consecutive_indices_unique[100];
+int fs_consecutive_indices_unique[100];
+// after
+
+long global_sampling_period;
+
+void dump_fs_matrix()
+{
+	FILE * fp;
+	char file_name[20] = "fs_matrix.csv";
+	fp = fopen (file_name, "w+");
+	for(int i = fs_matrix_size; i >= 0; i--) 
+	{
+		for (int j = 0; j <= fs_matrix_size; j++)
+		{
+			fprintf(fp, "%0.2lf,", fs_matrix[i][j]);
+		}
+		fprintf(fp,"\n");
+	}
+	fclose(fp);
+}
+
+void dump_ts_matrix()
+{
+	FILE * fp;
+	char file_name[20] = "ts_matrix.csv";
+	fp = fopen (file_name, "w+");
+	//printf("ts_matrix_size: %d\n", ts_matrix_size);
+	for(int i = ts_matrix_size; i >= 0; i--) 
+	{
+		for (int j = 0; j <= ts_matrix_size; j++)
+		{
+			fprintf(fp, "%0.2lf,", ts_matrix[i][j]);
+		}
+		fprintf(fp,"\n");
+	}
+	fclose(fp);
+}
+
+void dump_as_matrix()
+{
+	FILE * fp;
+	char file_name[20] = "as_matrix.csv";
+	fp = fopen (file_name, "w+");
+	//printf("as_matrix_size: %d\n", as_matrix_size);
+	for(int i = as_matrix_size; i >= 0; i--) 
+	{
+		for (int j = 0; j <= as_matrix_size; j++)
+		{
+			fprintf(fp, "%0.2lf,", as_matrix[i][j]);
+		}
+		fprintf(fp,"\n");
+	}
+	fclose(fp);
+}
+
