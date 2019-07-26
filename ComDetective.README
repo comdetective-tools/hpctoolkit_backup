@@ -1,0 +1,13 @@
+To run ComDetective with default configuration (sampling period: 500K, bulletin board size: 127, number of watchpoints: 4, and data object level feature disabled):
+
+ComDetectiverun <./your_executable> your_args
+
+
+
+To run ComDetective with custom configuration (user-chosen sampling period, bulletin board size, number of watchpoints, and minimum size threshold of heap objects to be monitored):
+
+ComDetectiverun --period <sampling rate> --bulletin-board-size <bulletin board size> --debug-register-size <number of debug registers> --object-size-threshold <minimum threshold of heap object size> <./your_executable> your_args
+
+or
+
+ComDetectiverun -p <sampling rate> -b <bulletin board size> -d <number of debug registers> -t <minimum threshold of heap object size> <./your_executable> args_for_executable
