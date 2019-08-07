@@ -10,10 +10,200 @@
 #include <adm_init_fini.h>
 #include "env.h"
 //#define ENABLE_OBJECT_LEVEL 1
+#include <sys/mman.h>
+//#include <execinfo.h>
+#include <sys/types.h>
+#include <sys/syscall.h>
+#include "myposix.h"
+#include <pthread.h>
+#include <stdlib.h>
 
 int OBJECT_THRESHOLD;
 
 int init_adamant = 0;
+
+static char empty_data[32];
+
+void postorder(nary_node * p, int indent)
+{
+    if(p != NULL) {
+	postorder(p->first_child, indent+4);
+	nary_node * p1 = p;
+	while (p1->next_sibling != NULL) {
+		p1 = p1->next_sibling;
+		postorder(p1->first_child, indent+4);
+		printf("%lx id: %d ", p1->address, p1->node_id);
+	}
+        for(int i = 0; i < indent; i++) {
+            printf(" ");
+        }
+        printf("%lx id: %d\n", p->address, p->node_id);
+    }
+}
+
+/*
+void get_id_after_backtrace(void)
+{
+        static const char start[] = "BACKTRACE ------------\n";
+        static const char end[] = "----------------------\n";
+
+        void *bt[1024];
+        int bt_size;
+        char **bt_syms;
+        int i;
+
+        bt_size = backtrace(bt, 1024);
+        bt_syms = backtrace_symbols(bt, bt_size);
+        //full_write(STDERR_FILENO, start, strlen(start));
+	fprintf(stderr, "%s", start);
+        for (i = 1; i < bt_size; i++) {
+                size_t len = strlen(bt_syms[i]);
+		fprintf(stderr, "%s\n", bt_syms[i]);
+        }
+        fprintf(stderr, "%s\n", end);
+    free(bt_syms);
+}*/
+
+nary_node * tree_root;
+
+int id_count;
+
+static pthread_mutex_t nary_tree_lock = PTHREAD_MUTEX_INITIALIZER;
+
+int insert_call_path_to_nary_tree (uint64_t * call_path, int call_path_size) {
+	int leaf_id;
+	pthread_mutex_lock(&nary_tree_lock);
+	//fprintf(stderr, "begins\n");
+	if(tree_root == NULL) {
+		id_count = 1;
+  		tree_root = (nary_node *) calloc (1, sizeof(nary_node));
+  		tree_root->node_id = id_count++;
+  		tree_root->parent = NULL;
+  		tree_root->first_child = NULL;
+  		tree_root->next_sibling = NULL;
+	}
+	nary_node * node;
+	nary_node * parent = tree_root;
+	if(tree_root->first_child != NULL) {
+		node = tree_root->first_child;
+	} else {
+		tree_root->first_child = (nary_node *) calloc (1, sizeof(nary_node));
+		tree_root->first_child->parent = tree_root;
+		tree_root->first_child->first_child = NULL;
+		tree_root->first_child->next_sibling = NULL;
+		node = tree_root->first_child;
+		node->address = 0;
+	}
+	for(int i = 0; i < call_path_size; i++) {
+		if(node->address == 0) {
+			node->address = call_path[i];
+			node->node_id = id_count++;
+		} else {
+			while (node->address != call_path[i] && node->next_sibling != NULL) {
+				node = node->next_sibling;
+			}
+			if(node->next_sibling == NULL && node->address != call_path[i]) {
+				node->next_sibling = (nary_node *) calloc (1, sizeof(nary_node));
+				node->next_sibling->parent = node->parent;
+				node = node->next_sibling;
+				node->address = call_path[i];
+				node->node_id = id_count++;
+				node->next_sibling = NULL;
+				node->first_child = NULL;
+			}
+		}
+		if(i+1 < call_path_size && node->first_child == NULL) {
+			node->first_child = (nary_node *) calloc (1, sizeof(nary_node));
+			node->first_child->parent = node;
+			node->first_child->address = 0;
+			node->first_child->first_child = NULL;
+			node->first_child->next_sibling = NULL;
+		}
+		parent = node;
+		node = node->first_child;	
+	}
+	//fprintf(stderr, "ends\n");
+	pthread_mutex_unlock(&nary_tree_lock);
+	return parent->node_id;
+}
+
+int get_id_after_backtrace() {
+  unw_cursor_t cursor;
+  unw_context_t context;
+
+  // Initialize cursor to current frame for local unwinding.
+  unw_getcontext(&context);
+  unw_init_local(&cursor, &context);
+
+  uint64_t upward_sequence[100];
+  int func_count = 0, stack_size;
+  // Unwind frames one by one, going up the frame stack.
+  while (unw_step(&cursor) > 0) {
+    unw_word_t offset, pc;
+    unw_get_reg(&cursor, UNW_REG_IP, &pc);
+    if (pc == 0) {
+      break;
+    }
+    //fprintf(stderr, "0x%lx:\n", pc);
+
+    char sym[256];
+    if (unw_get_proc_name(&cursor, sym, sizeof(sym), &offset) == 0) {
+      //fprintf(stderr, "function:%lx (%s+0x%lx)\n", pc-offset, sym, offset);
+      upward_sequence[func_count] = pc - offset;
+    } else {
+      upward_sequence[func_count] = pc;	
+      //fprintf(stderr, " -- error: unable to obtain symbol name for this frame\n");
+    }
+    func_count++;
+  }
+  stack_size = func_count;
+  //fprintf(stderr, "\n");
+  uint64_t downward_sequence[100];
+  int i = 0;
+  while(func_count > 0) {
+	downward_sequence[i] = upward_sequence[func_count - 1];
+	func_count--;
+        i++;
+  }
+  //fprintf(stderr, "before\n");
+  return insert_call_path_to_nary_tree (downward_sequence, stack_size);
+  //printf(stderr, "after\n");
+}
+
+/*void get_id_after_backtrace() {
+  unw_cursor_t cursor;
+  unw_context_t context;
+
+  // Initialize cursor to current frame for local unwinding.
+  unw_getcontext(&context);
+  unw_init_local(&cursor, &context);
+
+  // Unwind frames one by one, going up the frame stack.
+  int print_flag = 0;
+  while (unw_step(&cursor) > 0) {
+    unw_word_t offset, pc;
+    unw_get_reg(&cursor, UNW_REG_IP, &pc);
+    if (pc == 0) {
+      break;
+    }
+    //printf("0x%lx:", pc);
+
+    char sym[256];
+    if (unw_get_proc_name(&cursor, sym, sizeof(sym), &offset) == 0) {
+      //if(print_flag == 1) {
+	 //pid_t tid = syscall(__NR_gettid);
+         //printf(" in thread %d (%s+0x%lx)\n", tid, sym, offset);
+	fprintf(stderr, "%s:%lx ", sym, pc - offset);
+      //}
+      if(strcmp(sym, "killpg") == 0) {
+      	print_flag = 1;
+      }
+    } else {
+      fprintf(stderr, " -- error: unable to obtain symbol name for this frame\n");
+    }
+  }
+  fprintf(stderr, "\n");
+}*/
 
 static void* (*real_malloc)(size_t)=NULL;
 
@@ -105,6 +295,46 @@ static void pvalloc_init(void)
     }
 }
 
+static void* (*real_mmap)(void *, size_t, int, int, int, off_t)=NULL;
+
+static void mmap_init(void)
+{
+    real_mmap = dlsym(RTLD_NEXT, "mmap");
+    if (NULL == real_mmap) {
+        fprintf(stderr, "Error in `dlsym`: %s\n", dlerror());
+    }
+}
+
+static void* (*real_mmap64)(void *, size_t, int, int, int, off_t)=NULL;
+
+static void mmap64_init(void)
+{
+    real_mmap64 = dlsym(RTLD_NEXT, "mmap");
+    if (NULL == real_mmap64) {
+        fprintf(stderr, "Error in `dlsym`: %s\n", dlerror());
+    }
+}
+
+static void* (*real_numa_alloc_onnode)(size_t size, size_t node)=NULL;
+
+static void numa_alloc_onnode_init(void)
+{
+    real_numa_alloc_onnode = dlsym(RTLD_NEXT, "numa_alloc_onnode");
+    if (NULL == real_numa_alloc_onnode) {
+        fprintf(stderr, "Error in `dlsym`: %s\n", dlerror());
+    }
+}
+
+static void* (*real_numa_alloc_interleaved)(size_t size)=NULL;
+
+static void numa_alloc_interleaved_init(void)
+{
+    real_numa_alloc_interleaved = dlsym(RTLD_NEXT, "numa_alloc_interleaved");
+    if (NULL == real_numa_alloc_interleaved) {
+        fprintf(stderr, "Error in `dlsym`: %s\n", dlerror());
+    }
+}
+
 /*
 void *malloc(size_t size)
 {
@@ -118,27 +348,28 @@ void *malloc(size_t size)
 
 void *malloc(size_t size)
 {
+    //fprintf(stderr, "in malloc\n");
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
-	//fprintf(stderr, "in malloc start\n");
     	if(!init_adamant) {
 		init_adamant = 1;
 		adm_initialize();
     	}
-	//fprintf(stderr, "in malloc end\n");
     }
-
+    //fprintf(stderr, " after in malloc\n");
     if(real_malloc==NULL) {
         malloc_init();
     }
-
+    //fprintf(stderr, " after in malloc 2\n");
     void *p = NULL;
     //fprintf(stderr, "malloc(%ld)\n", size);
     p = real_malloc(size);
+    //fprintf(stderr, " after in malloc 3\n");
     //malloc_adm(p, size);
-    //fprintf(stderr, "%p\n", p);
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
     	if(size > OBJECT_THRESHOLD) {
-    		malloc_adm(p, size);
+		int node_id = get_id_after_backtrace();
+		fprintf(stderr, "inserted node id: %d\n", node_id);
+    		malloc_adm(p, size, node_id);
 	}
     }
     return p;
@@ -174,6 +405,39 @@ void* calloc(size_t nmemb, size_t size)
 	return calloc_adm(0, nmemb, size);	
 }*/
 
+/*
+void *calloc(size_t nmemb, size_t size)
+{
+    if (getenv(HPCRUN_OBJECT_LEVEL)) {
+	//fprintf(stderr, "in malloc start\n");
+    	if(!init_adamant) {
+		init_adamant = 1;
+		adm_initialize();
+    	}
+	//fprintf(stderr, "in malloc end\n");
+    }
+
+    if(real_calloc==NULL) {
+    	calloc_init();
+    }
+
+    void *p = NULL;
+
+    if(!real_calloc) {
+    	memset(empty_data, 0, sizeof(*empty_data));
+    	p = empty_data;
+    } else {
+    	p = real_calloc(nmemb, size);
+    }
+
+    if (getenv(HPCRUN_OBJECT_LEVEL)) {
+    	if(size > OBJECT_THRESHOLD) {
+    		calloc_adm(p, nmemb * size);
+	}
+    }
+    return p;
+}*/
+
 void free(void* ptr)
 {
    if (getenv(HPCRUN_OBJECT_LEVEL)) {
@@ -195,12 +459,9 @@ void free(void* ptr)
 }
 
 
-
-
-
-
 void* realloc(void *ptr, size_t size) 
 {
+    fprintf(stderr, "in realloc\n");
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
     	if(!init_adamant) {
         	init_adamant = 1;
@@ -217,14 +478,18 @@ void* realloc(void *ptr, size_t size)
     p = real_realloc(ptr, size);
     //fprintf(stderr, "%p\n", p);
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
-    	if(size > OBJECT_THRESHOLD)
-    		realloc_adm(p, ptr, size);
+    	if(size > OBJECT_THRESHOLD) {
+		int node_id = get_id_after_backtrace();
+    		realloc_adm(p, size, node_id);
+	}
     }
+    //fprintf(stderr, "realloc: %lx\n", (long unsigned int) p);
     return p;
 }
 
 int posix_memalign(void** memptr, size_t alignment, size_t size)
 {
+   fprintf(stderr, "in posix_memalign\n");
    if (getenv(HPCRUN_OBJECT_LEVEL)) {
    	if(!init_adamant) {
         	init_adamant = 1;
@@ -237,22 +502,19 @@ int posix_memalign(void** memptr, size_t alignment, size_t size)
     }
 
     int p;
-    //fprintf(stderr, "posix_memalign(%p, %ld, %ld) = ", memptr, alignment, size);
     p = real_posix_memalign(memptr, alignment, size);
-    //fprintf(stderr, "%d\n", p);
-
-    //int p;
-    //fprintf(stderr, "posix_memalign(%p, %ld, %ld) = ", memptr, alignment, size);
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
-    	if(size > OBJECT_THRESHOLD)
-    		posix_memalign_adm(p, memptr, alignment, size);
+    	if(size > OBJECT_THRESHOLD) {
+		int node_id = get_id_after_backtrace();
+    		posix_memalign_adm(p, memptr, alignment, size, node_id);
+	}
     }
-    //fprintf(stderr, "%d\n", p);
     return p;
 }
 
 void* memalign(size_t alignment, size_t size)
 {
+    fprintf(stderr, "in memalign\n");
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
     	if(!init_adamant) {
         	init_adamant = 1;
@@ -265,22 +527,20 @@ void* memalign(size_t alignment, size_t size)
     }
 
     void* p;
-    //fprintf(stderr, "memalign(%ld, %ld) = ", alignment, size);
     p = real_memalign(alignment, size);
-    //fprintf(stderr, "%p\n", p);
-
-    //void* p;
-    //fprintf(stderr, "memalign(%ld, %ld) = ", alignment, size);
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
-    	if(size > OBJECT_THRESHOLD)
-    		memalign_adm(p, size);
+    	if(size > OBJECT_THRESHOLD) {
+		int node_id = get_id_after_backtrace();
+		fprintf(stderr, "inserted node id in memalign: %d\n", node_id);
+    		memalign_adm(p, size, node_id);
+	}
     }
-    //fprintf(stderr, "%p\n", p);
     return p;
 }
 
 void* aligned_alloc(size_t alignment, size_t size)
 {
+    fprintf(stderr, "in aligned_alloc\n");
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
     	if(!init_adamant) {
         	init_adamant = 1;
@@ -293,12 +553,12 @@ void* aligned_alloc(size_t alignment, size_t size)
     }
 
     void* p;
-    //fprintf(stderr, "aligned_alloc(%ld, %ld) = ", alignment, size);
     p = real_aligned_alloc(alignment, size);
-    //fprintf(stderr, "%p\n", p);
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
-    	if(size > OBJECT_THRESHOLD)
-    		aligned_alloc_adm(p, size);
+    	if(size > OBJECT_THRESHOLD) {
+		int node_id = get_id_after_backtrace();
+    		aligned_alloc_adm(p, size, node_id);
+	}
     }
     return p;
 }
@@ -306,6 +566,7 @@ void* aligned_alloc(size_t alignment, size_t size)
 
 void* valloc(size_t size)
 {
+    fprintf(stderr, "in valloc\n");
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
     	if(!init_adamant) {
         	init_adamant = 1;
@@ -318,18 +579,20 @@ void* valloc(size_t size)
     }
 
     void* p;
-    //fprintf(stderr, "valloc(%ld) = ", size);
     p = real_valloc(size);
-    //fprintf(stderr, "%p\n", p);
+    fprintf(stderr, "valloc: %lx\n", (long unsigned int) p);
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
-    	if(size > OBJECT_THRESHOLD)
-    		valloc_adm(p, size);
-    } 
+    	if(size > OBJECT_THRESHOLD) {
+		int node_id = get_id_after_backtrace();
+    		valloc_adm(p, size, node_id);
+	}
+    }
     return p;
 }
 
 void* pvalloc(size_t size)
 {
+    fprintf(stderr, "in pvalloc\n");
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
     	if(!init_adamant) {
         	init_adamant = 1;
@@ -344,11 +607,111 @@ void* pvalloc(size_t size)
     void* p;
     //fprintf(stderr, "pvalloc(%ld) = ", size);
     p = real_pvalloc(size);
+    //fprintf(stderr, "pvalloc: %lx\n", (long unsigned int) p);
     //fprintf(stderr, "%p\n", p);
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
-    	if(size > OBJECT_THRESHOLD)
-    		pvalloc_adm(p, size);
+    	if(size > OBJECT_THRESHOLD) {
+		int node_id = get_id_after_backtrace();
+    		pvalloc_adm(p, size, node_id);
+	}
     }
     return p;
 }
 
+
+void *numa_alloc_onnode(size_t size, size_t node) {
+   fprintf(stderr, "in numa_alloc_onnode\n");
+   if (getenv(HPCRUN_OBJECT_LEVEL)) {
+    	if(!init_adamant) {
+        	init_adamant = 1;
+        	adm_initialize();
+    	}
+    }
+
+    if(real_numa_alloc_onnode == NULL) {
+        numa_alloc_onnode_init();
+    }
+
+    void* p;
+    p = real_numa_alloc_onnode(size, node);
+    if (getenv(HPCRUN_OBJECT_LEVEL)) {
+    	if(size > OBJECT_THRESHOLD) {
+		int node_id = get_id_after_backtrace();
+    		numa_alloc_onnode_adm(p, size, node_id);
+	}
+    }
+    return p;
+}
+
+void *numa_alloc_interleaved(size_t size) {
+   fprintf(stderr, "in numa_alloc_interleaved\n");
+   if (getenv(HPCRUN_OBJECT_LEVEL)) {
+    	if(!init_adamant) {
+        	init_adamant = 1;
+        	adm_initialize();
+    	}
+    }
+
+    if(real_numa_alloc_interleaved == NULL) {
+        numa_alloc_interleaved_init();
+    }
+
+    void* p;
+    p = real_numa_alloc_interleaved(size);
+    //fprintf(stderr, "numa_alloc_interleaved: %lx\n", (long unsigned int) p);
+    if (getenv(HPCRUN_OBJECT_LEVEL)) {
+    	if(size > OBJECT_THRESHOLD) {
+		int node_id = get_id_after_backtrace();
+    		numa_alloc_interleaved_adm(p, size, node_id);
+	}
+    }
+    return p;
+}
+/*
+void *mmap(void *start, size_t length, int prot, int flags, int fd, off_t offset) {
+
+   if (getenv(HPCRUN_OBJECT_LEVEL)) {
+    	if(!init_adamant) {
+        	init_adamant = 1;
+        	adm_initialize();
+    	}
+    }
+
+    if(real_mmap == NULL) {
+        mmap_init();
+    }
+
+    void* p;
+    p = real_mmap(start, length, prot, flags, fd, offset);
+    if (getenv(HPCRUN_OBJECT_LEVEL)) {
+    	if(length > OBJECT_THRESHOLD)
+    		mmap_adm(p, length);
+    }
+    //get_id_after_backtrace();
+    return p;
+}*/
+
+void *mmap64(void *start, size_t length, int prot, int flags, int fd, off_t offset) {
+
+   if (getenv(HPCRUN_OBJECT_LEVEL)) {
+    	if(!init_adamant) {
+        	init_adamant = 1;
+        	adm_initialize();
+    	}
+    }
+
+    if(real_mmap64 == NULL) {
+        mmap64_init();
+    }
+
+    void* p;
+    p = real_mmap64(start, length, prot, flags, fd, offset);
+    fprintf(stderr, "mmap64: %lx\n", (long unsigned int) p);
+    if (getenv(HPCRUN_OBJECT_LEVEL)) {
+    	if(length > OBJECT_THRESHOLD) {
+		int node_id = get_id_after_backtrace();
+    		mmap64_adm(p, length, node_id);
+	}
+    }
+    return p;
+}

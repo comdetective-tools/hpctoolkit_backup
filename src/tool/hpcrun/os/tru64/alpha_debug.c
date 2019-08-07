@@ -68,7 +68,7 @@ hpcrun_print_state(hpcrun_state_t *state, void *context)
 
     /* try to print out a little information; debugger backtraces
        tend to be unhelpful because the trampoline interferes. */
-    hpcrun_print_backtrace(state);
+    hpcrun_get_id_after_backtrace(state);
     ERRMSG("Trampoline was located at: %#lx -> %#lx", __FILE__, __LINE__,
            state->swizzle_patch, state->swizzle_return);
     if(ctx != NULL) {

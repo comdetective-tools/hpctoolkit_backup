@@ -136,6 +136,7 @@
 #include "perf/perf-util.h"
 #include <hpcrun/handling_sample.h>
 #include <adm_init_fini.h>
+#include <execinfo.h>
 #include "matrix.h"
 #include "myposix.h"
 
@@ -273,7 +274,6 @@ typedef struct hashTableStruct{
 
 HashTable_t bulletinBoard = {.counter = 0};
 */
-
 
 int hashCode(void * key) {
    return (uint64_t) key % 54121 % HASHTABLESIZE;
@@ -2901,6 +2901,16 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
                 	}
 			prev_timestamp = item.time;
 			}
+		// show call path here
+		//fprintf(stderr, "communication is detected in ");
+		/*char * var_name = adm_get_var_name(data_addr);
+		if(var_name != NULL && strlen(var_name) >= 7 && strcmp(var_name,"[stack]")==0) {
+			//fprintf(stderr, "stack is detcted in variable %s\n", adm_get_var_name(data_addr));
+			get_id_after_backtrace();
+		}*/
+		//get_id_after_backtrace();
+		//get_id_after_backtrace2();
+
 		// after
 		//printf("entry is not empty\n");
 	    	} else {

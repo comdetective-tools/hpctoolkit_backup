@@ -1751,7 +1751,7 @@ libhpcrun_la_LIBADD = $(HPCLIB_ProfLean) $(HPCLIB_SupportLean) \
 libhpcrun_o_LDADD = $(HPCLIB_ProfLean) $(HPCLIB_SupportLean) \
 	$(am__append_28)
 libhpcrun_la_LDFLAGS = -Wl,-Bsymbolic -L$(LIBMONITOR_LIB) -lmonitor \
-	-L$(LIBADM_LIB)	-ladm	\
+	-L$(LIBADM_LIB)	-ladm -lnuma -rdynamic	\
 	-lpthread -lrt $(LIBUNWIND_LDFLAGS_DYN) $(LZMA_LDFLAGS_DYN) \
 	$(PERFMON_LDFLAGS_DYN) $(am__append_64) $(am__append_108) \
 	$(am__append_117) $(UNW_DYNAMIC_LD_FLAGS)

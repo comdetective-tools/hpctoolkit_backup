@@ -67,6 +67,8 @@
 // local variables
 // ***************************************************************************
 
+extern void postorder(nary_node * p, int indent);
+
 static atomic_long num_samples_total = ATOMIC_VAR_INIT(0);
 static atomic_long num_samples_attempted = ATOMIC_VAR_INIT(0);
 static atomic_long num_samples_blocked_async = ATOMIC_VAR_INIT(0);
@@ -148,6 +150,8 @@ double get_consecutiveness_factor(int matrix_size, long consecutiveness) {
 }*/
 
 extern char output_directory[PATH_MAX];
+
+extern nary_node * tree_root;
 
 void
 hpcrun_stats_reinit(void)
@@ -732,6 +736,9 @@ hpcrun_stats_num_samples_yielded(void)
 void
 hpcrun_stats_print_summary(void)
 {
+	fprintf(stderr, "pretty printing tree in hpctoolkit\n");
+	postorder(tree_root, 0);
+
 	/*printf("matrix before:\n");
 	dump_as_matrix();
 	printf("max_consecutive_count before: %d, matrix_size: %d\n", max_consecutive_count, as_matrix_size + 1);*/

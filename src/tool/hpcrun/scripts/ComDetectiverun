@@ -2,9 +2,9 @@
 
 #LD_LIBRARY_PATH=/home/msasongko17/project/feather-project/adamant-3.0/src /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" /home/msasongko17/project/feather-project/hpctoolkit-bin/bin/hpcrun -o test1_output_folder -e WP_COMDETECTIVE -e MEM_UOPS_RETIRED:ALL_LOADS@500000 -e MEM_UOPS_RETIRED:ALL_STORES@500000
 
-adm_libdir='/home/aditya/Documents/feather-fresh/for_github/adamant-recon-obj/src'
+adm_libdir='/home/aditya/Documents/feather-fresh/ok_pair7_coalesce/adamant/src'
 
-install_dir='/home/aditya/Documents/feather-fresh/for_github/hpctoolkit-bin'
+install_dir='/home/aditya/Documents/feather-fresh/hpctoolkit-bin'
 
 arg_ok()
 {

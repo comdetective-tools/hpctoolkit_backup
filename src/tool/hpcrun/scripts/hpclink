@@ -60,7 +60,7 @@ VERSION='2017.11'
 
 # If this script can't find its own install prefix, or if the script
 # is moved elsewhere, then set HPCTOOLKIT here.
-# HPCTOOLKIT='/home/aditya/Documents/feather-fresh/for_github/hpctoolkit-bin'
+# HPCTOOLKIT='/home/aditya/Documents/feather-fresh/hpctoolkit-bin'
 
 # Relative paths are relative to HPCTOOLKIT.
 ext_libs_dir='lib/hpctoolkit/ext-libs'

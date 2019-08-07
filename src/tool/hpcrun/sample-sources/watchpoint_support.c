@@ -193,6 +193,7 @@ static int OnWatchPoint(int signum, siginfo_t *info, void *context);
 
 __attribute__((constructor))
 static void InitConfig(){
+    fprintf(stderr, "start\n");
     if(!init_adamant) {
 	init_adamant = 1;
     	adm_initialize();
@@ -349,7 +350,7 @@ static void InitConfig(){
     }
 
     
-    
+    fprintf(stderr, "start2\n");
 }
 
 void RedSpyWPConfigOverride(void *v){
