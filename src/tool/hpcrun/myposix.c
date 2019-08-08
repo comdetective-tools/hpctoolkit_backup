@@ -75,7 +75,7 @@ int insert_call_path_to_nary_tree (uint64_t * call_path, int call_path_size) {
 	pthread_mutex_lock(&nary_tree_lock);
 	//fprintf(stderr, "begins\n");
 	if(tree_root == NULL) {
-		id_count = 1;
+		id_count = 1001;
   		tree_root = (nary_node *) calloc (1, sizeof(nary_node));
   		tree_root->node_id = id_count++;
   		tree_root->parent = NULL;
