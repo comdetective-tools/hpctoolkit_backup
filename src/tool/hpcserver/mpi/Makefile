@@ -243,13 +243,13 @@ DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 #############################################################################
 pkglibdir = $(libdir)/$(PACKAGE)
 pkglibexecdir = $(libexecdir)/$(PACKAGE)
-ACLOCAL = ${SHELL} /home/aditya/Documents/feather-fresh/ok_pair7_coalesce/ComDetective-reconfigurable-obj3/config/missing aclocal-1.15
+ACLOCAL = ${SHELL} /home/aditya/Documents/feather-fresh/for_github/hpctoolkit/config/missing aclocal-1.15
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
 AR = ar
-AUTOCONF = ${SHELL} /home/aditya/Documents/feather-fresh/ok_pair7_coalesce/ComDetective-reconfigurable-obj3/config/missing autoconf
-AUTOHEADER = ${SHELL} /home/aditya/Documents/feather-fresh/ok_pair7_coalesce/ComDetective-reconfigurable-obj3/config/missing autoheader
-AUTOMAKE = ${SHELL} /home/aditya/Documents/feather-fresh/ok_pair7_coalesce/ComDetective-reconfigurable-obj3/config/missing automake-1.15
+AUTOCONF = ${SHELL} /home/aditya/Documents/feather-fresh/for_github/hpctoolkit/config/missing autoconf
+AUTOHEADER = ${SHELL} /home/aditya/Documents/feather-fresh/for_github/hpctoolkit/config/missing autoheader
+AUTOMAKE = ${SHELL} /home/aditya/Documents/feather-fresh/for_github/hpctoolkit/config/missing automake-1.15
 AWK = mawk
 BACK_END_LABEL = 
 BOOST_COPY = yes
@@ -343,7 +343,7 @@ LZMA_LDFLAGS_DYN = -L/home/aditya/Documents/feather-fresh/hpctoolkit-externals/x
 LZMA_LDFLAGS_STAT = /home/aditya/Documents/feather-fresh/hpctoolkit-externals/x86_64-unknown-linux-gnu/lzma/lib/liblzma.a
 LZMA_LIB = /home/aditya/Documents/feather-fresh/hpctoolkit-externals/x86_64-unknown-linux-gnu/lzma/lib
 MAINT = #
-MAKEINFO = ${SHELL} /home/aditya/Documents/feather-fresh/ok_pair7_coalesce/ComDetective-reconfigurable-obj3/config/missing makeinfo
+MAKEINFO = ${SHELL} /home/aditya/Documents/feather-fresh/for_github/hpctoolkit/config/missing makeinfo
 MANIFEST_TOOL = :
 MKDIR_P = /usr/bin/mkdir -p
 MONITOR = no
@@ -420,10 +420,10 @@ ZLIB_INC = /home/aditya/Documents/feather-fresh/hpctoolkit-externals/x86_64-unkn
 # Local settings
 #############################################################################
 ZLIB_LIB = /home/aditya/Documents/feather-fresh/hpctoolkit-externals/x86_64-unknown-linux-gnu/zlib/lib
-abs_builddir = /home/aditya/Documents/feather-fresh/ok_pair7_coalesce/ComDetective-reconfigurable-obj3/src/tool/hpcserver/mpi
-abs_srcdir = /home/aditya/Documents/feather-fresh/ok_pair7_coalesce/ComDetective-reconfigurable-obj3/src/tool/hpcserver/mpi
-abs_top_builddir = /home/aditya/Documents/feather-fresh/ok_pair7_coalesce/ComDetective-reconfigurable-obj3
-abs_top_srcdir = /home/aditya/Documents/feather-fresh/ok_pair7_coalesce/ComDetective-reconfigurable-obj3
+abs_builddir = /home/aditya/Documents/feather-fresh/for_github/hpctoolkit/src/tool/hpcserver/mpi
+abs_srcdir = /home/aditya/Documents/feather-fresh/for_github/hpctoolkit/src/tool/hpcserver/mpi
+abs_top_builddir = /home/aditya/Documents/feather-fresh/for_github/hpctoolkit
+abs_top_srcdir = /home/aditya/Documents/feather-fresh/for_github/hpctoolkit
 ac_ct_AR = ar
 ac_ct_CC = gcc
 ac_ct_CXX = g++
@@ -457,7 +457,7 @@ hpcrun_use_bgq_backend = no
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /home/aditya/Documents/feather-fresh/ok_pair7_coalesce/ComDetective-reconfigurable-obj3/config/install-sh
+install_sh = ${SHELL} /home/aditya/Documents/feather-fresh/for_github/hpctoolkit/config/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -485,7 +485,7 @@ wordsize_cflag = -m64
 
 # We do not want the standard GNU files (NEWS README AUTHORS ChangeLog...)
 AUTOMAKE_OPTIONS = foreign subdir-objects
-HPC_IFLAGS = -I/home/aditya/Documents/feather-fresh/ok_pair7_coalesce/ComDetective-reconfigurable-obj3/src -I/home/aditya/Documents/feather-fresh/ok_pair7_coalesce/ComDetective-reconfigurable-obj3/src
+HPC_IFLAGS = -I/home/aditya/Documents/feather-fresh/for_github/hpctoolkit/src -I/home/aditya/Documents/feather-fresh/for_github/hpctoolkit/src
 
 ############################################################
 # Local libraries

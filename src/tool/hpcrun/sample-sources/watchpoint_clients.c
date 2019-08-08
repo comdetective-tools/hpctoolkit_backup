@@ -1690,7 +1690,7 @@ static WPTriggerActionType ComDetectiveWPCallback(WatchPointInfo_t *wpi, int sta
     double increment_untweaked = (double) CACHE_LINE_SZ/MAX_WP_LENGTH / wpConfig.maxWP * global_sampling_period;
     double increment = (double) CACHE_LINE_SZ/MAX_WP_LENGTH / wpConfig.maxWP * global_sampling_period; 
 
-
+    //int node_id = get_id_after_backtrace();
     if(GET_OVERLAP_BYTES(wpi->sample.target_va, wpi->sample.accessLength, wt->va, wt->accessLength) > 0) {
 
 	if(getenv(HPCRUN_OBJECT_LEVEL)) {
@@ -2845,6 +2845,8 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
                         }
    
 			if(flag == 1) {
+			//fprintf(stderr, "communication is detected\n");
+			//int node_id = get_id_after_backtrace();
 			if(GET_OVERLAP_BYTES(item.address, item.accessLen, data_addr, accessLen) > 0/*wpi->sample.target_va ==  wt->va*/) 
 			{
 				if(getenv(HPCRUN_OBJECT_LEVEL)) {
