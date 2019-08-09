@@ -1456,7 +1456,7 @@ configure: failed program was:
 configure:15017: result: no
 configure:15034: checking if binutils supports ia64
 configure:15055: g++ -o conftest  -g -O3 -Wall   -I/home/aditya/Documents/feather-fresh/hpctoolkit-externals/x86_64-unknown-linux-gnu/binutils/include   conftest.cpp -L/home/aditya/Documents/feather-fresh/hpctoolkit-externals/x86_64-unknown-linux-gnu/binutils/lib -lopcodes -lbfd -liberty -ldl -lz >&5
-/usr/bin/ld: /tmp/ccZL1Skg.o: in function `main':
+/usr/bin/ld: /tmp/cchhIq9A.o: in function `main':
 /home/aditya/Documents/feather-fresh/for_github/hpctoolkit/conftest.cpp:57: undefined reference to `print_insn_ia64'
 collect2: error: ld returned 1 exit status
 configure:15055: $? = 1
