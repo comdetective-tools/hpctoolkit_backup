@@ -1,3 +1,6 @@
+Installation
+===============
+
 1. Install the custom Linux version from https://github.com/WitchTools/linux.
 2. Install hpctoolkit-externals from https://github.com/WitchTools/hpctoolkit-externals.
 3. Install the custom libmonitor from https://github.com/WitchTools/libmonitor.
@@ -9,4 +12,3 @@
 2. make
 
 3. make install
-
