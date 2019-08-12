@@ -18,11 +18,15 @@
 #include <pthread.h>
 #include <stdlib.h>
 
+static char empty_data[2048];
+
+int empty_pos = 0;
+
+int init_calloc = 0;
+
 int OBJECT_THRESHOLD;
 
 int init_adamant = 0;
-
-static char empty_data[32];
 
 void postorder(nary_node * p, int indent)
 {
@@ -72,7 +76,6 @@ static pthread_mutex_t nary_tree_lock = PTHREAD_MUTEX_INITIALIZER;
 
 int insert_call_path_to_nary_tree (uint64_t * call_path, int call_path_size) {
 	int leaf_id;
-	pthread_mutex_lock(&nary_tree_lock);
 	//fprintf(stderr, "begins\n");
 	if(tree_root == NULL) {
 		id_count = 1001;
@@ -84,6 +87,7 @@ int insert_call_path_to_nary_tree (uint64_t * call_path, int call_path_size) {
 	}
 	nary_node * node;
 	nary_node * parent = tree_root;
+	pthread_mutex_lock(&nary_tree_lock);
 	if(tree_root->first_child != NULL) {
 		node = tree_root->first_child;
 	} else {
@@ -229,8 +233,8 @@ static void free_init(void)
 
 static void calloc_init(void)
 {
-    real_calloc = dlsym(RTLD_NEXT, "calloc");
-    if (NULL == real_calloc) {
+    real_malloc = dlsym(RTLD_NEXT, "malloc");
+    if (NULL == real_malloc) {
         fprintf(stderr, "Error in `dlsym`: %s\n", dlerror());
     }
 }
@@ -375,13 +379,52 @@ void *malloc(size_t size)
     return p;
 }
 
+/*void *calloc(size_t nmemb, size_t size)
+{
+    fprintf(stderr, "in calloc\n");
+    if (getenv(HPCRUN_OBJECT_LEVEL)) {
+    	if(!init_adamant) {
+		init_adamant = 1;
+		adm_initialize();
+    	}
+    }
+    void *p = NULL;
+    fprintf(stderr, " after in calloc\n");
+    if(real_malloc==NULL) {
+		fprintf(stderr, "calloc is initialized**********\n");
+		init_calloc = 1;
+		p = &(empty_data[empty_pos]);
+		empty_pos += nmemb * size;
+		//sleep(1);
+    } else {
+	p = real_malloc(nmemb * size);
+    }
+    fprintf(stderr, " after in calloc 2 %lx pos: %d\n", p, empty_pos);
+    //fprintf(stderr, "calloc(%l)\n", size);
+   
+    if (p != NULL) {
+      memset(p, 0, nmemb * size);
+      //sleep(1);
+    }
+    fprintf(stderr, " after in calloc 3\n");
+    //malloc_adm(p, size);
+    if (real_malloc && getenv(HPCRUN_OBJECT_LEVEL)) {
+    	if(nmemb * size > OBJECT_THRESHOLD) {
+		//int node_id = get_id_after_backtrace();
+		//fprintf(stderr, "inserted node id: %d\n", node_id);
+    		//malloc_adm(p, nmemb * size, 0);
+	}
+    }
+    return p;
+}*/
+
 /*
 void* calloc(size_t nmemb, size_t size)
 {
 	if (getenv(HPCRUN_OBJECT_LEVEL)) {
 		//fprintf(stderr, "in malloc start\n");
     		if(!init_adamant) {
-			init_adamant = 1;
+		  	init_adamant = 1;
 			adm_initialize();
     		}
 		//fprintf(stderr, "in malloc end\n");
