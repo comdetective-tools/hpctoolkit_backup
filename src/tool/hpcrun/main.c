@@ -743,8 +743,8 @@ hpcrun_wait()
 {
   const char* HPCRUN_WAIT = getenv("HPCRUN_WAIT");
   if (HPCRUN_WAIT) {
+    fprintf(stderr, "HPCRUN_WAIT is activated\n");
     while (HPCRUN_DEBUGGER_WAIT);
-
     // when the user program forks, we don't want to wait to have a debugger 
     // attached for each exec along a chain of fork/exec. if that is what
     // you want when debugging, make your own arrangements. 

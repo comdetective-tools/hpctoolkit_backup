@@ -258,8 +258,8 @@ GNUBINUTILS_LDFLAGS = -L/home/aditya/Documents/feather-fresh/hpctoolkit-external
 GNUBINUTILS_LDLIBS = -lopcodes -lbfd -liberty -ldl -lz
 GREP = /usr/bin/grep
 HOST_AR = 
-HOST_CFLAGS =  -g -O3 -Wall
-HOST_CXXFLAGS =  -g -O3 -Wall 
+HOST_CFLAGS =  -g -O0 -Wall
+HOST_CXXFLAGS =  -g -O0 -Wall 
 HOST_HPCPROFTT_LDFLAGS = -lm
 HOST_HPCPROF_FLAT_LDFLAGS = -lm
 HOST_HPCPROF_LDFLAGS = -lm 
@@ -763,7 +763,7 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
-#install-exec-hook:
+install-exec-hook:
 clean: clean-recursive
 
 clean-am: clean-generic clean-libtool mostlyclean-am
@@ -916,19 +916,19 @@ define strip-debug
     fi
 endef
 
-install-exec-hook:
-	@echo "Strip debug sections from hpcrun libraries ..."
-	$(call strip-debug,$(BASE_LIBS_DIR),libhpcrun*.so*)
-	$(call strip-debug,$(BASE_LIBS_DIR),libhpcrun.o)
-	$(call strip-debug,$(BASE_LIBS_DIR),libhpcrun*wrap*.a)
-	$(call strip-debug,$(BASE_LIBS_DIR),libhpctoolkit.so*)
-	$(call strip-debug,$(BASE_LIBS_DIR),libhpctoolkit.a)
-	$(call strip-debug,$(EXT_LIBS_DIR),libmonitor.so*)
-	$(call strip-debug,$(EXT_LIBS_DIR),libmonitor_wrap.a)
-	$(call strip-debug,$(EXT_LIBS_DIR),libunwind*.so*)
-	$(call strip-debug,$(EXT_LIBS_DIR),liblzma*.so*)
-	$(call strip-debug,$(MYMONITORDIR),libmonitor.so*)
-	$(call strip-debug,$(MYMONITORDIR),libpfm.so*)
+#install-exec-hook:
+#	@echo "Strip debug sections from hpcrun libraries ..."
+#	$(call strip-debug,$(BASE_LIBS_DIR),libhpcrun*.so*)
+#	$(call strip-debug,$(BASE_LIBS_DIR),libhpcrun.o)
+#	$(call strip-debug,$(BASE_LIBS_DIR),libhpcrun*wrap*.a)
+#	$(call strip-debug,$(BASE_LIBS_DIR),libhpctoolkit.so*)
+#	$(call strip-debug,$(BASE_LIBS_DIR),libhpctoolkit.a)
+#	$(call strip-debug,$(EXT_LIBS_DIR),libmonitor.so*)
+#	$(call strip-debug,$(EXT_LIBS_DIR),libmonitor_wrap.a)
+#	$(call strip-debug,$(EXT_LIBS_DIR),libunwind*.so*)
+#	$(call strip-debug,$(EXT_LIBS_DIR),liblzma*.so*)
+#	$(call strip-debug,$(MYMONITORDIR),libmonitor.so*)
+#	$(call strip-debug,$(MYMONITORDIR),libpfm.so*)
 
 dist hpc-dist:
 	@echo "cleaning source tree (ignore errors) ..."

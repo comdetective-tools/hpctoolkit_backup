@@ -47,6 +47,9 @@ do
                         fi
                         shift
                         ;;
+		--debug )
+	    		export HPCRUN_WAIT=1
+	    		;;
 		-b | --bulletin-board-size )
                         arg_ok "$1" || die "missing argument for $arg"
                         if ! [[ "$1" =~ ^[0-9]+$ ]]
@@ -87,7 +90,7 @@ then
 	if [ $object_flag -eq 1 ]
 	then
 		echo "this one"
-		#echo "LD_LIBRARY_PATH=$adm_libdir /usr/bin/time -f \"Elapsed Time , %e, system, %S, user, %U, memory, %M\" $install_dir/bin/hpcrun -o test1_output_folder -e WP_COMDETECTIVE -e MEM_UOPS_RETIRED:ALL_LOADS@500000 -e MEM_UOPS_RETIRED:ALL_STORES@500000 $@"
+		echo "LD_LIBRARY_PATH=$adm_libdir /usr/bin/time -f \"Elapsed Time , %e, system, %S, user, %U, memory, %M\" $install_dir/bin/hpcrun -o test1_output_folder -e MEM_UOPS_RETIRED:ALL_LOADS@$period -e MEM_UOPS_RETIRED:ALL_STORES@$period --bulletin-board-size $bulletin_board_size --debug-register-size $debug_register_size --object-size-threshold $object_size_threshold $@"
 		LD_LIBRARY_PATH=$adm_libdir /usr/bin/time -f "Elapsed Time , %e, system, %S, user, %U, memory, %M" $install_dir/bin/hpcrun -o $output_folder -e WP_COMDETECTIVE -e MEM_UOPS_RETIRED:ALL_LOADS@$period -e MEM_UOPS_RETIRED:ALL_STORES@$period --bulletin-board-size $bulletin_board_size --debug-register-size $debug_register_size --object-size-threshold $object_size_threshold $@ 2>&1 | tee stdout.txt
 	else
 		echo "that one"

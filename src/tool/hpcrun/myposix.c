@@ -174,6 +174,33 @@ int get_id_after_backtrace() {
   //printf(stderr, "after\n");
 }
 
+void backtrace() {
+  unw_cursor_t cursor;
+  unw_context_t context;
+
+  // Initialize cursor to current frame for local unwinding.
+  unw_getcontext(&context);
+  unw_init_local(&cursor, &context);
+
+  // Unwind frames one by one, going up the frame stack.
+  printf("backtrace starts\n");
+  while (unw_step(&cursor) > 0) {
+    unw_word_t offset, pc;
+    unw_get_reg(&cursor, UNW_REG_IP, &pc);
+    if (pc == 0) {
+      break;
+    }
+    printf("in thread %d, 0x%lx:", omp_get_thread_num(), pc);
+
+    char sym[256];
+    if (unw_get_proc_name(&cursor, sym, sizeof(sym), &offset) == 0) {
+      printf(" (%s+0x%lx)\n", sym, offset);
+    } else {
+      printf(" -- error: unable to obtain symbol name for this frame\n");
+    }
+  }
+}
+
 /*void get_id_after_backtrace() {
   unw_cursor_t cursor;
   unw_context_t context;
@@ -372,7 +399,7 @@ void *malloc(size_t size)
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
     	if(size > OBJECT_THRESHOLD) {
 		int node_id = get_id_after_backtrace();
-		fprintf(stderr, "inserted node id: %d\n", node_id);
+		//fprintf(stderr, "inserted node id: %d\n", node_id);
     		malloc_adm(p, size, node_id);
 	}
     }
@@ -504,7 +531,7 @@ void free(void* ptr)
 
 void* realloc(void *ptr, size_t size) 
 {
-    fprintf(stderr, "in realloc\n");
+    //fprintf(stderr, "in realloc\n");
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
     	if(!init_adamant) {
         	init_adamant = 1;
@@ -522,6 +549,7 @@ void* realloc(void *ptr, size_t size)
     //fprintf(stderr, "%p\n", p);
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
     	if(size > OBJECT_THRESHOLD) {
+		//backtrace();
 		int node_id = get_id_after_backtrace();
     		realloc_adm(p, size, node_id);
 	}
@@ -532,7 +560,7 @@ void* realloc(void *ptr, size_t size)
 
 int posix_memalign(void** memptr, size_t alignment, size_t size)
 {
-   fprintf(stderr, "in posix_memalign\n");
+   //fprintf(stderr, "in posix_memalign\n");
    if (getenv(HPCRUN_OBJECT_LEVEL)) {
    	if(!init_adamant) {
         	init_adamant = 1;
@@ -557,7 +585,7 @@ int posix_memalign(void** memptr, size_t alignment, size_t size)
 
 void* memalign(size_t alignment, size_t size)
 {
-    fprintf(stderr, "in memalign\n");
+    //fprintf(stderr, "in memalign\n");
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
     	if(!init_adamant) {
         	init_adamant = 1;
@@ -574,7 +602,8 @@ void* memalign(size_t alignment, size_t size)
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
     	if(size > OBJECT_THRESHOLD) {
 		int node_id = get_id_after_backtrace();
-		fprintf(stderr, "inserted node id in memalign: %d\n", node_id);
+		//backtrace();
+		//fprintf(stderr, "inserted node id in memalign: %d\n", node_id);
     		memalign_adm(p, size, node_id);
 	}
     }
@@ -583,7 +612,7 @@ void* memalign(size_t alignment, size_t size)
 
 void* aligned_alloc(size_t alignment, size_t size)
 {
-    fprintf(stderr, "in aligned_alloc\n");
+    //fprintf(stderr, "in aligned_alloc\n");
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
     	if(!init_adamant) {
         	init_adamant = 1;
@@ -599,6 +628,7 @@ void* aligned_alloc(size_t alignment, size_t size)
     p = real_aligned_alloc(alignment, size);
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
     	if(size > OBJECT_THRESHOLD) {
+		backtrace();
 		int node_id = get_id_after_backtrace();
     		aligned_alloc_adm(p, size, node_id);
 	}
@@ -609,7 +639,7 @@ void* aligned_alloc(size_t alignment, size_t size)
 
 void* valloc(size_t size)
 {
-    fprintf(stderr, "in valloc\n");
+    //fprintf(stderr, "in valloc\n");
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
     	if(!init_adamant) {
         	init_adamant = 1;
@@ -623,7 +653,7 @@ void* valloc(size_t size)
 
     void* p;
     p = real_valloc(size);
-    fprintf(stderr, "valloc: %lx\n", (long unsigned int) p);
+    //fprintf(stderr, "valloc: %lx\n", (long unsigned int) p);
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
     	if(size > OBJECT_THRESHOLD) {
 		int node_id = get_id_after_backtrace();
@@ -635,7 +665,7 @@ void* valloc(size_t size)
 
 void* pvalloc(size_t size)
 {
-    fprintf(stderr, "in pvalloc\n");
+    //fprintf(stderr, "in pvalloc\n");
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
     	if(!init_adamant) {
         	init_adamant = 1;
@@ -663,7 +693,7 @@ void* pvalloc(size_t size)
 
 
 void *numa_alloc_onnode(size_t size, size_t node) {
-   fprintf(stderr, "in numa_alloc_onnode\n");
+   //fprintf(stderr, "in numa_alloc_onnode\n");
    if (getenv(HPCRUN_OBJECT_LEVEL)) {
     	if(!init_adamant) {
         	init_adamant = 1;
@@ -687,7 +717,7 @@ void *numa_alloc_onnode(size_t size, size_t node) {
 }
 
 void *numa_alloc_interleaved(size_t size) {
-   fprintf(stderr, "in numa_alloc_interleaved\n");
+   //fprintf(stderr, "in numa_alloc_interleaved\n");
    if (getenv(HPCRUN_OBJECT_LEVEL)) {
     	if(!init_adamant) {
         	init_adamant = 1;
@@ -749,7 +779,7 @@ void *mmap64(void *start, size_t length, int prot, int flags, int fd, off_t offs
 
     void* p;
     p = real_mmap64(start, length, prot, flags, fd, offset);
-    fprintf(stderr, "mmap64: %lx\n", (long unsigned int) p);
+    //fprintf(stderr, "mmap64: %lx\n", (long unsigned int) p);
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
     	if(length > OBJECT_THRESHOLD) {
 		int node_id = get_id_after_backtrace();
