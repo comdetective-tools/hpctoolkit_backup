@@ -279,6 +279,34 @@ int hashCode(void * key) {
    return (uint64_t) key % 54121 % HASHTABLESIZE;
 }
 
+/*
+void get_id_after_backtrace() {
+  unw_cursor_t cursor;
+  unw_context_t context;
+
+  // Initialize cursor to current frame for local unwinding.
+  unw_getcontext(&context);
+  unw_init_local(&cursor, &context);
+
+  // Unwind frames one by one, going up the frame stack.
+  fprintf(stderr, "backtrace starts\n");
+  while (unw_step(&cursor) > 0) {
+    unw_word_t offset, pc;
+    unw_get_reg(&cursor, UNW_REG_IP, &pc);
+    if (pc == 0) {
+      break;
+    }
+    //printf("in thread %d, 0x%lx:", omp_get_thread_num(), pc);
+
+    char sym[256];
+    if (unw_get_proc_name(&cursor, sym, sizeof(sym), &offset) == 0) {
+      //printf(" (%s+0x%lx)\n", sym, offset);
+    } else {
+      printf(" -- error: unable to obtain symbol name for this frame\n");
+    }
+  }
+}*/
+
 int hashSearch(void * searchedAddress) {
    //get the hash
    //printf("hashSearch begins\n");
@@ -1638,7 +1666,7 @@ static WPTriggerActionType ComDetectiveWPCallback(WatchPointInfo_t *wpi, int sta
 
     long global_sampling_period = 0;
 
-   int index1 = wpi->sample.first_accessing_tid;
+    int index1 = wpi->sample.first_accessing_tid;
     int index2 = TD_GET(core_profile_trace_data.id);
 
    int core_id1 = wpi->sample.first_accessing_core_id;
@@ -1690,12 +1718,27 @@ static WPTriggerActionType ComDetectiveWPCallback(WatchPointInfo_t *wpi, int sta
     double increment_untweaked = (double) CACHE_LINE_SZ/MAX_WP_LENGTH / wpConfig.maxWP * global_sampling_period;
     double increment = (double) CACHE_LINE_SZ/MAX_WP_LENGTH / wpConfig.maxWP * global_sampling_period; 
 
-    //int node_id = get_id_after_backtrace();
+    //int node_id = get_id_after_get_id_after_backtrace();
     if(GET_OVERLAP_BYTES(wpi->sample.target_va, wpi->sample.accessLength, wt->va, wt->accessLength) > 0) {
-
+	int id = -1;
 	if(getenv(HPCRUN_OBJECT_LEVEL)) {
 		inc_true_matrix( (uint64_t) wt->va, index1, index2, increment);
 		inc_true_count((uint64_t) wt->va, increment);
+		int obj_id1 = get_object_id_by_address(wpi->sample.target_va);
+    		int obj_id2 = get_object_id_by_address(wt->va);
+    		if(obj_id1 == 0 || obj_id2 == 0) {
+			id = get_id_after_backtrace(); 
+    			fprintf(stderr, "true sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
+			inc_true_matrix_by_object_id(id, core_id1, core_id2, increment);
+        		inc_true_count_by_object_id(id, increment);
+		}
+		if(obj_id1 == 1 || obj_id2 == 1) {
+			if(id == -1)
+				id = get_id_after_backtrace(); 
+    			fprintf(stderr, "true sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
+			inc_true_matrix_by_object_id(id, core_id1, core_id2, increment);
+        		inc_true_count_by_object_id(id, increment);
+		}
 	}
 
     	ts_matrix[index1][index2] = ts_matrix[index1][index2] + increment;
@@ -1703,26 +1746,72 @@ static WPTriggerActionType ComDetectiveWPCallback(WatchPointInfo_t *wpi, int sta
 		if(getenv(HPCRUN_OBJECT_LEVEL)) {
 			inc_true_core_matrix( (uint64_t) wt->va, core_id1, core_id2, increment);
         		inc_true_core_count((uint64_t) wt->va, increment);
+			int obj_id1 = get_object_id_by_address(wpi->sample.target_va);
+    			int obj_id2 = get_object_id_by_address(wt->va);
+    			if(obj_id1 == 0 || obj_id2 == 0) {
+				if(id == -1)
+					id = get_id_after_backtrace(); 
+    				//fprintf(stderr, "communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
+				inc_true_core_matrix_by_object_id(id, core_id1, core_id2, increment);
+        			inc_true_core_count_by_object_id(id, increment);
+			}
+			if(obj_id1 == 1 || obj_id2 == 1) {
+				if(id == -1)
+					id = get_id_after_backtrace(); 
+    				//fprintf(stderr, "communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
+				inc_true_core_matrix_by_object_id(id, core_id1, core_id2, increment);
+        			inc_true_core_count_by_object_id(id, increment);
+			}
 		}
 		ts_core_matrix[core_id1][core_id2] = ts_core_matrix[core_id1][core_id2] + increment;
 	}
 
     } else {
-
-	if(getenv(HPCRUN_OBJECT_LEVEL)) {
-		inc_false_matrix((uint64_t) wpi->sample.target_va, (uint64_t) wt->va, index1, index2, increment);
-		inc_false_count((uint64_t) wpi->sample.target_va, (uint64_t) wt->va, increment);
-	}
-
-	fs_matrix[index1][index2] = fs_matrix[index1][index2] + increment;
-	if(core_id1 != core_id2) {
+		int id = -1;
 		if(getenv(HPCRUN_OBJECT_LEVEL)) {
-			inc_false_core_matrix((uint64_t) wpi->sample.target_va, (uint64_t) wt->va, core_id1, core_id2, increment);
-        		inc_false_core_count((uint64_t) wpi->sample.target_va, (uint64_t) wt->va, increment);
+			inc_false_matrix((uint64_t) wpi->sample.target_va, (uint64_t) wt->va, index1, index2, increment);
+			inc_false_count((uint64_t) wpi->sample.target_va, (uint64_t) wt->va, increment);
+			int obj_id1 = get_object_id_by_address(wpi->sample.target_va);
+    			int obj_id2 = get_object_id_by_address(wt->va);
+    			if(obj_id1 == 0 || obj_id2 == 0) {
+				id = get_id_after_backtrace(); 
+    				fprintf(stderr, "false sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
+				inc_false_matrix_by_object_id(id, core_id1, core_id2, increment);
+        			inc_false_count_by_object_id(id, increment);
+			}
+			if(obj_id1 == 1 || obj_id2 == 1) {
+				if(id == -1)
+					id = get_id_after_backtrace(); 
+    				fprintf(stderr, "false sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
+				inc_false_matrix_by_object_id(id, core_id1, core_id2, increment);
+        			inc_false_count_by_object_id(id, increment);
+			}
 		}
 
-		fs_core_matrix[core_id1][core_id2] = fs_core_matrix[core_id1][core_id2] + increment;
-	}
+		fs_matrix[index1][index2] = fs_matrix[index1][index2] + increment;
+		if(core_id1 != core_id2) {
+			if(getenv(HPCRUN_OBJECT_LEVEL)) {
+				inc_false_core_matrix((uint64_t) wpi->sample.target_va, (uint64_t) wt->va, core_id1, core_id2, increment);
+        			inc_false_core_count((uint64_t) wpi->sample.target_va, (uint64_t) wt->va, increment);
+				int obj_id1 = get_object_id_by_address(wpi->sample.target_va);
+    				int obj_id2 = get_object_id_by_address(wt->va);
+    				if(obj_id1 == 0 || obj_id2 == 0) {
+					if(id == -1)
+						id = get_id_after_backtrace(); 
+    					//fprintf(stderr, "communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
+					inc_false_matrix_by_object_id(id, core_id1, core_id2, increment);
+        				inc_false_count_by_object_id(id, increment);
+				}
+				if(obj_id1 == 1 || obj_id2 == 1) {
+					if(id == -1)
+						id = get_id_after_backtrace(); 
+    					//fprintf(stderr, "communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
+					inc_false_matrix_by_object_id(id, core_id1, core_id2, increment);
+        				inc_false_count_by_object_id(id, increment);
+				}
+			}
+			fs_core_matrix[core_id1][core_id2] = fs_core_matrix[core_id1][core_id2] + increment;
+		}
     }
 
     as_matrix[index1][index2] = as_matrix[index1][index2] + increment;
@@ -1744,7 +1833,7 @@ static WPTriggerActionType ComDetectiveWPCallback(WatchPointInfo_t *wpi, int sta
             joinNode = joinNodes[E_FALSE_WW_SHARE][joinNodeIdx];
         }
     }
-    
+
     sample_val_t v = hpcrun_sample_callpath(wt->ctxt, measured_metric_id, SAMPLE_UNIT_INC, 0, 1, NULL);
     cct_node_t *node = hpcrun_insert_special_node(v.sample_node, joinNode);
     node = hpcrun_cct_insert_path_return_leaf(wpi->sample.node, node);
@@ -2845,13 +2934,42 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
                         }
    
 			if(flag == 1) {
-			//fprintf(stderr, "communication is detected\n");
-			//int node_id = get_id_after_backtrace();
+			int id = -1;
+			/*if(getenv(HPCRUN_OBJECT_LEVEL)) {
+				int obj_id1 = get_object_id_by_address(item.address);
+				int obj_id2 = get_object_id_by_address(data_addr);
+				if(obj_id1 == 0 || obj_id2 == 0) {
+					id = get_id_after_backtrace();
+					//fprintf(stderr, "communication is detected on an unknown object with increment %0.2lf on node %d\n", global_sampling_period, id); 
+				}
+				if(obj_id1 == 1 || obj_id2 == 1) {
+					int id = get_id_after_backtrace();
+					//fprintf(stderr, "communication is detected on stack objects with increment %0.2lf on node %d\n", global_sampling_period, id);
+				}
+			}*/
+			//int node_id = get_id_after_get_id_after_backtrace();
 			if(GET_OVERLAP_BYTES(item.address, item.accessLen, data_addr, accessLen) > 0/*wpi->sample.target_va ==  wt->va*/) 
 			{
 				if(getenv(HPCRUN_OBJECT_LEVEL)) {
 					inc_true_matrix( (uint64_t) data_addr, item.tid, me, global_sampling_period);
        	 				inc_true_count((uint64_t) data_addr, global_sampling_period);
+					// before
+					int obj_id1 = get_object_id_by_address(item.address);
+    					int obj_id2 = get_object_id_by_address(data_addr);
+    					if(obj_id1 == 0 || obj_id2 == 0) {
+						id = get_id_after_backtrace(); 
+    						fprintf(stderr, "true sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", global_sampling_period, id);
+						inc_true_matrix_by_object_id(id, item.tid, me, global_sampling_period);
+        					inc_true_count_by_object_id(id, global_sampling_period);
+					}
+					if(obj_id1 == 1 || obj_id2 == 1) {
+						if(id == -1)
+							id = get_id_after_backtrace(); 
+    						fprintf(stderr, "true sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", global_sampling_period, id);
+						inc_true_matrix_by_object_id(id, item.tid, me, global_sampling_period);
+        					inc_true_count_by_object_id(id, global_sampling_period);
+					}
+					// after
 				}
 				ts_matrix[item.tid][me] = ts_matrix[item.tid][me] + global_sampling_period;
 				
@@ -2860,6 +2978,22 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
 					if(getenv(HPCRUN_OBJECT_LEVEL)) {
 						inc_true_core_matrix( (uint64_t) data_addr, item.core_id, current_core, global_sampling_period);
                                 		inc_true_core_count((uint64_t) data_addr, global_sampling_period);
+						int obj_id1 = get_object_id_by_address(item.address);
+    						int obj_id2 = get_object_id_by_address(data_addr);
+    						if(obj_id1 == 0 || obj_id2 == 0) {
+							if(id == -1)
+								id = get_id_after_backtrace(); 
+    								//fprintf(stderr, "communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
+							inc_true_core_matrix_by_object_id(id, item.core_id, current_core, global_sampling_period);
+        						inc_true_core_count_by_object_id(id, global_sampling_period);
+						}
+						if(obj_id1 == 1 || obj_id2 == 1) {
+							if(id == -1)
+								id = get_id_after_backtrace(); 
+    								//fprintf(stderr, "communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
+							inc_true_core_matrix_by_object_id(id, item.core_id, current_core, global_sampling_period);
+        						inc_true_core_count_by_object_id(id, global_sampling_period);
+						}
 					}
                                 	ts_core_matrix[item.core_id][current_core] = ts_core_matrix[item.core_id][current_core] + global_sampling_period;
 				}
@@ -2876,6 +3010,21 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
 				if(getenv(HPCRUN_OBJECT_LEVEL)) {
 					inc_false_matrix( (uint64_t) item.address, (uint64_t) data_addr, item.tid, me, global_sampling_period);
                                 	inc_false_count((uint64_t) item.address, (uint64_t) data_addr, global_sampling_period);
+					int obj_id1 = get_object_id_by_address(item.address);
+    					int obj_id2 = get_object_id_by_address(data_addr);
+    					if(obj_id1 == 0 || obj_id2 == 0) {
+						id = get_id_after_backtrace(); 
+    						fprintf(stderr, "false sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", global_sampling_period, id);
+						inc_false_matrix_by_object_id(id, item.tid, me, global_sampling_period);
+        					inc_false_count_by_object_id(id, global_sampling_period);
+					}
+					if(obj_id1 == 1 || obj_id2 == 1) {
+						if(id == -1)
+							id = get_id_after_backtrace(); 
+    						fprintf(stderr, "false sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", global_sampling_period, id);
+						inc_false_matrix_by_object_id(id, item.tid, me, global_sampling_period);
+        					inc_false_count_by_object_id(id, global_sampling_period);
+					}
 				}
 				fs_matrix[item.tid][me] = fs_matrix[item.tid][me] + global_sampling_period;
 				//printf("false sharing is detected between thread %d and thread %d due to address 1: %ld length: %d and address 2: %ld length: %d\n", item.tid, me, item.address, item.accessLen, data_addr, accessLen);
@@ -2891,6 +3040,22 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
 					if(getenv(HPCRUN_OBJECT_LEVEL)) {
 						inc_false_core_matrix( (uint64_t) item.address, (uint64_t) data_addr, item.core_id, current_core, global_sampling_period);
                                 		inc_false_core_count((uint64_t) item.address, (uint64_t) data_addr, global_sampling_period);
+						int obj_id1 = get_object_id_by_address(item.address);
+    						int obj_id2 = get_object_id_by_address(data_addr);
+    						if(obj_id1 == 0 || obj_id2 == 0) {
+							if(id == -1)
+								id = get_id_after_backtrace(); 
+    							//fprintf(stderr, "communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
+							inc_false_matrix_by_object_id(id, item.core_id, current_core, global_sampling_period);
+        						inc_false_count_by_object_id(id, global_sampling_period);
+						}
+						if(obj_id1 == 1 || obj_id2 == 1) {
+							if(id == -1)
+								id = get_id_after_backtrace(); 
+    							//fprintf(stderr, "communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
+							inc_false_matrix_by_object_id(id, item.core_id, current_core, global_sampling_period);
+        						inc_false_count_by_object_id(id, global_sampling_period);
+						}
 					}
 
                                 	fs_core_matrix[item.core_id][current_core] = fs_core_matrix[item.core_id][current_core] + global_sampling_period;
@@ -2908,9 +3073,9 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
 		/*char * var_name = adm_get_var_name(data_addr);
 		if(var_name != NULL && strlen(var_name) >= 7 && strcmp(var_name,"[stack]")==0) {
 			//fprintf(stderr, "stack is detcted in variable %s\n", adm_get_var_name(data_addr));
-			get_id_after_backtrace();
+			get_id_after_get_id_after_backtrace();
 		}*/
-		//get_id_after_backtrace();
+		//get_id_after_get_id_after_backtrace();
 		//get_id_after_backtrace2();
 
 		// after

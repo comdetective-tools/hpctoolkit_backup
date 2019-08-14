@@ -289,8 +289,8 @@ GNUBINUTILS_LDFLAGS = -L/home/aditya/Documents/feather-fresh/hpctoolkit-external
 GNUBINUTILS_LDLIBS = -lopcodes -lbfd -liberty -ldl -lz
 GREP = /usr/bin/grep
 HOST_AR = 
-HOST_CFLAGS =  -g -O0 -Wall
-HOST_CXXFLAGS =  -g -O0 -Wall 
+HOST_CFLAGS =  -g -O3 -Wall
+HOST_CXXFLAGS =  -g -O3 -Wall 
 HOST_HPCPROFTT_LDFLAGS = -lm
 HOST_HPCPROF_FLAT_LDFLAGS = -lm
 HOST_HPCPROF_LDFLAGS = -lm 
@@ -534,9 +534,9 @@ MYSOURCES = \
 ../main.cpp
 
 MYMPIFLAGS = -DMPICH_IGNORE_CXX_SEEK 
-MYCFLAGS =  -g -O0 -Wall $(MYMPIFLAGS) $(HPC_IFLAGS) \
+MYCFLAGS =  -g -O3 -Wall $(MYMPIFLAGS) $(HPC_IFLAGS) \
 	-I/home/aditya/Documents/feather-fresh/hpctoolkit-externals/x86_64-unknown-linux-gnu/binutils/include $(am__append_2)
-MYCXXFLAGS =  -g -O0 -Wall  $(MYMPIFLAGS) $(HPC_IFLAGS) \
+MYCXXFLAGS =  -g -O3 -Wall  $(MYMPIFLAGS) $(HPC_IFLAGS) \
 	-I/home/aditya/Documents/feather-fresh/hpctoolkit-externals/x86_64-unknown-linux-gnu/binutils/include -I/home/aditya/Documents/feather-fresh/hpctoolkit-externals/x86_64-unknown-linux-gnu/xerces/include $(am__append_3)
 MYLDADD =  $(HPCLIB_Support) $(am__append_1)
 MYLDFLAGS = -lz

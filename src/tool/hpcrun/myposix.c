@@ -174,33 +174,6 @@ int get_id_after_backtrace() {
   //printf(stderr, "after\n");
 }
 
-void backtrace() {
-  unw_cursor_t cursor;
-  unw_context_t context;
-
-  // Initialize cursor to current frame for local unwinding.
-  unw_getcontext(&context);
-  unw_init_local(&cursor, &context);
-
-  // Unwind frames one by one, going up the frame stack.
-  printf("backtrace starts\n");
-  while (unw_step(&cursor) > 0) {
-    unw_word_t offset, pc;
-    unw_get_reg(&cursor, UNW_REG_IP, &pc);
-    if (pc == 0) {
-      break;
-    }
-    printf("in thread %d, 0x%lx:", omp_get_thread_num(), pc);
-
-    char sym[256];
-    if (unw_get_proc_name(&cursor, sym, sizeof(sym), &offset) == 0) {
-      printf(" (%s+0x%lx)\n", sym, offset);
-    } else {
-      printf(" -- error: unable to obtain symbol name for this frame\n");
-    }
-  }
-}
-
 /*void get_id_after_backtrace() {
   unw_cursor_t cursor;
   unw_context_t context;
@@ -628,7 +601,7 @@ void* aligned_alloc(size_t alignment, size_t size)
     p = real_aligned_alloc(alignment, size);
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
     	if(size > OBJECT_THRESHOLD) {
-		backtrace();
+		//backtrace();
 		int node_id = get_id_after_backtrace();
     		aligned_alloc_adm(p, size, node_id);
 	}

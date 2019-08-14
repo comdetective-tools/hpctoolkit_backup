@@ -288,8 +288,8 @@ GNUBINUTILS_LDFLAGS = -L/home/aditya/Documents/feather-fresh/hpctoolkit-external
 GNUBINUTILS_LDLIBS = -lopcodes -lbfd -liberty -ldl -lz
 GREP = /usr/bin/grep
 HOST_AR = 
-HOST_CFLAGS =  -g -O0 -Wall
-HOST_CXXFLAGS =  -g -O0 -Wall 
+HOST_CFLAGS =  -g -O3 -Wall
+HOST_CXXFLAGS =  -g -O3 -Wall 
 HOST_HPCPROFTT_LDFLAGS = -lm
 HOST_HPCPROF_FLAT_LDFLAGS = -lm
 HOST_HPCPROF_LDFLAGS = -lm 
@@ -526,9 +526,9 @@ MYSOURCES = \
 	ProfileReader.hpp ProfileReader.cpp \
 	ProfileWriter.hpp ProfileWriter.cpp
 
-MYCFLAGS =  -g -O0 -Wall   $(HPC_IFLAGS) -I/home/aditya/Documents/feather-fresh/hpctoolkit-externals/x86_64-unknown-linux-gnu/binutils/include
-MYCXXFLAGS =  -g -O0 -Wall  $(HPC_IFLAGS) -I/home/aditya/Documents/feather-fresh/hpctoolkit-externals/x86_64-unknown-linux-gnu/binutils/include
-MYLDFLAGS =  -g -O0 -Wall 
+MYCFLAGS =  -g -O3 -Wall   $(HPC_IFLAGS) -I/home/aditya/Documents/feather-fresh/hpctoolkit-externals/x86_64-unknown-linux-gnu/binutils/include
+MYCXXFLAGS =  -g -O3 -Wall  $(HPC_IFLAGS) -I/home/aditya/Documents/feather-fresh/hpctoolkit-externals/x86_64-unknown-linux-gnu/binutils/include
+MYLDFLAGS =  -g -O3 -Wall 
 MYLDADD = \
 	 \
 	$(HPCLIB_Binutils) $(HPCLIB_ISA) $(HPCLIB_XML) $(HPCLIB_Support) \
