@@ -74,12 +74,14 @@ int id_count;
 
 static pthread_mutex_t nary_tree_lock = PTHREAD_MUTEX_INITIALIZER;
 
+static void* (*real_malloc)(size_t)=NULL;
+
 int insert_call_path_to_nary_tree (uint64_t * call_path, int call_path_size) {
 	int leaf_id;
 	//fprintf(stderr, "begins\n");
 	if(tree_root == NULL) {
 		id_count = 1001;
-  		tree_root = (nary_node *) calloc (1, sizeof(nary_node));
+  		tree_root = (nary_node *) real_malloc (sizeof(nary_node));
   		tree_root->node_id = id_count++;
   		tree_root->parent = NULL;
   		tree_root->first_child = NULL;
@@ -91,7 +93,7 @@ int insert_call_path_to_nary_tree (uint64_t * call_path, int call_path_size) {
 	if(tree_root->first_child != NULL) {
 		node = tree_root->first_child;
 	} else {
-		tree_root->first_child = (nary_node *) calloc (1, sizeof(nary_node));
+		tree_root->first_child = (nary_node *) real_malloc (sizeof(nary_node));
 		tree_root->first_child->parent = tree_root;
 		tree_root->first_child->first_child = NULL;
 		tree_root->first_child->next_sibling = NULL;
@@ -107,7 +109,7 @@ int insert_call_path_to_nary_tree (uint64_t * call_path, int call_path_size) {
 				node = node->next_sibling;
 			}
 			if(node->next_sibling == NULL && node->address != call_path[i]) {
-				node->next_sibling = (nary_node *) calloc (1, sizeof(nary_node));
+				node->next_sibling = (nary_node *) real_malloc (sizeof(nary_node));
 				node->next_sibling->parent = node->parent;
 				node = node->next_sibling;
 				node->address = call_path[i];
@@ -117,7 +119,7 @@ int insert_call_path_to_nary_tree (uint64_t * call_path, int call_path_size) {
 			}
 		}
 		if(i+1 < call_path_size && node->first_child == NULL) {
-			node->first_child = (nary_node *) calloc (1, sizeof(nary_node));
+			node->first_child = (nary_node *) real_malloc (sizeof(nary_node));
 			node->first_child->parent = node;
 			node->first_child->address = 0;
 			node->first_child->first_child = NULL;
@@ -208,8 +210,6 @@ int get_id_after_backtrace() {
   }
   fprintf(stderr, "\n");
 }*/
-
-static void* (*real_malloc)(size_t)=NULL;
 
 static void* (*real_calloc)(size_t, size_t)=NULL;
 
@@ -339,16 +339,6 @@ static void numa_alloc_interleaved_init(void)
     }
 }
 
-/*
-void *malloc(size_t size)
-{
-    void *p = NULL;
-    fprintf(stderr, "malloc(%ld) = ", size);
-    p = malloc_adm(size);
-    fprintf(stderr, "%p\n", p);
-    return p;
-}*/
-
 
 void *malloc(size_t size)
 {
@@ -370,7 +360,7 @@ void *malloc(size_t size)
     //fprintf(stderr, " after in malloc 3\n");
     //malloc_adm(p, size);
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
-    	if(size > OBJECT_THRESHOLD) {
+    	if(real_malloc && (size > OBJECT_THRESHOLD)) {
 		int node_id = get_id_after_backtrace();
 		//fprintf(stderr, "inserted node id: %d\n", node_id);
     		malloc_adm(p, size, node_id);
@@ -379,9 +369,9 @@ void *malloc(size_t size)
     return p;
 }
 
-/*void *calloc(size_t nmemb, size_t size)
+void *calloc(size_t nmemb, size_t size)
 {
-    fprintf(stderr, "in calloc\n");
+    //fprintf(stderr, "in calloc\n");
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
     	if(!init_adamant) {
 		init_adamant = 1;
@@ -389,9 +379,9 @@ void *malloc(size_t size)
     	}
     }
     void *p = NULL;
-    fprintf(stderr, " after in calloc\n");
+    //fprintf(stderr, " after in calloc\n");
     if(real_malloc==NULL) {
-		fprintf(stderr, "calloc is initialized**********\n");
+		//fprintf(stderr, "calloc is initialized**********\n");
 		init_calloc = 1;
 		p = &(empty_data[empty_pos]);
 		empty_pos += nmemb * size;
@@ -399,87 +389,24 @@ void *malloc(size_t size)
     } else {
 	p = real_malloc(nmemb * size);
     }
-    fprintf(stderr, " after in calloc 2 %lx pos: %d\n", p, empty_pos);
+    //fprintf(stderr, " after in calloc 2 %lx pos: %d\n", p, empty_pos);
     //fprintf(stderr, "calloc(%l)\n", size);
    
     if (p != NULL) {
       memset(p, 0, nmemb * size);
       //sleep(1);
     }
-    fprintf(stderr, " after in calloc 3\n");
+    //fprintf(stderr, " after in calloc 3\n");
     //malloc_adm(p, size);
-    if (real_malloc && getenv(HPCRUN_OBJECT_LEVEL)) {
-    	if(nmemb * size > OBJECT_THRESHOLD) {
-		//int node_id = get_id_after_backtrace();
+    if (getenv(HPCRUN_OBJECT_LEVEL)) {
+    	if(real_malloc && (nmemb * size > OBJECT_THRESHOLD)) {
+		int node_id = get_id_after_backtrace();
 		//fprintf(stderr, "inserted node id: %d\n", node_id);
-    		//malloc_adm(p, nmemb * size, 0);
+    		malloc_adm(p, nmemb * size, node_id);
 	}
     }
     return p;
-}*/
-
-/*
-void* calloc(size_t nmemb, size_t size)
-{
-	if (getenv(HPCRUN_OBJECT_LEVEL)) {
-		//fprintf(stderr, "in malloc start\n");
-    		if(!init_adamant) {
-		  	init_adamant = 1;
-			adm_initialize();
-    		}
-		//fprintf(stderr, "in malloc end\n");
-		return calloc_adm(nmemb, size);
-    	}
-	return calloc_adm2(nmemb, size);	
-}*/
-
-/*
-void* calloc(size_t nmemb, size_t size)
-{
-	if (getenv(HPCRUN_OBJECT_LEVEL)) {
-		//fprintf(stderr, "in malloc start\n");
-    		if(!init_adamant) {
-			init_adamant = 1;
-			adm_initialize();
-    		}
-		//fprintf(stderr, "in malloc end\n");
-		return calloc_adm(1, nmemb, size);
-    	}
-	return calloc_adm(0, nmemb, size);	
-}*/
-
-/*
-void *calloc(size_t nmemb, size_t size)
-{
-    if (getenv(HPCRUN_OBJECT_LEVEL)) {
-	//fprintf(stderr, "in malloc start\n");
-    	if(!init_adamant) {
-		init_adamant = 1;
-		adm_initialize();
-    	}
-	//fprintf(stderr, "in malloc end\n");
-    }
-
-    if(real_calloc==NULL) {
-    	calloc_init();
-    }
-
-    void *p = NULL;
-
-    if(!real_calloc) {
-    	memset(empty_data, 0, sizeof(*empty_data));
-    	p = empty_data;
-    } else {
-    	p = real_calloc(nmemb, size);
-    }
-
-    if (getenv(HPCRUN_OBJECT_LEVEL)) {
-    	if(size > OBJECT_THRESHOLD) {
-    		calloc_adm(p, nmemb * size);
-	}
-    }
-    return p;
-}*/
+}
 
 void free(void* ptr)
 {
@@ -516,12 +443,16 @@ void* realloc(void *ptr, size_t size)
         realloc_init();
     }
 
+    if(real_malloc==NULL) {
+        malloc_init();
+    }
+
     void *p = NULL;
     //fprintf(stderr, "realloc(%p, %ld)\n", ptr, size);
     p = real_realloc(ptr, size);
     //fprintf(stderr, "%p\n", p);
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
-    	if(size > OBJECT_THRESHOLD) {
+    	if(real_malloc && (size > OBJECT_THRESHOLD)) {
 		//backtrace();
 		int node_id = get_id_after_backtrace();
     		realloc_adm(p, size, node_id);
@@ -545,10 +476,14 @@ int posix_memalign(void** memptr, size_t alignment, size_t size)
         posix_memalign_init();
     }
 
+    if(real_malloc==NULL) {
+        malloc_init();
+    }
+
     int p;
     p = real_posix_memalign(memptr, alignment, size);
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
-    	if(size > OBJECT_THRESHOLD) {
+    	if(real_malloc && (size > OBJECT_THRESHOLD)) {
 		int node_id = get_id_after_backtrace();
     		posix_memalign_adm(p, memptr, alignment, size, node_id);
 	}
@@ -570,10 +505,14 @@ void* memalign(size_t alignment, size_t size)
         memalign_init();
     }
 
+    if(real_malloc==NULL) {
+        malloc_init();
+    }
+
     void* p;
     p = real_memalign(alignment, size);
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
-    	if(size > OBJECT_THRESHOLD) {
+    	if(real_malloc && (size > OBJECT_THRESHOLD)) {
 		int node_id = get_id_after_backtrace();
 		//backtrace();
 		//fprintf(stderr, "inserted node id in memalign: %d\n", node_id);
@@ -597,10 +536,14 @@ void* aligned_alloc(size_t alignment, size_t size)
         aligned_alloc_init();
     }
 
+    if(real_malloc==NULL) {
+        malloc_init();
+    }
+
     void* p;
     p = real_aligned_alloc(alignment, size);
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
-    	if(size > OBJECT_THRESHOLD) {
+    	if(real_malloc && (size > OBJECT_THRESHOLD)) {
 		//backtrace();
 		int node_id = get_id_after_backtrace();
     		aligned_alloc_adm(p, size, node_id);
@@ -624,11 +567,15 @@ void* valloc(size_t size)
         valloc_init();
     }
 
+    if(real_malloc==NULL) {
+        malloc_init();
+    }
+
     void* p;
     p = real_valloc(size);
     //fprintf(stderr, "valloc: %lx\n", (long unsigned int) p);
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
-    	if(size > OBJECT_THRESHOLD) {
+    	if(real_malloc && (size > OBJECT_THRESHOLD)) {
 		int node_id = get_id_after_backtrace();
     		valloc_adm(p, size, node_id);
 	}
@@ -650,13 +597,17 @@ void* pvalloc(size_t size)
         pvalloc_init();
     }
 
+    if(real_malloc==NULL) {
+        malloc_init();
+    }
+
     void* p;
     //fprintf(stderr, "pvalloc(%ld) = ", size);
     p = real_pvalloc(size);
     //fprintf(stderr, "pvalloc: %lx\n", (long unsigned int) p);
     //fprintf(stderr, "%p\n", p);
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
-    	if(size > OBJECT_THRESHOLD) {
+    	if(real_malloc && (size > OBJECT_THRESHOLD)) {
 		int node_id = get_id_after_backtrace();
     		pvalloc_adm(p, size, node_id);
 	}
@@ -678,10 +629,14 @@ void *numa_alloc_onnode(size_t size, size_t node) {
         numa_alloc_onnode_init();
     }
 
+    if(real_malloc==NULL) {
+        malloc_init();
+    }
+
     void* p;
     p = real_numa_alloc_onnode(size, node);
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
-    	if(size > OBJECT_THRESHOLD) {
+    	if(real_malloc && (size > OBJECT_THRESHOLD)) {
 		int node_id = get_id_after_backtrace();
     		numa_alloc_onnode_adm(p, size, node_id);
 	}
@@ -702,36 +657,55 @@ void *numa_alloc_interleaved(size_t size) {
         numa_alloc_interleaved_init();
     }
 
+    if(real_malloc==NULL) {
+        malloc_init();
+    }
+
     void* p;
     p = real_numa_alloc_interleaved(size);
     //fprintf(stderr, "numa_alloc_interleaved: %lx\n", (long unsigned int) p);
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
-    	if(size > OBJECT_THRESHOLD) {
+    	if(real_malloc && (size > OBJECT_THRESHOLD)) {
 		int node_id = get_id_after_backtrace();
     		numa_alloc_interleaved_adm(p, size, node_id);
 	}
     }
     return p;
 }
+
 /*
 void *mmap(void *start, size_t length, int prot, int flags, int fd, off_t offset) {
 
+   fprintf(stderr, "mmap is intercepted\n");
    if (getenv(HPCRUN_OBJECT_LEVEL)) {
     	if(!init_adamant) {
         	init_adamant = 1;
         	adm_initialize();
     	}
     }
-
+    
+    fprintf(stderr, "mmap is intercepted 1\n");
     if(real_mmap == NULL) {
         mmap_init();
     }
 
+    fprintf(stderr, "mmap is intercepted 2\n");
+    if(real_malloc==NULL) {
+        malloc_init();
+    }
+
+    fprintf(stderr, "mmap is intercepted 3\n");
     void* p;
     p = real_mmap(start, length, prot, flags, fd, offset);
+    fprintf(stderr, "mmap is intercepted 4\n");
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
-    	if(length > OBJECT_THRESHOLD)
-    		mmap_adm(p, length);
+	fprintf(stderr, "mmap is intercepted 5\n");
+    	if(real_malloc && (length > OBJECT_THRESHOLD)) {
+		fprintf(stderr, "mmap is intercepted 6\n");
+		int node_id = get_id_after_backtrace();
+		fprintf(stderr, "mmap is intercepted 7\n");
+    		mmap_adm(p, length, node_id);
+	}
     }
     //get_id_after_backtrace();
     return p;
@@ -750,11 +724,15 @@ void *mmap64(void *start, size_t length, int prot, int flags, int fd, off_t offs
         mmap64_init();
     }
 
+    if(real_malloc==NULL) {
+        malloc_init();
+    }
+
     void* p;
     p = real_mmap64(start, length, prot, flags, fd, offset);
     //fprintf(stderr, "mmap64: %lx\n", (long unsigned int) p);
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
-    	if(length > OBJECT_THRESHOLD) {
+    	if(real_malloc && (length > OBJECT_THRESHOLD)) {
 		int node_id = get_id_after_backtrace();
     		mmap64_adm(p, length, node_id);
 	}
