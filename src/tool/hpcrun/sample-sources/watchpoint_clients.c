@@ -279,8 +279,8 @@ int hashCode(void * key) {
    return (uint64_t) key % 54121 % HASHTABLESIZE;
 }
 
-/*
-void get_id_after_backtrace() {
+
+void execute_backtrace() {
   unw_cursor_t cursor;
   unw_context_t context;
 
@@ -289,6 +289,7 @@ void get_id_after_backtrace() {
   unw_init_local(&cursor, &context);
 
   // Unwind frames one by one, going up the frame stack.
+  pid_t tid = syscall(__NR_gettid);
   fprintf(stderr, "backtrace starts\n");
   while (unw_step(&cursor) > 0) {
     unw_word_t offset, pc;
@@ -300,12 +301,14 @@ void get_id_after_backtrace() {
 
     char sym[256];
     if (unw_get_proc_name(&cursor, sym, sizeof(sym), &offset) == 0) {
-      //printf(" (%s+0x%lx)\n", sym, offset);
+      printf("(%s+0x%lx) in thread %d\n", sym, pc-offset, tid);
     } else {
       printf(" -- error: unable to obtain symbol name for this frame\n");
     }
   }
-}*/
+}
+
+
 
 int hashSearch(void * searchedAddress) {
    //get the hash
@@ -1728,14 +1731,14 @@ static WPTriggerActionType ComDetectiveWPCallback(WatchPointInfo_t *wpi, int sta
     		int obj_id2 = get_object_id_by_address(wt->va);
     		if(obj_id1 == 0 || obj_id2 == 0) {
 			id = get_id_after_backtrace(); 
-    			fprintf(stderr, "true sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
+    			//fprintf(stderr, "true sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
 			inc_true_matrix_by_object_id(id, core_id1, core_id2, increment);
         		inc_true_count_by_object_id(id, increment);
 		}
 		if(obj_id1 == 1 || obj_id2 == 1) {
 			if(id == -1)
 				id = get_id_after_backtrace(); 
-    			fprintf(stderr, "true sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
+    			//fprintf(stderr, "true sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
 			inc_true_matrix_by_object_id(id, core_id1, core_id2, increment);
         		inc_true_count_by_object_id(id, increment);
 		}
@@ -1813,7 +1816,9 @@ static WPTriggerActionType ComDetectiveWPCallback(WatchPointInfo_t *wpi, int sta
 			fs_core_matrix[core_id1][core_id2] = fs_core_matrix[core_id1][core_id2] + increment;
 		}
     }
-
+// here ****
+    //fprintf(stderr, "in callback\n");
+    //execute_backtrace();
     as_matrix[index1][index2] = as_matrix[index1][index2] + increment;
     if(core_id1 != core_id2) {
     	as_core_matrix[core_id1][core_id2] = as_core_matrix[core_id1][core_id2] + increment; 
@@ -2935,6 +2940,7 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
    
 			if(flag == 1) {
 			int id = -1;
+			//execute_backtrace();
 			/*if(getenv(HPCRUN_OBJECT_LEVEL)) {
 				int obj_id1 = get_object_id_by_address(item.address);
 				int obj_id2 = get_object_id_by_address(data_addr);
@@ -2958,14 +2964,14 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
     					int obj_id2 = get_object_id_by_address(data_addr);
     					if(obj_id1 == 0 || obj_id2 == 0) {
 						id = get_id_after_backtrace(); 
-    						fprintf(stderr, "true sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", global_sampling_period, id);
+    						//fprintf(stderr, "true sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", global_sampling_period, id);
 						inc_true_matrix_by_object_id(id, item.tid, me, global_sampling_period);
         					inc_true_count_by_object_id(id, global_sampling_period);
 					}
 					if(obj_id1 == 1 || obj_id2 == 1) {
 						if(id == -1)
 							id = get_id_after_backtrace(); 
-    						fprintf(stderr, "true sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", global_sampling_period, id);
+    						//fprintf(stderr, "true sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", global_sampling_period, id);
 						inc_true_matrix_by_object_id(id, item.tid, me, global_sampling_period);
         					inc_true_count_by_object_id(id, global_sampling_period);
 					}
@@ -3014,14 +3020,14 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
     					int obj_id2 = get_object_id_by_address(data_addr);
     					if(obj_id1 == 0 || obj_id2 == 0) {
 						id = get_id_after_backtrace(); 
-    						fprintf(stderr, "false sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", global_sampling_period, id);
+    						//fprintf(stderr, "false sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", global_sampling_period, id);
 						inc_false_matrix_by_object_id(id, item.tid, me, global_sampling_period);
         					inc_false_count_by_object_id(id, global_sampling_period);
 					}
 					if(obj_id1 == 1 || obj_id2 == 1) {
 						if(id == -1)
 							id = get_id_after_backtrace(); 
-    						fprintf(stderr, "false sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", global_sampling_period, id);
+    						//fprintf(stderr, "false sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", global_sampling_period, id);
 						inc_false_matrix_by_object_id(id, item.tid, me, global_sampling_period);
         					inc_false_count_by_object_id(id, global_sampling_period);
 					}

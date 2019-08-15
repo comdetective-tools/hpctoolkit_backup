@@ -144,6 +144,8 @@ int get_id_after_backtrace() {
   uint64_t upward_sequence[100];
   int func_count = 0, stack_size;
   // Unwind frames one by one, going up the frame stack.
+  pid_t tid = syscall(__NR_gettid);
+  //fprintf(stderr, "backtrace starts in thread: %d\n", tid);
   while (unw_step(&cursor) > 0) {
     unw_word_t offset, pc;
     unw_get_reg(&cursor, UNW_REG_IP, &pc);
@@ -154,7 +156,7 @@ int get_id_after_backtrace() {
 
     char sym[256];
     if (unw_get_proc_name(&cursor, sym, sizeof(sym), &offset) == 0) {
-      //fprintf(stderr, "function:%lx (%s+0x%lx)\n", pc-offset, sym, offset);
+      //fprintf(stderr, "function:%lx (%s+0x%lx) in thread %d\n", pc-offset, sym, offset, tid);
       upward_sequence[func_count] = pc - offset;
     } else {
       upward_sequence[func_count] = pc;	
