@@ -290,7 +290,7 @@ void execute_backtrace() {
 
   // Unwind frames one by one, going up the frame stack.
   pid_t tid = syscall(__NR_gettid);
-  fprintf(stderr, "backtrace starts\n");
+  //fprintf(stderr, "backtrace starts\n");
   while (unw_step(&cursor) > 0) {
     unw_word_t offset, pc;
     unw_get_reg(&cursor, UNW_REG_IP, &pc);
@@ -301,7 +301,7 @@ void execute_backtrace() {
 
     char sym[256];
     if (unw_get_proc_name(&cursor, sym, sizeof(sym), &offset) == 0) {
-      printf("(%s+0x%lx) in thread %d\n", sym, pc-offset, tid);
+      //printf("(%s+0x%lx) in thread %d\n", sym, pc-offset, tid);
     } else {
       printf(" -- error: unable to obtain symbol name for this frame\n");
     }

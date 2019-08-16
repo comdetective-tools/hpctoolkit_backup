@@ -145,7 +145,7 @@ int get_id_after_backtrace() {
   int func_count = 0, stack_size;
   // Unwind frames one by one, going up the frame stack.
   pid_t tid = syscall(__NR_gettid);
-  fprintf(stderr, "backtrace starts in thread: %d\n", tid);
+  //fprintf(stderr, "backtrace starts in thread: %d\n", tid);
   while (unw_step(&cursor) > 0) {
     unw_word_t offset, pc;
     unw_get_reg(&cursor, UNW_REG_IP, &pc);
@@ -175,7 +175,7 @@ int get_id_after_backtrace() {
       if(strlen(sym) >= 12 && strncmp(sym, "OnWatchPoint", 12) == 0)
 	//fprintf(stderr, "OnWatchPoint is detected\n");
 	continue;
-      fprintf(stderr, "function:%lx (%s+0x%lx) in thread %d\n", pc-offset, sym, offset, tid);
+      //fprintf(stderr, "function:%lx (%s+0x%lx) in thread %d\n", pc-offset, sym, offset, tid);
       upward_sequence[func_count] = pc - offset;
     } else {
       upward_sequence[func_count] = pc;	

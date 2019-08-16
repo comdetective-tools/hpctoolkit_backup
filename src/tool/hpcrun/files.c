@@ -271,7 +271,7 @@ hpcrun_open_file(int rank, int thread, const char *suffix, int flags)
     errno = 0;
     ret = snprintf(name, PATH_MAX, FILENAME_TEMPLATE, output_directory,
 		   executable_name, rank, thread, id->host, mypid, id->gen, suffix);
-    fprintf(stderr, "log file name: %s\n", name);
+    //fprintf(stderr, "log file name: %s\n", name);
     if (ret >= PATH_MAX) {
       fd = -1;
       errno = ENAMETOOLONG;

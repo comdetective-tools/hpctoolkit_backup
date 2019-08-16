@@ -736,36 +736,8 @@ hpcrun_stats_num_samples_yielded(void)
 void
 hpcrun_stats_print_summary(void)
 {
-	fprintf(stderr, "pretty printing tree in hpctoolkit\n");
-	postorder(tree_root, 0);
-
-	/*printf("matrix before:\n");
-	dump_as_matrix();
-	printf("max_consecutive_count before: %d, matrix_size: %d\n", max_consecutive_count, as_matrix_size + 1);*/
-	//max_consecutive_count = (max_consecutive_count > 21) ? 21 : max_consecutive_count;
-	//printf("max_consecutive_count after: %d\n", max_consecutive_count);
-	/*double tweaking_factor = get_consecutiveness_factor(as_matrix_size, max_consecutive_count + 1);
-	//printf("tweaking_factor: %0.4lf\n", tweaking_factor);
-	for(int i = 0; i <= as_matrix_size; i++) {
-		for(int j = 0; j <= as_matrix_size; j++) {
-			as_matrix[i][j] = as_matrix[i][j] * tweaking_factor;
-		}
-	}
-
-	for(int i = 0; i <= ts_matrix_size; i++) {
-                for(int j = 0; j <= ts_matrix_size; j++) {
-                        ts_matrix[i][j] = ts_matrix[i][j] * tweaking_factor;
-                }
-        }
-
-	for(int i = 0; i <= fs_matrix_size; i++) {
-                for(int j = 0; j <= fs_matrix_size; j++) {
-                        fs_matrix[i][j] = fs_matrix[i][j] * tweaking_factor;
-                }
-        }*/
-
-	//print_adm_db();
-	// sprintf(file_name, "%s/%s-%ld-as_matrix.csv", output_directory, hpcrun_files_executable_name(), getpid() );
+	//fprintf(stderr, "pretty printing tree in hpctoolkit\n");
+	//postorder(tree_root, 0);
 	int object_flag = 0;
 	if(getenv(HPCRUN_OBJECT_LEVEL))
 		object_flag = 1;
@@ -778,11 +750,6 @@ hpcrun_stats_print_summary(void)
 	dump_ts_core_matrix();
 	dump_as_matrix();
 	dump_as_core_matrix();
-	//printf("a = 32, b = 21, con: %0.4lf\n", get_consecutiveness_factor(8, 21));
-  //printf("number_of_traps: %ld\n", number_of_traps);
-  /*printf("consecutive wasted trap array:\n");
-  for(int i = 0; i < 30; i++)
-	printf("%d consecutive wasted trap count: %d\n", i, consecutive_wasted_trap_array[i]);*/
   long blocked = atomic_load_explicit(&num_samples_blocked_async, memory_order_relaxed) +
     atomic_load_explicit(&num_samples_blocked_dlopen, memory_order_relaxed);
   long errant = atomic_load_explicit(&num_samples_dropped, memory_order_relaxed);
