@@ -1729,13 +1729,13 @@ static WPTriggerActionType ComDetectiveWPCallback(WatchPointInfo_t *wpi, int sta
 		inc_true_count((uint64_t) wt->va, increment);
 		int obj_id1 = get_object_id_by_address(wpi->sample.target_va);
     		int obj_id2 = get_object_id_by_address(wt->va);
-    		if(obj_id1 == 0 || obj_id2 == 0) {
+    		if(obj_id1 == 0 && obj_id2 == 0) {
 			id = get_id_after_backtrace(); 
     			//fprintf(stderr, "true sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
 			inc_true_matrix_by_object_id(id, core_id1, core_id2, increment);
         		inc_true_count_by_object_id(id, increment);
 		}
-		if(obj_id1 == 1 || obj_id2 == 1) {
+		if(obj_id1 == 1 && obj_id2 == 1) {
 			if(id == -1)
 				id = get_id_after_backtrace(); 
     			//fprintf(stderr, "true sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
@@ -1751,14 +1751,14 @@ static WPTriggerActionType ComDetectiveWPCallback(WatchPointInfo_t *wpi, int sta
         		inc_true_core_count((uint64_t) wt->va, increment);
 			int obj_id1 = get_object_id_by_address(wpi->sample.target_va);
     			int obj_id2 = get_object_id_by_address(wt->va);
-    			if(obj_id1 == 0 || obj_id2 == 0) {
+    			if(obj_id1 == 0 && obj_id2 == 0) {
 				if(id == -1)
 					id = get_id_after_backtrace(); 
     				//fprintf(stderr, "communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
 				inc_true_core_matrix_by_object_id(id, core_id1, core_id2, increment);
         			inc_true_core_count_by_object_id(id, increment);
 			}
-			if(obj_id1 == 1 || obj_id2 == 1) {
+			if(obj_id1 == 1 && obj_id2 == 1) {
 				if(id == -1)
 					id = get_id_after_backtrace(); 
     				//fprintf(stderr, "communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
@@ -1776,13 +1776,13 @@ static WPTriggerActionType ComDetectiveWPCallback(WatchPointInfo_t *wpi, int sta
 			inc_false_count((uint64_t) wpi->sample.target_va, (uint64_t) wt->va, increment);
 			int obj_id1 = get_object_id_by_address(wpi->sample.target_va);
     			int obj_id2 = get_object_id_by_address(wt->va);
-    			if(obj_id1 == 0 || obj_id2 == 0) {
+    			if(obj_id1 == 0 && obj_id2 == 0) {
 				id = get_id_after_backtrace(); 
     				//fprintf(stderr, "false sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
 				inc_false_matrix_by_object_id(id, core_id1, core_id2, increment);
         			inc_false_count_by_object_id(id, increment);
 			}
-			if(obj_id1 == 1 || obj_id2 == 1) {
+			if(obj_id1 == 1 && obj_id2 == 1) {
 				if(id == -1)
 					id = get_id_after_backtrace(); 
     				//fprintf(stderr, "false sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
@@ -1798,14 +1798,14 @@ static WPTriggerActionType ComDetectiveWPCallback(WatchPointInfo_t *wpi, int sta
         			inc_false_core_count((uint64_t) wpi->sample.target_va, (uint64_t) wt->va, increment);
 				int obj_id1 = get_object_id_by_address(wpi->sample.target_va);
     				int obj_id2 = get_object_id_by_address(wt->va);
-    				if(obj_id1 == 0 || obj_id2 == 0) {
+    				if(obj_id1 == 0 && obj_id2 == 0) {
 					if(id == -1)
 						id = get_id_after_backtrace(); 
     					//fprintf(stderr, "communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
 					inc_false_matrix_by_object_id(id, core_id1, core_id2, increment);
         				inc_false_count_by_object_id(id, increment);
 				}
-				if(obj_id1 == 1 || obj_id2 == 1) {
+				if(obj_id1 == 1 && obj_id2 == 1) {
 					if(id == -1)
 						id = get_id_after_backtrace(); 
     					//fprintf(stderr, "communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
@@ -2962,13 +2962,13 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
 					// before
 					int obj_id1 = get_object_id_by_address(item.address);
     					int obj_id2 = get_object_id_by_address(data_addr);
-    					if(obj_id1 == 0 || obj_id2 == 0) {
+    					if(obj_id1 == 0 && obj_id2 == 0) {
 						id = get_id_after_backtrace(); 
     						//fprintf(stderr, "true sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", global_sampling_period, id);
 						inc_true_matrix_by_object_id(id, item.tid, me, global_sampling_period);
         					inc_true_count_by_object_id(id, global_sampling_period);
 					}
-					if(obj_id1 == 1 || obj_id2 == 1) {
+					if(obj_id1 == 1 && obj_id2 == 1) {
 						if(id == -1)
 							id = get_id_after_backtrace(); 
     						//fprintf(stderr, "true sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", global_sampling_period, id);
@@ -2986,14 +2986,14 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
                                 		inc_true_core_count((uint64_t) data_addr, global_sampling_period);
 						int obj_id1 = get_object_id_by_address(item.address);
     						int obj_id2 = get_object_id_by_address(data_addr);
-    						if(obj_id1 == 0 || obj_id2 == 0) {
+    						if(obj_id1 == 0 && obj_id2 == 0) {
 							if(id == -1)
 								id = get_id_after_backtrace(); 
     								//fprintf(stderr, "communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
 							inc_true_core_matrix_by_object_id(id, item.core_id, current_core, global_sampling_period);
         						inc_true_core_count_by_object_id(id, global_sampling_period);
 						}
-						if(obj_id1 == 1 || obj_id2 == 1) {
+						if(obj_id1 == 1 && obj_id2 == 1) {
 							if(id == -1)
 								id = get_id_after_backtrace(); 
     								//fprintf(stderr, "communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
@@ -3018,13 +3018,13 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
                                 	inc_false_count((uint64_t) item.address, (uint64_t) data_addr, global_sampling_period);
 					int obj_id1 = get_object_id_by_address(item.address);
     					int obj_id2 = get_object_id_by_address(data_addr);
-    					if(obj_id1 == 0 || obj_id2 == 0) {
+    					if(obj_id1 == 0 && obj_id2 == 0) {
 						id = get_id_after_backtrace(); 
     						//fprintf(stderr, "false sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", global_sampling_period, id);
 						inc_false_matrix_by_object_id(id, item.tid, me, global_sampling_period);
         					inc_false_count_by_object_id(id, global_sampling_period);
 					}
-					if(obj_id1 == 1 || obj_id2 == 1) {
+					if(obj_id1 == 1 && obj_id2 == 1) {
 						if(id == -1)
 							id = get_id_after_backtrace(); 
     						//fprintf(stderr, "false sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", global_sampling_period, id);
@@ -3048,14 +3048,14 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
                                 		inc_false_core_count((uint64_t) item.address, (uint64_t) data_addr, global_sampling_period);
 						int obj_id1 = get_object_id_by_address(item.address);
     						int obj_id2 = get_object_id_by_address(data_addr);
-    						if(obj_id1 == 0 || obj_id2 == 0) {
+    						if(obj_id1 == 0 && obj_id2 == 0) {
 							if(id == -1)
 								id = get_id_after_backtrace(); 
     							//fprintf(stderr, "communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
 							inc_false_matrix_by_object_id(id, item.core_id, current_core, global_sampling_period);
         						inc_false_count_by_object_id(id, global_sampling_period);
 						}
-						if(obj_id1 == 1 || obj_id2 == 1) {
+						if(obj_id1 == 1 && obj_id2 == 1) {
 							if(id == -1)
 								id = get_id_after_backtrace(); 
     							//fprintf(stderr, "communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
