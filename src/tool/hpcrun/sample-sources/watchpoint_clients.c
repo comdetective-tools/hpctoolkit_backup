@@ -1778,14 +1778,14 @@ static WPTriggerActionType ComDetectiveWPCallback(WatchPointInfo_t *wpi, int sta
     			int obj_id2 = get_object_id_by_address(wt->va);
     			if(obj_id1 == 0 || obj_id2 == 0) {
 				id = get_id_after_backtrace(); 
-    				fprintf(stderr, "false sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
+    				//fprintf(stderr, "false sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
 				inc_false_matrix_by_object_id(id, core_id1, core_id2, increment);
         			inc_false_count_by_object_id(id, increment);
 			}
 			if(obj_id1 == 1 || obj_id2 == 1) {
 				if(id == -1)
 					id = get_id_after_backtrace(); 
-    				fprintf(stderr, "false sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
+    				//fprintf(stderr, "false sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
 				inc_false_matrix_by_object_id(id, core_id1, core_id2, increment);
         			inc_false_count_by_object_id(id, increment);
 			}

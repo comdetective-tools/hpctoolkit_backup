@@ -334,7 +334,7 @@ static void* (*real_mmap64)(void *, size_t, int, int, int, off_t)=NULL;
 
 static void mmap64_init(void)
 {
-    real_mmap64 = dlsym(RTLD_NEXT, "mmap");
+    real_mmap64 = dlsym(RTLD_NEXT, "mmap64");
     if (NULL == real_mmap64) {
         fprintf(stderr, "Error in `dlsym`: %s\n", dlerror());
     }
@@ -449,7 +449,7 @@ void free(void* ptr)
     }
 }
 
-
+/*
 void* realloc(void *ptr, size_t size) 
 {
     //fprintf(stderr, "in realloc\n");
@@ -481,7 +481,7 @@ void* realloc(void *ptr, size_t size)
     }
     //fprintf(stderr, "realloc: %lx\n", (long unsigned int) p);
     return p;
-}
+}*/
 
 int posix_memalign(void** memptr, size_t alignment, size_t size)
 {
@@ -697,7 +697,7 @@ void *numa_alloc_interleaved(size_t size) {
 /*
 void *mmap(void *start, size_t length, int prot, int flags, int fd, off_t offset) {
 
-   fprintf(stderr, "mmap is intercepted\n");
+   //fprintf(stderr, "mmap is intercepted\n");
    if (getenv(HPCRUN_OBJECT_LEVEL)) {
     	if(!init_adamant) {
         	init_adamant = 1;
@@ -705,26 +705,26 @@ void *mmap(void *start, size_t length, int prot, int flags, int fd, off_t offset
     	}
     }
     
-    fprintf(stderr, "mmap is intercepted 1\n");
+    //fprintf(stderr, "mmap is intercepted 1\n");
     if(real_mmap == NULL) {
         mmap_init();
     }
 
-    fprintf(stderr, "mmap is intercepted 2\n");
+    //fprintf(stderr, "mmap is intercepted 2\n");
     if(real_malloc==NULL) {
         malloc_init();
     }
 
-    fprintf(stderr, "mmap is intercepted 3\n");
+    //fprintf(stderr, "mmap is intercepted 3\n");
     void* p;
     p = real_mmap(start, length, prot, flags, fd, offset);
-    fprintf(stderr, "mmap is intercepted 4\n");
+    //fprintf(stderr, "mmap is intercepted 4\n");
     if (getenv(HPCRUN_OBJECT_LEVEL)) {
-	fprintf(stderr, "mmap is intercepted 5\n");
+	//fprintf(stderr, "mmap is intercepted 5\n");
     	if(real_malloc && (length > OBJECT_THRESHOLD)) {
-		fprintf(stderr, "mmap is intercepted 6\n");
+		//fprintf(stderr, "mmap is intercepted 6\n");
 		int node_id = get_id_after_backtrace();
-		fprintf(stderr, "mmap is intercepted 7\n");
+		//fprintf(stderr, "mmap is intercepted 7\n");
     		mmap_adm(p, length, node_id);
 	}
     }

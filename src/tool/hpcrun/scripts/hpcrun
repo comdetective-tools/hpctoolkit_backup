@@ -47,7 +47,7 @@
 
 # If this script can't find its own install prefix, or if the script
 # is moved elsewhere, then set HPCTOOLKIT here.
-# HPCTOOLKIT='/home/aditya/Documents/feather-fresh/hpctoolkit-bin'
+# HPCTOOLKIT='/home/msasongko17/project/feather-project/github_repo/hpctoolkit-bin'
 
 VERSION='2017.11'
 
@@ -57,7 +57,7 @@ hpcrun_dir='lib/hpctoolkit'
 libmonitor_dir='lib/hpctoolkit/ext-libs'
 libunwind_dir='@LIBUNWIND_RUN_DIR@'
 papi_libdir=''
-perfmon_libdir='/home/aditya/Documents/feather-fresh/hpctoolkit-externals/x86_64-unknown-linux-gnu/perfmon/lib'
+perfmon_libdir='/home/msasongko17/project/feather-project/github_repo/hpctoolkit-externals/x86_64-unknown-linux-gnu/perfmon/lib'
 
 #------------------------------------------------------------
 # Find path to this script
