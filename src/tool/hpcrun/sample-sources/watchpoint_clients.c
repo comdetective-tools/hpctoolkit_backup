@@ -1776,6 +1776,12 @@ static WPTriggerActionType ComDetectiveWPCallback(WatchPointInfo_t *wpi, int sta
 			inc_false_count((uint64_t) wpi->sample.target_va, (uint64_t) wt->va, increment);
 			int obj_id1 = get_object_id_by_address(wpi->sample.target_va);
     			int obj_id2 = get_object_id_by_address(wt->va);
+			// debugging starts
+                        if((obj_id1 == obj_id2) && (obj_id1 == 998)) {
+                        	fprintf(stderr, "false sharing is detected between threads %d and %d on address %ld and address %ld\n", index1, index2, wpi->sample.target_va, wt->va);
+				//sleep(4);
+                        }
+                                        // debugging ends
     			if(obj_id1 == 0 && obj_id2 == 0) {
 				id = get_id_after_backtrace(); 
     				//fprintf(stderr, "false sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
@@ -3018,6 +3024,12 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
                                 	inc_false_count((uint64_t) item.address, (uint64_t) data_addr, global_sampling_period);
 					int obj_id1 = get_object_id_by_address(item.address);
     					int obj_id2 = get_object_id_by_address(data_addr);
+					// debugging starts
+					if((obj_id1 == obj_id2) && (obj_id1 == 998)) {
+						fprintf(stderr, "false sharing is detected between threads %d and %d on address %ld and address %ld\n", item.tid, me, item.address, data_addr);
+						//sleep(4);
+					}
+					// debugging ends
     					if(obj_id1 == 0 && obj_id2 == 0) {
 						id = get_id_after_backtrace(); 
     						//fprintf(stderr, "false sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", global_sampling_period, id);
