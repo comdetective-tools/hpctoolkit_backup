@@ -50,6 +50,11 @@ do
 		--debug )
 	    		export HPCRUN_WAIT=1
 	    		;;
+		--mapping )
+            		arg_ok "$1" || die "missing argument for $arg"
+            		export HPCRUN_THREAD_MAPPING="$1"
+            		shift
+            		;;
 		-b | --bulletin-board-size )
                         arg_ok "$1" || die "missing argument for $arg"
                         if ! [[ "$1" =~ ^[0-9]+$ ]]
