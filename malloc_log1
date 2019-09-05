@@ -1,0 +1,11 @@
+./configure:    malloc (sizeof (struct incomplete_array) + (sizeof (double) * 10));
+./libtool:#define XMALLOC(type, num)      ((type *) xmalloc ((num) * sizeof(type)))
+./libtool:void *xmalloc (size_t num);
+./libtool:xmalloc (size_t num)
+./libtool:  void *p = (void *) malloc (num);
+./libtool:  return string ? strcpy ((char *) xmalloc (strlen (string) + 1),
+./config/ltmain.sh:#define XMALLOC(type, num)      ((type *) xmalloc ((num) * sizeof(type)))
+./config/ltmain.sh:void *xmalloc (size_t num);
+./config/ltmain.sh:xmalloc (size_t num)
+./config/ltmain.sh:  void *p = (void *) malloc (num);
+./config/ltmain.sh:  return string ? strcpy ((char *) xmalloc (strlen (string) + 1),

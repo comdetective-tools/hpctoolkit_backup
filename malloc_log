@@ -1,0 +1,140 @@
+./src/lib/prof-lean/cskiplist.c:csklnode_malloc(
+./src/lib/prof-lean/cskiplist.c:  csklnode_t *left = cskl->left_sentinel   = csklnode_malloc(lsentinel, max_height, max_height, m_alloc);
+./src/lib/prof-lean/cskiplist.c:  csklnode_t *right = cskl->right_sentinel = csklnode_malloc(rsentinel, max_height, max_height, m_alloc);
+./src/lib/prof-lean/cskiplist.c:	node = csklnode_malloc(value, my_height, max_height, m_alloc);
+./src/lib/prof-lean/hpcrun-fmt.c:  metric_aux_info_t *perf_info = (metric_aux_info_t*)malloc(aux_info_size);
+./src/lib/binutils/KernelSymbols.cpp:    char *line = (char *) malloc(len); 
+./src/tool/hpcrun/lush/lush.c:  x->path = hpcrun_malloc(strlen(path) + 1); // strdup() uses malloc
+./src/tool/hpcrun/lush/lush.c:  BASE->FN = (FN ## _fn_t *) hpcrun_malloc(sizeof(FN ## _fn_t) * (SZ))
+./src/tool/hpcrun/lush/lush-pthread.i:lushPthr_malloc(size_t size) 
+./src/tool/hpcrun/lush/lush-support-rt.h:  lush_lip_t* x_clone = hpcrun_malloc(sizeof(lush_lip_t));
+./src/tool/hpcrun/lush/lush-pthread.h:    x = lushPthr_malloc(sizeof(lushPtr_SyncObjData_t));
+./src/tool/hpcrun/metrics.c:  kind_info_t* rv = (kind_info_t*) hpcrun_malloc(sizeof(kind_info_t));
+./src/tool/hpcrun/metrics.c:    metric_list_t* n = (metric_list_t*) hpcrun_malloc(sizeof(metric_list_t));
+./src/tool/hpcrun/metrics.c:    id2metric = hpcrun_malloc(n_metrics * sizeof(metric_desc_t*));
+./src/tool/hpcrun/metrics.c:    metric_proc_tbl = (metric_upd_proc_t**) hpcrun_malloc(n_metrics * sizeof(metric_upd_proc_t*));
+./src/tool/hpcrun/metrics.c:    n = (metric_list_t*) hpcrun_malloc(sizeof(metric_list_t));
+./src/tool/hpcrun/metrics.c:  metric_proc_map_t* m = (metric_proc_map_t*) hpcrun_malloc(sizeof(metric_proc_map_t));
+./src/tool/hpcrun/metrics.c:  return hpcrun_malloc(n_metrics * sizeof(hpcrun_metricVal_t));
+./src/tool/hpcrun/sampling/types/callstack/trampoline/cache.c:        x->cache_bt    = hpcrun_malloc(sizeof(void*) * x->cache_len);
+./src/tool/hpcrun/sampling/types/callstack/trampoline/cache.c:        x->cache_nodes = hpcrun_malloc(sizeof(hpcrun_cct_node_t*) * 
+./src/tool/hpcrun/stress.c:    chase_array = (unsigned char *)malloc(bytes);
+./src/tool/hpcrun/stress.c:    char *memhunk = (char *)malloc(bytes);
+./src/tool/hpcrun/segv_handler.c:  list_item = (segv_list_t*) hpcrun_malloc(sizeof(segv_list_t));
+./src/tool/hpcrun/os/catamount/override.c:extern void *__real_malloc(size_t size);
+./src/tool/hpcrun/os/catamount/override.c:void *__wrap_malloc(size_t s){
+./src/tool/hpcrun/os/catamount/override.c:  alloc = __real_malloc(s);
+./src/tool/hpcrun/os/catamount/interface.c:    newmod = hpcrun_malloc(sizeof(hpcrun_epoch_module_t));
+./src/tool/hpcrun/cct/cct.c:    node = hpcrun_malloc(sz);
+./src/tool/hpcrun/thread_data.c:  cptd->epoch = hpcrun_malloc(sizeof(epoch_t));
+./src/tool/hpcrun/thread_data.c:  // memstore for hpcrun_malloc()
+./src/tool/hpcrun/thread_data.c:  td->ss_state = hpcrun_malloc(n_sources * sizeof(source_state_t));
+./src/tool/hpcrun/thread_data.c:  td->ss_info  = hpcrun_malloc(n_sources * sizeof(source_info_t));
+./src/tool/hpcrun/thread_data.c:  td->btbuf_beg = hpcrun_malloc(sizeof(frame_t) * BACKTRACE_INIT_SZ);
+./src/tool/hpcrun/thread_data.c:  td->cached_bt         = hpcrun_malloc(sizeof(frame_t)
+./src/tool/hpcrun/thread_data.c:  frame_t* newbuf = hpcrun_malloc(n * sizeof(frame_t));
+./src/tool/hpcrun/thread_data.c:  frame_t *newbt = hpcrun_malloc(newsz*sizeof(frame_t));
+./src/tool/hpcrun/main.c:    lush_agents = (lush_agent_pool_t*)hpcrun_malloc(sizeof(lush_agent_pool_t));
+./src/tool/hpcrun/main.c:node_ptr = (hpcrun_aux_cleanup_t *) hpcrun_malloc(sizeof(hpcrun_aux_cleanup_t));         \
+./src/tool/hpcrun/main.c:  local_thread_data_t* rv = hpcrun_malloc(sizeof(local_thread_data_t));
+./src/tool/hpcrun/main.c:  thr_ctxt = hpcrun_malloc(sizeof(cct_ctxt_t));
+./src/tool/hpcrun/memory/hpcrun-malloc.h:void* hpcrun_malloc(size_t size);
+./src/tool/hpcrun/memory/mem.c:// per thread and dole out pieces via hpcrun_malloc().  Pieces are
+./src/tool/hpcrun/memory/mem.c:  // created via hpcrun_malloc() (cct, uw_recipe_map, ...).
+./src/tool/hpcrun/memory/mem.c:hpcrun_malloc(size_t size)
+./src/tool/hpcrun/memory/mem.c:  return hpcrun_malloc(size);
+./src/tool/hpcrun/thread_data.h:  // hpcrun_malloc() memory data structures
+./src/tool/hpcrun/doc/mem.info.txt:void* csprof_malloc(size_t size);
+./src/tool/hpcrun/doc/mem.info.txt:void* csprof_tmalloc(size_t size);
+./src/tool/hpcrun/doc/hpcrun-internals.txt:malloc() function and collecting statistics on where malloc is called
+./src/tool/hpcrun/doc/hpcrun-internals.txt:malloc(), another might sample MPI sends and receives, etc.), but they
+./src/tool/hpcrun/doc/hpcrun-internals.txt:malloc(), you ask?  csprof was originally developed to support
+./src/tool/hpcrun/doc/hpcrun-internals.txt:that malloc() is not to be called from within signal handlers.  Since we
+./src/tool/hpcrun/doc/hpcrun-internals.txt:Imagine that we are profiling malloc() and we intercept a call to
+./src/tool/hpcrun/doc/hpcrun-internals.txt:malloc():
+./src/tool/hpcrun/sample-sources/blame-shift/blame-map.c:  blame_entry_t* rv = hpcrun_malloc(N * sizeof(blame_entry_t));
+./src/tool/hpcrun/sample-sources/memleak.c:  char *buffer = hpcrun_malloc(sizeof(char) * MAX_CHAR_FORMULA);
+./src/tool/hpcrun/sample-sources/watchpoint_support.c:    tData.ss.ss_sp = malloc(ALT_STACK_SZ);
+./src/tool/hpcrun/sample-sources/watchpoint_clients.c~:        VAPAMap_t* newNode = hpcrun_malloc(sizeof(VAPAMap_t));
+./src/tool/hpcrun/sample-sources/watchpoint_clients.c~:        VAPAMap_t * newNode = hpcrun_malloc(sizeof(VAPAMap_t));
+./src/tool/hpcrun/sample-sources/papi-c.c:  papi_source_info_t* psi = hpcrun_malloc(ss_info_size);
+./src/tool/hpcrun/sample-sources/make-wrappers.py:            olist.append("c_" + xlateVarName + " = (" + xlateType + "*)malloc(sizeof(" + xlateType + ")*(*" + countVar + "));\n")
+./src/tool/hpcrun/sample-sources/gpu_blame-overrides.c:node_ptr = (tree_node *) hpcrun_malloc(sizeof(tree_node));        \
+./src/tool/hpcrun/sample-sources/gpu_blame-overrides.c:node_ptr = (active_kernel_node_t *) hpcrun_malloc(sizeof(active_kernel_node_t));       \
+./src/tool/hpcrun/sample-sources/gpu_blame-overrides.c:    st->epoch = hpcrun_malloc(sizeof(epoch_t));
+./src/tool/hpcrun/sample-sources/gpu_blame-overrides.c:        event_node = (event_list_node_t *) hpcrun_malloc(sizeof(event_list_node_t));
+./src/tool/hpcrun/sample-sources/data-overrides.c:// Choose the location of the leakinfo struct at malloc().  Use a
+./src/tool/hpcrun/sample-sources/data-overrides.c:    sys_ptr = real_malloc(size);
+./src/tool/hpcrun/sample-sources/data-overrides.c:    return real_malloc(bytes);
+./src/tool/hpcrun/sample-sources/data-overrides.c:    ptr = real_malloc(nmemb * bytes);
+./src/tool/hpcrun/sample-sources/data-overrides.c:  // realloc(NULL, bytes) means malloc(bytes)
+./src/tool/hpcrun/sample-sources/papi.c:  papi_source_info_t *psi = hpcrun_malloc(ss_info_size);
+./src/tool/hpcrun/sample-sources/memleak-overrides.c:// Choose the location of the leakinfo struct at malloc().  Use a
+./src/tool/hpcrun/sample-sources/memleak-overrides.c:    sys_ptr = real_malloc(size);
+./src/tool/hpcrun/sample-sources/memleak-overrides.c:    return real_malloc(bytes);
+./src/tool/hpcrun/sample-sources/memleak-overrides.c:    ptr = real_malloc(nmemb * bytes);
+./src/tool/hpcrun/sample-sources/memleak-overrides.c:  // realloc(NULL, bytes) means malloc(bytes)
+./src/tool/hpcrun/sample-sources/perf/linux_perf.c:  event_desc = (event_info_t*) hpcrun_malloc(size);
+./src/tool/hpcrun/sample-sources/perf/linux_perf.c:  event_thread_t  *event_thread = (event_thread_t*) hpcrun_malloc(sizeof(event_thread_t) * nevents);
+./src/tool/hpcrun/sample-sources/perf/linux_perf.c:  metric_aux_info_t* aux_info = (metric_aux_info_t*) hpcrun_malloc(mem_metrics_size);
+./src/tool/hpcrun/sample-sources/perf/kernel_blocking.c:  event_custom_t *event_kernel_blocking = hpcrun_malloc(sizeof(event_custom_t));
+./src/tool/hpcrun/sample-sources/perf/event_custom.c:  events_list_t *list_item = (events_list_t *) hpcrun_malloc(sizeof(events_list_t));
+./src/tool/hpcrun/sample-sources/watchpoint_clients.c:   /*struct DataItem *item = (struct DataItem*) malloc(sizeof(struct DataItem));
+./src/tool/hpcrun/sample-sources/watchpoint_clients.c:        VAPAMap_t* newNode = hpcrun_malloc(sizeof(VAPAMap_t));
+./src/tool/hpcrun/sample-sources/watchpoint_clients.c:        VAPAMap_t * newNode = hpcrun_malloc(sizeof(VAPAMap_t));
+./src/tool/hpcrun/sample-sources/watchpoint_clients.c:	    /*struct DataItem *item = (struct DataItem*) malloc(sizeof(struct DataItem));
+./src/tool/hpcrun/trace.c:    cptd->trace_buffer = hpcrun_malloc(HPCRUN_TraceBufferSz);
+./src/tool/hpcrun/cct2metrics.c:  cct2metrics_t* rv = hpcrun_malloc(sizeof(cct2metrics_t));
+./src/tool/hpcrun/epoch.c:    epoch_t* newepoch = hpcrun_malloc(sizeof(epoch_t));
+./src/tool/hpcrun/epoch.c:  epoch_t *newepoch = hpcrun_malloc(sizeof(epoch_t));
+./src/tool/hpcrun/unwind/common/backtrace.c:  bt->beg   = (frame_t*) hpcrun_malloc(sizeof(frame_t) * size);
+./src/tool/hpcrun/unwind/common/mem_error_gen.h:      unwind_interval *u = (unwind_interval *) hpcrun_malloc(sizeof(unwind_interval));
+./src/tool/hpcrun/unwind/common/binarytree_uwi.h:bitree_uwi_malloc(unwinder_t uw, size_t recipe_size);
+./src/tool/hpcrun/unwind/common/binarytree_uwi.c:bitree_uwi_malloc(unwinder_t uw,
+./src/tool/hpcrun/unwind/common/uw_recipe_map.c:ilmstat_btuwi_pair_malloc(
+./src/tool/hpcrun/unwind/common/uw_recipe_map.c:		ilmstat_btuwi_pair_malloc((uintptr_t)fcn_start, (uintptr_t)fcn_end, lm,
+./src/tool/hpcrun/unwind/common/libunw_intervals.c:  bitree_uwi_t *u = bitree_uwi_malloc(b->uw, size);
+./src/tool/hpcrun/unwind/x86-family/x86-unwind-interval.c:  bitree_uwi_t *u = bitree_uwi_malloc(NATIVE_UNWINDER, sizeof(x86recipe_t));
+./src/tool/hpcrun/unwind/x86-family/x86-unwind-interval.c:  bitree_uwi_t *u = bitree_uwi_malloc(NATIVE_UNWINDER, sizeof(x86recipe_t));
+./src/tool/hpcrun/unwind/x86-family/x86-unwind-interval-fixup.c:   x86_ui_fixup_list_item_t *i = (x86_ui_fixup_list_item_t *) malloc(sizeof(x86_ui_fixup_list_item_t));
+./src/tool/hpcrun/unwind/ppc64/ppc64-unwind-interval.c:  bitree_uwi_t *u = bitree_uwi_malloc(NATIVE_UNWINDER, sizeof(ppc64recipe_t));
+./src/tool/hpcrun/utilities/line_wrapping.c:  line = (char **) malloc(sizeof(char *) * allocated);
+./src/tool/hpcrun/utilities/line_wrapping.c:  len = (int *) malloc(sizeof(int) * allocated);
+./src/tool/hpcrun/loadmap.c:    x = (dso_info_t*) hpcrun_malloc(sizeof(dso_info_t));
+./src/tool/hpcrun/loadmap.c:  x->name = (char*) hpcrun_malloc(namelen);
+./src/tool/hpcrun/loadmap.c:  load_module_t* x = (load_module_t*) hpcrun_malloc(sizeof(load_module_t));
+./src/tool/hpcrun/loadmap.c:  x->name = (char*) hpcrun_malloc(namelen);
+./src/tool/hpcrun/loadmap.c:  hpcrun_loadmap_t* x = hpcrun_malloc(sizeof(hpcrun_loadmap_t));
+./src/tool/hpcrun-flat/rtmap.c:  cmd = malloc(sizeof(const char*) * (strlen(basenm) + 1));
+./src/tool/hpcrun-flat/rtmap.c:      mappings = malloc(slots_avail * sizeof(char*));
+./src/tool/hpcrun-flat/rtmap.c:  mappings[slots_in_use] = (char *) malloc(MAXLINELEN);
+./src/tool/hpcrun-flat/rtmap.c:    (rtloadmod_desc_t *) malloc(sizeof(rtloadmod_desc_t) * slots_in_use);
+./src/tool/hpcrun-flat/monitor.c:  *profdesc = (hpcrun_profiles_desc_t*)malloc(sizeof(hpcrun_profiles_desc_t));
+./src/tool/hpcrun-flat/monitor.c:  if (!(*profdesc)) { DIE0("error: malloc() failed!"); }
+./src/tool/hpcrun-flat/monitor.c:    HPC_GETL_SYSPROFS(*profdesc) = (hpcsys_profile_desc_vec_t*)malloc(sz);
+./src/tool/hpcrun-flat/monitor.c:      DIE0("error: malloc() failed!"); 
+./src/tool/hpcrun-flat/monitor.c:    HPC_GET_SYSPROFS(*profdesc)->vec = (hpcsys_profile_desc_t*)malloc(vecsz);
+./src/tool/hpcrun-flat/monitor.c:      DIE0("error: malloc() failed!"); 
+./src/tool/hpcrun-flat/monitor.c:    HPC_GETL_PAPIPROFS(*profdesc) = (hpcpapi_profile_desc_vec_t*)malloc(sz);
+./src/tool/hpcrun-flat/monitor.c:      DIE0("error: malloc() failed!"); 
+./src/tool/hpcrun-flat/monitor.c:    HPC_GET_PAPIPROFS(*profdesc)->vec = (hpcpapi_profile_desc_t*)malloc(vecsz);
+./src/tool/hpcrun-flat/monitor.c:      DIE0("error: malloc() failed!"); 
+./src/tool/hpcrun-flat/monitor.c:      prof->sprofs = (struct prof*)malloc(sprofbufsz);
+./src/tool/hpcrun-flat/monitor.c:      if (!prof->sprofs) { DIE0("error: malloc() failed!"); }
+./src/tool/hpcrun-flat/monitor.c:	prof->sprofs[mapi].pr_base = (void*)malloc(bufsz);
+./src/tool/hpcrun-flat/monitor.c:	  DIE0("error: malloc() failed!"); 
+./src/tool/hpcrun-flat/monitor.c:	prof->sprofs[mapi].pr_base = (void*)malloc(bufsz);
+./src/tool/hpcrun-flat/monitor.c:	  DIE0("error: malloc() failed!"); 
+./src/tool/hpcrun-flat/monitor.c:      prof->sprofs = (PAPI_sprofil_t*)malloc(sprofbufsz);
+./src/tool/hpcrun-flat/monitor.c:      if (!prof->sprofs) { DIE0("error: malloc() failed!"); }
+./src/tool/hpcrun-flat/monitor.c:	prof->sprofs[mapi].pr_base = (void*)malloc(bufsz);
+./src/tool/hpcrun-flat/monitor.c:	  DIE0("error: malloc() failed!");
+./src/tool/hpcrun-flat/monitor.c:	prof->sprofs[mapi].pr_base = (void*)malloc(bufsz);
+./src/tool/hpcrun-flat/monitor.c:	  DIE0("error: malloc() failed!");
+./src/tool/hpcrun-flat/monitor.c:  profdesc->ofile.fname = (char*)malloc(strlen(outfilenm)+1);
+./src/tool/hpcrun-flat/monitor.c:  if (!profdesc->ofile.fname) { DIE0("error: malloc() failed!"); }
+./src/tool/hpcrun-flat/monitor.c:  *argv = malloc((argvSz+1) * sizeof(const char*));
+./src/tool/hpcrun-flat/monitor.c:  if (!*argv) { DIE0("error: malloc() failed!"); }
+./src/tool/hpcfnbounds/server.cpp:  inbuf = (char *) malloc(inbuf_size);
+./errorlog:      /*struct DataItem *item = (struct DataItem*) malloc(sizeof(struct DataItem));
+./errorlog:      /*struct DataItem *item = (struct DataItem*) malloc(sizeof(struct DataItem));
