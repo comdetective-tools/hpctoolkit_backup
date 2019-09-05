@@ -1525,12 +1525,10 @@ static WPTriggerActionType FalseSharingWPCallback(WatchPointInfo_t *wpi, int sta
     int joinNodeIdx = wpi->sample.isSamplePointAccurate? E_ACCURATE_JOIN_NODE_IDX : E_INACCURATE_JOIN_NODE_IDX;
 
     if(wt->accessType == LOAD){
-	fprintf(stderr, "false sahring is detected\n");
         falseWRIns ++;
         metricId = false_wr_metric_id;
         joinNode = joinNodes[E_FALSE_WR_SHARE][joinNodeIdx];
     } else {
-	fprintf(stderr, "false sharing is detected\n");
         if(wpi->sample.accessType == LOAD) {
             falseRWIns ++;
             metricId = false_rw_metric_id;

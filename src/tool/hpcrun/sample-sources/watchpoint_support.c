@@ -194,7 +194,7 @@ __attribute__((constructor))
 static void InitConfig(){
     /*if(!init_adamant) {
 	init_adamant = 1;*/
-    	adm_initialize();
+    	//adm_initialize();
     //}
     tData.fptr = NULL;
     
