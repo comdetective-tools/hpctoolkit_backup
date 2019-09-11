@@ -56,8 +56,8 @@ void dump_ts_core_matrix();
 void dump_as_core_matrix();
 
 void dump_matrix();
-/*
-typedef struct SharedData{
+
+typedef struct SharedEntry{
     volatile uint64_t counter __attribute__((aligned(CACHE_LINE_SZ)));
     uint64_t time __attribute__((aligned(CACHE_LINE_SZ)));
     int64_t expiration_period;
@@ -73,11 +73,11 @@ typedef struct SharedData{
     cct_node_t * node;
     volatile uint64_t matrix_counter __attribute__((aligned(CACHE_LINE_SZ))); 
     char dummy[CACHE_LINE_SZ];
-} SharedData_t;
+} SharedEntry_t;
 
 typedef struct hashTableStruct{
         volatile uint64_t counter __attribute__((aligned(64)));
-        struct SharedData hashTable[HASHTABLESIZE];
+        struct SharedEntry hashTable[HASHTABLESIZE];
 } HashTable_t;
 
-extern HashTable_t bulletinBoard;*/
+extern HashTable_t bulletinBoard;
