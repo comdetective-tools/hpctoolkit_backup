@@ -13,6 +13,8 @@ int as_core_matrix_size;
 
 int max_consecutive_count = 0;
 
+int HASHTABLESIZE;
+
 double fs_matrix[2000][2000];
 double ts_matrix[2000][2000];
 double as_matrix[2000][2000];

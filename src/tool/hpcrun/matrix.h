@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include "sample-sources/watchpoint_support.h"
-#define HASHTABLESIZE (127)
 
+extern int HASHTABLESIZE;
 extern int fs_matrix_size;
 extern int ts_matrix_size;
 extern int as_matrix_size;
@@ -77,7 +77,8 @@ typedef struct SharedEntry{
 
 typedef struct hashTableStruct{
         volatile uint64_t counter __attribute__((aligned(64)));
-        struct SharedEntry hashTable[HASHTABLESIZE];
+        struct SharedEntry hashTable[503];
+	//struct SharedData * hashTable;
 } HashTable_t;
 
 extern HashTable_t bulletinBoard;
