@@ -198,6 +198,7 @@ __thread WPStats_t wpStats;
 #define WP_FALSE_SHARING_EVENT_NAME "WP_FALSE_SHARING"
 #define WP_TRUE_SHARING_EVENT_NAME "WP_TRUE_SHARING"
 #define WP_ALL_SHARING_EVENT_NAME "WP_ALL_SHARING"
+#define WP_COMDETECTIVE_EVENT_NAME "WP_COMDETECTIVE"
 #define WP_IPC_FALSE_SHARING_EVENT_NAME "WP_IPC_FALSE_SHARING"
 #define WP_IPC_TRUE_SHARING_EVENT_NAME "WP_IPC_TRUE_SHARING"
 #define WP_IPC_ALL_SHARING_EVENT_NAME "WP_IPC_ALL_SHARING"
@@ -412,6 +413,13 @@ static WpClientConfig_t wpClientConfig[] = {
         .preWPAction = DISABLE_ALL_WP,
         .configOverrideCallback = AllSharingWPConfigOverride
     },
+    {    
+        .id = WP_COMDETECTIVE,
+        .name = WP_COMDETECTIVE_EVENT_NAME,
+        .wpCallback = ComDetectiveWPCallback,
+        .preWPAction = DISABLE_ALL_WP,
+        .configOverrideCallback = ComDetectiveWPConfigOverride
+    },
     /**** Contention ***/
     {
         .id = WP_TRUE_SHARING,
@@ -618,8 +626,9 @@ static void ClientTermination(){
             hpcrun_stats_num_trueWRIns_inc(trueWRIns);
             break;
         case WP_ALL_SHARING:
-        case WP_IPC_ALL_SHARING: assert(0);
-            assert(0);
+	case WP_COMDETECTIVE:
+        case WP_IPC_ALL_SHARING: /*assert(0);
+            assert(0);*/
             hpcrun_stats_num_accessedIns_inc(accessedIns);
             hpcrun_stats_num_falseWRIns_inc(falseWWIns);
             hpcrun_stats_num_falseRWIns_inc(falseRWIns);
@@ -895,7 +904,8 @@ METHOD_FN(process_event_list, int lush_metrics)
             break;
             
         case WP_ALL_SHARING:
-        case WP_IPC_ALL_SHARING:
+        case WP_COMDETECTIVE:
+	case WP_IPC_ALL_SHARING:
             // must have a canonical load map across processes
             hpcrun_set_ipc_load_map(true);
             measured_metric_id = hpcrun_new_metric();
@@ -953,6 +963,8 @@ METHOD_FN(display_events)
     printf("%s\n", WP_TRUE_SHARING_EVENT_NAME);
     printf("---------------------------------------------------------------------------\n");
     printf("%s\n", WP_ALL_SHARING_EVENT_NAME);
+    printf("---------------------------------------------------------------------------\n");
+    printf("%s\n", WP_COMDETECTIVE_EVENT_NAME);
     printf("---------------------------------------------------------------------------\n");
     printf("%s\n", WP_IPC_FALSE_SHARING_EVENT_NAME);
     printf("---------------------------------------------------------------------------\n");

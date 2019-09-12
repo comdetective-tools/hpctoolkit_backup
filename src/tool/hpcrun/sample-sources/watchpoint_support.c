@@ -360,6 +360,11 @@ void FalseSharingWPConfigOverride(void *v){
     wpConfig.replacementPolicy = OLDEST;
 }
 
+void ComDetectiveWPConfigOverride(void *v){
+    // replacement policy is OLDEST forced.
+    wpConfig.replacementPolicy = OLDEST;
+}
+
 void TrueSharingWPConfigOverride(void *v){
     // replacement policy is OLDEST forced.
     wpConfig.replacementPolicy = OLDEST;
