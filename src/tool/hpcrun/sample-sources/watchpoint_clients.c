@@ -291,6 +291,16 @@ __thread uint64_t trueWRIns = 0;
 __thread uint64_t trueRWIns = 0;
 __thread uint64_t reuse = 0;
 
+// ComDetective stats begin
+__thread uint64_t fs_num = 0;
+__thread uint64_t inter_core_fs_num = 0;
+__thread uint64_t ts_num = 0;
+__thread uint64_t inter_core_ts_num = 0;
+__thread uint64_t as_num = 0;
+__thread uint64_t inter_core_as_num = 0;
+__thread uint64_t line_transfer_num = 0;
+// ComDetective stats end
+
 // Some stats
 __thread long int correct=0;
 __thread long int incorrect=0;
@@ -350,6 +360,7 @@ static WPTriggerActionType SpatialReuseWPCallback(WatchPointInfo_t *wpi, int sta
 static WPTriggerActionType LoadLoadWPCallback(WatchPointInfo_t *wpi, int startOffset, int safeAccessLen, WatchPointTrigger_t * wt);
 static WPTriggerActionType FalseSharingWPCallback(WatchPointInfo_t *wpi, int startOffset, int safeAccessLen, WatchPointTrigger_t * wt);
 static WPTriggerActionType AllSharingWPCallback(WatchPointInfo_t *wpi, int startOffset, int safeAccessLen, WatchPointTrigger_t * wt);
+static WPTriggerActionType ComDetectiveWPCallback(WatchPointInfo_t *wpi, int startOffset, int safeAccessLen, WatchPointTrigger_t * wt);
 static WPTriggerActionType TrueSharingWPCallback(WatchPointInfo_t *wpi, int startOffset, int safeAccessLen, WatchPointTrigger_t * wt);
 static WPTriggerActionType IPCFalseSharingWPCallback(WatchPointInfo_t *wpi, int startOffset, int safeAccessLen, WatchPointTrigger_t * wt);
 static WPTriggerActionType IPCAllSharingWPCallback(WatchPointInfo_t *wpi, int startOffset, int safeAccessLen, WatchPointTrigger_t * wt);
@@ -1428,6 +1439,122 @@ static WPTriggerActionType FalseSharingWPCallback(WatchPointInfo_t *wpi, int sta
     cct_node_t *node = hpcrun_insert_special_node(v.sample_node, joinNode);
     node = hpcrun_cct_insert_path_return_leaf(wpi->sample.node, node);
     // update the metricId
+    cct_metric_data_increment(metricId, node, (cct_metric_data_t){.i = 1});
+    return ALREADY_DISABLED;
+}
+// after
+
+static WPTriggerActionType ComDetectiveWPCallback(WatchPointInfo_t *wpi, int startOffset, int safeAccessLen, WatchPointTrigger_t * wt){
+    int metricId = -1;
+    const void* joinNode;
+    int joinNodeIdx = wpi->sample.isSamplePointAccurate? E_ACCURATE_JOIN_NODE_IDX : E_INACCURATE_JOIN_NODE_IDX;
+
+    last_trapped_cacheline = (void *) ALIGN_TO_CACHE_LINE((size_t)wt->va);
+
+
+    did_last_sample_trap = true;
+
+    number_of_traps++;
+    int max_thread_num = wpi->sample.first_accessing_tid;
+    if(max_thread_num < TD_GET(core_profile_trace_data.id))
+    {
+	max_thread_num = TD_GET(core_profile_trace_data.id);
+    }
+    if(fs_matrix_size < max_thread_num)
+    {
+	matrix_size_set(max_thread_num);
+    	fs_matrix_size =  max_thread_num;
+    	ts_matrix_size =  max_thread_num;
+    	as_matrix_size =  max_thread_num;
+    }
+
+    int max_core_num = wpi->sample.first_accessing_core_id;
+
+    if(max_core_num < sched_getcpu())
+    {   
+        max_core_num = sched_getcpu();
+    }
+    if(fs_core_matrix_size < max_core_num)
+    {
+        core_matrix_size_set(max_core_num);
+        fs_core_matrix_size =  max_core_num;
+        ts_core_matrix_size =  max_core_num;
+        as_core_matrix_size =  max_core_num;
+    }
+
+
+    if(max_consecutive_count < consecutive_access_count)
+		max_consecutive_count = consecutive_access_count;
+
+    long global_sampling_period = 0;
+
+    int index1 = wpi->sample.first_accessing_tid;
+    int index2 = TD_GET(core_profile_trace_data.id);
+
+   int core_id1 = wpi->sample.first_accessing_core_id;
+   int core_id2 = sched_getcpu();
+   if(prev_timestamp != wpi->sample.bulletinBoardTimestamp) {
+   int flag = 0;
+   if(wt->accessType == LOAD && wpi->sample.samplerAccessType == LOAD){
+	if(wpi->sample.sampleType == ALL_LOAD) {
+        	global_sampling_period = global_load_sampling_period;
+		flag = 1;
+		number_of_caught_read_traps++;
+	}
+    } else if (wt->accessType == STORE && wpi->sample.samplerAccessType == STORE) {
+        if(wpi->sample.sampleType == ALL_STORE) {
+                global_sampling_period = global_store_sampling_period;
+		flag = 1;
+                number_of_caught_write_traps++;
+	}
+    } else if (wt->accessType == LOAD_AND_STORE && wpi->sample.samplerAccessType == LOAD_AND_STORE){
+	if(wpi->sample.sampleType == ALL_LOAD) {
+                global_sampling_period = global_load_sampling_period;
+                flag = 1;
+                number_of_caught_read_write_traps++;
+        }
+	if(wpi->sample.sampleType == ALL_STORE) {
+                global_sampling_period = global_store_sampling_period;
+                flag = 1;
+                number_of_caught_read_write_traps++;
+        }
+    }
+    if (flag == 1) {
+		prev_timestamp = wpi->sample.bulletinBoardTimestamp;
+	}
+    }
+
+    void * cacheLineBaseAddress = (void *) ALIGN_TO_CACHE_LINE((size_t)wt->va);    
+    double increment = (double) CACHE_LINE_SZ/MAX_WP_LENGTH / wpConfig.maxWP * global_sampling_period; 
+
+    //int node_id = get_id_after_get_id_after_backtrace();
+    if(GET_OVERLAP_BYTES(wpi->sample.target_va, wpi->sample.accessLength, wt->va, wt->accessLength) > 0) {
+	int id = -1;
+
+    	ts_matrix[index1][index2] = ts_matrix[index1][index2] + increment;
+	if(core_id1 != core_id2) {
+		ts_core_matrix[core_id1][core_id2] = ts_core_matrix[core_id1][core_id2] + increment;
+	}
+
+    } else {
+		int id = -1;
+
+		fs_matrix[index1][index2] = fs_matrix[index1][index2] + increment;
+		if(core_id1 != core_id2) {
+			fs_core_matrix[core_id1][core_id2] = fs_core_matrix[core_id1][core_id2] + increment;
+		}
+    }
+// here ****
+    //fprintf(stderr, "in callback\n");
+    //execute_backtrace();
+    as_matrix[index1][index2] = as_matrix[index1][index2] + increment;
+    if(core_id1 != core_id2) {
+    	as_core_matrix[core_id1][core_id2] = as_core_matrix[core_id1][core_id2] + increment; 
+    }
+
+    sample_val_t v = hpcrun_sample_callpath(wt->ctxt, measured_metric_id, SAMPLE_UNIT_INC, 0, 1, NULL);
+    cct_node_t *node = hpcrun_insert_special_node(v.sample_node, joinNode);
+    node = hpcrun_cct_insert_path_return_leaf(wpi->sample.node, node);
     cct_metric_data_increment(metricId, node, (cct_metric_data_t){.i = 1});
     return ALREADY_DISABLED;
 }
