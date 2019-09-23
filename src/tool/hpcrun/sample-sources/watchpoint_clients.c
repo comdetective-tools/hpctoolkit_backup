@@ -2456,7 +2456,7 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
    }
     // change here
 
-
+    //fprintf(stderr, "OnSample is reached\n");
     // if the context PC and precise PC are not in the same function, then the sample point is inaccurate.
     bool isSamplePointAccurate;
     FunctionType ft = is_same_function(contextPC, precisePC);

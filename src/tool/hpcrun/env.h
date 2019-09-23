@@ -86,6 +86,10 @@ extern const char* HPCRUN_THREAD_MAPPING;
 
 extern const char* HPCRUN_OBJECT_LEVEL;
 
+extern const char* BULLETIN_BOARD_SIZE;
+extern const char* OBJECT_SIZE_THRESHOLD;
+extern const char* WATCHPOINT_SIZE;
+
 extern const char* HPCRUN_TRACE;
 
 extern const char* HPCRUN_EVENT_LIST;

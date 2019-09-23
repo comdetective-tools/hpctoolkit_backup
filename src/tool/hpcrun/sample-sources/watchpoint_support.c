@@ -48,6 +48,7 @@
 #include <hpcrun/sample_sources_registered.h>
 #include <hpcrun/thread_data.h>
 #include <hpcrun/trace.h>
+#include <hpcrun/env.h>
 
 #include <lush/lush-backtrace.h>
 #include <messages/messages.h>
@@ -286,7 +287,11 @@ static void InitConfig(){
     for (int j = 0 ; j < i; j ++) {
         CHECK(close(wpHandles[j]));
     }
-    wpConfig.maxWP = i;
+    int custom_wp_size = atoi(getenv(WATCHPOINT_SIZE));
+    if(custom_wp_size < i)
+        wpConfig.maxWP = custom_wp_size;
+    else
+        wpConfig.maxWP = i;
    //wpConfig.maxWP = 1;
     
     // Should we get the floating point type in an access?

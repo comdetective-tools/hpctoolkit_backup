@@ -60,7 +60,7 @@
 #include <lib/prof-lean/hpcrun-fmt.h>
 #include <unwind/common/validate_return_addr.h>
 #include <adm_init_fini.h>
-//#include "matrix.h"
+#include "matrix.h"
 //#include "myposix.h"
 #include "env.h"
 // ***************************************************************************
@@ -128,19 +128,26 @@ void
 hpcrun_stats_reinit(void)
 {
   //pointers_init();
-  //printf("that???\n");
+  //fprintf(stderr,"that???\n");
   //adm_initialize();
-  /*fs_matrix_size =  0;
+  fs_matrix_size =  0;
   ts_matrix_size =  0;
   as_matrix_size =  0;
-  for(int i = 0; i < 50; i++) {
+  HASHTABLESIZE = atoi(getenv(BULLETIN_BOARD_SIZE));
+  fprintf(stderr, "bulletin board size is %d\n", HASHTABLESIZE);
+  fprintf(stderr, "watchpoint size is %d\n", atoi(getenv(WATCHPOINT_SIZE)));
+  /*if(getenv(HPCRUN_OBJECT_LEVEL)) {
+	fprintf(stderr, "object level is activated\n");
+  	OBJECT_THRESHOLD = atoi(getenv(OBJECT_SIZE_THRESHOLD));
+  }*/
+  /*for(int i = 0; i < 50; i++) {
 	consecutive_access_count_array[i] = 0;
 	consecutive_wasted_trap_array[i] = 0;
-  }
+  }*/
 
   for(int i = 0; i < HASHTABLESIZE; i++) {
 	bulletinBoard.hashTable[i].cacheLineBaseAddress = -1;
-  }*/
+  }
 
   atomic_store_explicit(&num_samples_total, 0, memory_order_relaxed);
   atomic_store_explicit(&num_samples_attempted, 0, memory_order_relaxed);

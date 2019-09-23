@@ -229,7 +229,8 @@ arg_ok()
 preload_list=
 HPCRUN_DEBUG_FLAGS=
 HPCRUN_EVENT_LIST=
-
+BULLETIN_BOARD_SIZE=127
+WATCHPOINT_SIZE=4
 while test "x$1" != x
 do
     arg="$1" ; shift
@@ -333,6 +334,36 @@ do
             export HPCRUN_THREAD_MAPPING="$1"
             shift
             ;;
+	
+	--bulletin-board-size )
+            arg_ok "$1" || die "missing argument for $arg"
+	    #BULLETIN_BOARD_SIZE=127
+	    #if ! [[ "$1" =~ ^[0-9]+$ ]]
+	    #then
+	    #	echo $1
+	    #	echo "Sorry, bulletin board size should be integers only, default value of 127 is set."
+	    #else
+	    BULLETIN_BOARD_SIZE=$1
+	    #fi
+            #export BULLETIN_BOARD_SIZE
+            shift
+            ;;
+
+	# --------------------------------------------------
+
+        --debug-register-size )
+            arg_ok "$1" || die "missing argument for $arg"
+            #BULLETIN_BOARD_SIZE=127
+            #if ! [[ "$1" =~ ^[0-9]+$ ]]
+            #then
+            #   echo $1
+            #   echo "Sorry, bulletin board size should be integers only, default value of 127 is set."
+            #else
+            WATCHPOINT_SIZE=$1
+            #fi
+            #export WATCHPOINT_SIZE
+            shift
+            ;;
 
 	# --------------------------------------------------
 
@@ -390,6 +421,10 @@ do
 	    ;;
     esac
 done
+
+export BULLETIN_BOARD_SIZE
+#export OBJECT_SIZE_THRESHOLD
+export WATCHPOINT_SIZE
 
 # Add default sampling source if needed.
 case "$HPCRUN_EVENT_LIST" in
