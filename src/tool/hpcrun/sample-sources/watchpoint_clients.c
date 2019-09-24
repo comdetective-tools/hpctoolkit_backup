@@ -1493,63 +1493,64 @@ static WPTriggerActionType ComDetectiveWPCallback(WatchPointInfo_t *wpi, int sta
 
    int core_id1 = wpi->sample.first_accessing_core_id;
    int core_id2 = sched_getcpu();
-   if(prev_timestamp != wpi->sample.bulletinBoardTimestamp) {
    int flag = 0;
-   if(wt->accessType == LOAD && wpi->sample.samplerAccessType == LOAD){
-	if(wpi->sample.sampleType == ALL_LOAD) {
-        	global_sampling_period = global_load_sampling_period;
-		flag = 1;
-		number_of_caught_read_traps++;
-	}
-    } else if (wt->accessType == STORE && wpi->sample.samplerAccessType == STORE) {
-        if(wpi->sample.sampleType == ALL_STORE) {
-                global_sampling_period = global_store_sampling_period;
-		flag = 1;
-                number_of_caught_write_traps++;
-	}
-    } else if (wt->accessType == LOAD_AND_STORE && wpi->sample.samplerAccessType == LOAD_AND_STORE){
-	if(wpi->sample.sampleType == ALL_LOAD) {
-                global_sampling_period = global_load_sampling_period;
-                flag = 1;
-                number_of_caught_read_write_traps++;
-        }
-	if(wpi->sample.sampleType == ALL_STORE) {
-                global_sampling_period = global_store_sampling_period;
-                flag = 1;
-                number_of_caught_read_write_traps++;
-        }
-    }
-    if (flag == 1) {
-		prev_timestamp = wpi->sample.bulletinBoardTimestamp;
-	}
-    }
-
-    void * cacheLineBaseAddress = (void *) ALIGN_TO_CACHE_LINE((size_t)wt->va);    
-    double increment = (double) CACHE_LINE_SZ/MAX_WP_LENGTH / wpConfig.maxWP * global_sampling_period; 
-
-    //int node_id = get_id_after_get_id_after_backtrace();
-    if(GET_OVERLAP_BYTES(wpi->sample.target_va, wpi->sample.accessLength, wt->va, wt->accessLength) > 0) {
-	int id = -1;
-
-    	ts_matrix[index1][index2] = ts_matrix[index1][index2] + increment;
-	if(core_id1 != core_id2) {
-		ts_core_matrix[core_id1][core_id2] = ts_core_matrix[core_id1][core_id2] + increment;
-	}
-
-    } else {
-		int id = -1;
-
-		fs_matrix[index1][index2] = fs_matrix[index1][index2] + increment;
-		if(core_id1 != core_id2) {
-			fs_core_matrix[core_id1][core_id2] = fs_core_matrix[core_id1][core_id2] + increment;
+   // if ts2 > tprev then
+   if(prev_timestamp < wpi->sample.bulletinBoardTimestamp) {
+   	if(wt->accessType == LOAD && wpi->sample.samplerAccessType == LOAD){
+		if(wpi->sample.sampleType == ALL_LOAD) {
+        		global_sampling_period = global_load_sampling_period;
+			flag = 1;
+			number_of_caught_read_traps++;
 		}
+    	} else if (wt->accessType == STORE && wpi->sample.samplerAccessType == STORE) {
+        	if(wpi->sample.sampleType == ALL_STORE) {
+        	        global_sampling_period = global_store_sampling_period;
+			flag = 1;
+        	        number_of_caught_write_traps++;
+		}
+	} else if (wt->accessType == LOAD_AND_STORE && wpi->sample.samplerAccessType == LOAD_AND_STORE){
+		if(wpi->sample.sampleType == ALL_LOAD) {
+    	            global_sampling_period = global_load_sampling_period;
+    	            flag = 1;
+    	            number_of_caught_read_write_traps++;
+    	    	}
+	    	if(wpi->sample.sampleType == ALL_STORE) {
+            	    global_sampling_period = global_store_sampling_period;
+            	    flag = 1;
+            	    number_of_caught_read_write_traps++;
+        	}
+    	}
     }
-// here ****
-    //fprintf(stderr, "in callback\n");
-    //execute_backtrace();
-    as_matrix[index1][index2] = as_matrix[index1][index2] + increment;
-    if(core_id1 != core_id2) {
-    	as_core_matrix[core_id1][core_id2] = as_core_matrix[core_id1][core_id2] + increment; 
+
+
+    if (flag == 1) {
+    	void * cacheLineBaseAddress = (void *) ALIGN_TO_CACHE_LINE((size_t)wt->va);    
+    	double increment = (double) CACHE_LINE_SZ/MAX_WP_LENGTH / wpConfig.maxWP * global_sampling_period; 
+
+    	// if [M1 , M1 + δ1 ) overlaps with [M2 , M2 + δ2 ) then
+    	if(GET_OVERLAP_BYTES(wpi->sample.target_va, wpi->sample.accessLength, wt->va, wt->accessLength) > 0) {
+		int id = -1;
+		// Record true sharing
+    		ts_matrix[index1][index2] = ts_matrix[index1][index2] + increment;
+		if(core_id1 != core_id2) {
+			ts_core_matrix[core_id1][core_id2] = ts_core_matrix[core_id1][core_id2] + increment;
+		}
+
+    	} else {
+			int id = -1;
+			// Record false sharing
+			fs_matrix[index1][index2] = fs_matrix[index1][index2] + increment;
+			if(core_id1 != core_id2) {
+				fs_core_matrix[core_id1][core_id2] = fs_core_matrix[core_id1][core_id2] + increment;
+			}
+    	}
+    	//execute_backtrace();
+    	as_matrix[index1][index2] = as_matrix[index1][index2] + increment;
+    	if(core_id1 != core_id2) {
+    		as_core_matrix[core_id1][core_id2] = as_core_matrix[core_id1][core_id2] + increment; 
+    	}
+	// tprev = ts2
+	prev_timestamp = wpi->sample.bulletinBoardTimestamp;
     }
 
     sample_val_t v = hpcrun_sample_callpath(wt->ctxt, measured_metric_id, SAMPLE_UNIT_INC, 0, 1, NULL);
@@ -2761,6 +2762,7 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
 
 	    int me = TD_GET(core_profile_trace_data.id);
 	    int current_core = sched_getcpu();
+	    // L1 = getCacheline ( M1 )
 	    void * cacheLineBaseAddressVar = (void *) ALIGN_TO_CACHE_LINE((size_t)data_addr);
 	    int item_not_found = 0;
 	    struct SharedEntry item;
@@ -2770,21 +2772,25 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
             		continue;
         	}
         	__sync_synchronize();
+		// entry = BulletinBoard.AtomicGet (key= L1 )
         	item = getEntryFromBulletinBoard(cacheLineBaseAddressVar, &item_not_found);
         	__sync_synchronize();
         	int64_t endCounter = bulletinBoard.counter;
         	if(startCounter == endCounter) {
-			//printf("retrieved successfully\n");
             		break;
 		}
     	    }while(1);
 
 	    int arm_watchpoint_flag = 0;
 
+	    // if entry == NULL then
 	    if((item.cacheLineBaseAddress == -1) || (item_not_found == 1)) {
+		// TryArmWatchpoint( T 1 )
 		arm_watchpoint_flag = 1;
+	    // else
 	    } else {
-		// detect communication events
+		// < M2 , δ2 , ts2 , T2 > = getEntryAttributes (entry)
+		// if T1 != T2 and ts2 > tprev then
 		if((me != item.tid) && (item.time > prev_timestamp)) {
 			int flag = 0;
 			double global_sampling_period = 0;
@@ -2822,22 +2828,26 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
                         	as_core_matrix_size =  max_core_num;
                 	}
 			if(flag == 1) {
+				// if [M1 , M1 + δ1 ) overlaps with [M2 , M2 + δ2 ) then
 				if(GET_OVERLAP_BYTES(item.address, item.accessLen, data_addr, accessLen) > 0) {
-				
+					// Record true sharing
 					ts_matrix[item.tid][me] = ts_matrix[item.tid][me] + global_sampling_period;
 					if(item.core_id != current_core) {
                                 		ts_core_matrix[item.core_id][current_core] = ts_core_matrix[item.core_id][current_core] + global_sampling_period;
 					}
 				} else {
+					// Record false sharing
 					fs_matrix[item.tid][me] = fs_matrix[item.tid][me] + global_sampling_period;
 					if(item.core_id != current_core) {
 						fs_core_matrix[item.core_id][current_core] = fs_core_matrix[item.core_id][current_core] + global_sampling_period;
 					}
 				}
+				// tprev = ts2
+				prev_timestamp = item.time;
 	    		}
 
 	    	} else {
-			// arm watchpoints
+			// TryArmWatchpoint(T1)
 			arm_watchpoint_flag = 1;
 		}
 	    }
@@ -2845,6 +2855,7 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
 	    if (arm_watchpoint_flag) {
 		// begin watchpoints
 		int do_not_arm_watchpoint = 0;
+		// getting an unexpired address from BulletinBoard that is not from T
 		struct SharedEntry localSharedData = getEntryRandomlyFromBulletinBoard(me, curtime, &do_not_arm_watchpoint);
 		if((localSharedData.cacheLineBaseAddress != -1) && !do_not_arm_watchpoint) {
 			long  metricThreshold = hpcrun_id2metric(sampledMetricId)->period;
@@ -2877,18 +2888,20 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
 				.first_accessing_tid = localSharedData.tid,
 				.first_accessing_core_id = localSharedData.core_id,
 				.bulletinBoardTimestamp = curtime
-				//.expiration_period = (storeLastTime == 0 ? 0 : (storeCurTime - storeLastTime))
                             };
+			    // if current WPs in T are old then
+				// Disarm any previously armed WPs
+				// Set WPs on an unexpired address from BulletinBoard that is not from T
                             SubscribeWatchpointWithTime(&sd, OVERWRITE, false /* capture value */, curtime, lastTime);
                         }
 		}
 		// end watchpoints
 	    }
 
-	    // starts
+	    // if ( A1 is not STORE) or (entry != NULL and M2 has not expired) then
 	    if((sType == ALL_LOAD) || ((item.cacheLineBaseAddress != -1) && ((curtime - item.time) <= (storeCurTime - storeLastTime)))) {
-		//printf("not inserted\n");
 	    } else {
+		// BulletinBoard.TryAtomicPut(key = L1 , value = < M1 , δ1 , ts1 , T1 >)
 		uint64_t bulletinCounter = bulletinBoard.counter;
 		if((bulletinCounter & 1) == 0) {
 			if(__sync_bool_compare_and_swap(&bulletinBoard.counter, bulletinCounter, bulletinCounter+1)){
