@@ -247,7 +247,7 @@ SharedData_t gSharedData = {.counter = 0, .time=0, .wpType = -1, .accessType = U
 
 HashTable_t bulletinBoard = {.counter = 0};
 
-__thread uint64_t prev_timestamp = -1;
+__thread uint64_t prev_timestamp = 0;
 
 // before
 /*
@@ -1545,6 +1545,7 @@ static WPTriggerActionType ComDetectiveWPCallback(WatchPointInfo_t *wpi, int sta
 			}
     	}
     	//execute_backtrace();
+	fprintf(stderr, "update in debug register\n");
     	as_matrix[index1][index2] = as_matrix[index1][index2] + increment;
     	if(core_id1 != core_id2) {
     		as_core_matrix[core_id1][core_id2] = as_core_matrix[core_id1][core_id2] + increment; 
@@ -2785,10 +2786,12 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
 
 	    // if entry == NULL then
 	    if((item.cacheLineBaseAddress == -1) || (item_not_found == 1)) {
+		//fprintf(stderr, "not found\n");
 		// TryArmWatchpoint( T 1 )
 		arm_watchpoint_flag = 1;
 	    // else
 	    } else {
+		//fprintf(stderr, "found\n");
 		// < M2 , δ2 , ts2 , T2 > = getEntryAttributes (entry)
 		// if T1 != T2 and ts2 > tprev then
 		if((me != item.tid) && (item.time > prev_timestamp)) {
@@ -2842,6 +2845,11 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
 						fs_core_matrix[item.core_id][current_core] = fs_core_matrix[item.core_id][current_core] + global_sampling_period;
 					}
 				}
+				//fprintf(stderr, "update in OnSample\n");
+				as_matrix[item.tid][me] = as_matrix[item.tid][me] + global_sampling_period;
+				if(item.core_id != current_core) {
+					as_core_matrix[item.core_id][current_core] = as_core_matrix[item.core_id][current_core] + global_sampling_period;
+                		}	
 				// tprev = ts2
 				prev_timestamp = item.time;
 	    		}
