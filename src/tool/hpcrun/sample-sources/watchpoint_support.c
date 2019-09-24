@@ -292,6 +292,7 @@ static void InitConfig(){
         wpConfig.maxWP = custom_wp_size;
     else
         wpConfig.maxWP = i;
+   fprintf(stderr, "custom_wp_size is %d\n", custom_wp_size);
    //wpConfig.maxWP = 1;
     
     // Should we get the floating point type in an access?
