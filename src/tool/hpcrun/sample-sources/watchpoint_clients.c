@@ -1544,8 +1544,6 @@ static WPTriggerActionType ComDetectiveWPCallback(WatchPointInfo_t *wpi, int sta
 				fs_core_matrix[core_id1][core_id2] = fs_core_matrix[core_id1][core_id2] + increment;
 			}
     	}
-    	//execute_backtrace();
-	fprintf(stderr, "update in debug register\n");
     	as_matrix[index1][index2] = as_matrix[index1][index2] + increment;
     	if(core_id1 != core_id2) {
     		as_core_matrix[core_id1][core_id2] = as_core_matrix[core_id1][core_id2] + increment; 
