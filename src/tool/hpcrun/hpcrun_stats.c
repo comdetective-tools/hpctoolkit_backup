@@ -678,13 +678,13 @@ hpcrun_stats_print_summary(void)
         }*/
 
 	//print_adm_db();
-  	/*adm_finalize(getenv(HPCRUN_OBJECT_LEVEL));
+  	//adm_finalize(getenv(HPCRUN_OBJECT_LEVEL));
 	dump_fs_matrix();
 	dump_fs_core_matrix();
 	dump_ts_matrix();
 	dump_ts_core_matrix();
 	dump_as_matrix();
-	dump_as_core_matrix();*/
+	dump_as_core_matrix();
 	//printf("a = 32, b = 21, con: %0.4lf\n", get_consecutiveness_factor(8, 21));
   //printf("number_of_traps: %ld\n", number_of_traps);
   /*printf("consecutive wasted trap array:\n");
