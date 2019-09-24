@@ -235,9 +235,9 @@ void dump_as_core_matrix()
                 //printf("\n");
         }
 	//as_core_volume = total;
-	cache_line_transfer = total;
-	cache_line_transfer_millions = total/(1000000);
-	cache_line_transfer_gbytes = total*64/(1024*1024*1024);
+	//cache_line_transfer = total;
+	//cache_line_transfer_millions = total/(1000000);
+	//cache_line_transfer_gbytes = total*64/(1024*1024*1024);
         printf("total inter core communication volume: %0.2lf, timeprint: %ld\n", total, timeprint);
 	printf("cache line transfer count: %0.2lf\n", total);
 	printf("cache line transfer count (Millions): %0.2lf\n", total/(1000000));
