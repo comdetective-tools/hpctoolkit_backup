@@ -57,6 +57,17 @@ void dump_as_core_matrix();
 
 void dump_matrix();
 
+// comdetective stats
+extern double fs_volume;
+extern double fs_core_volume;
+extern double ts_volume;
+extern double ts_core_volume;
+extern double as_volume;
+extern double as_core_volume;
+extern double cache_line_transfer;
+extern double cache_line_transfer_millions;
+extern double cache_line_transfer_gbytes;
+
 typedef struct SharedEntry{
     volatile uint64_t counter __attribute__((aligned(CACHE_LINE_SZ)));
     uint64_t time __attribute__((aligned(CACHE_LINE_SZ)));
