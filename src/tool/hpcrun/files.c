@@ -170,7 +170,7 @@ static void hpcrun_rename_log_file_early(int rank);
 //***************************************************************
 
 static char default_path[PATH_MAX] = {'\0'};
-static char output_directory[PATH_MAX] = {'\0'};
+char output_directory[PATH_MAX] = {'\0'};
 static char executable_name[PATH_MAX] = {'\0'};
 static char executable_pathname[PATH_MAX] = {'\0'};
 
