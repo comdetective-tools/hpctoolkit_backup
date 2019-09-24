@@ -2845,7 +2845,6 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
 						fs_core_matrix[item.core_id][current_core] = fs_core_matrix[item.core_id][current_core] + global_sampling_period;
 					}
 				}
-				//fprintf(stderr, "update in OnSample\n");
 				as_matrix[item.tid][me] = as_matrix[item.tid][me] + global_sampling_period;
 				if(item.core_id != current_core) {
 					as_core_matrix[item.core_id][current_core] = as_core_matrix[item.core_id][current_core] + global_sampling_period;
