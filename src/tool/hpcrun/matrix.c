@@ -80,7 +80,7 @@ void dump_fs_matrix()
 		//printf("\n");
 	}
 	fclose(fp);
-	fs_volume = total;
+	//fs_volume = total;
 	printf("total false sharing volume: %0.2lf\n", total);
 }
 
@@ -110,7 +110,7 @@ void dump_fs_core_matrix()
                 //printf("\n");
         }
         fclose(fp);
-	fs_core_volume = total;
+	//fs_core_volume = total;
         printf("total inter core false sharing volume: %0.2lf\n", total);
 }
 
@@ -140,7 +140,7 @@ void dump_ts_matrix()
 		//printf("\n");
 	}
 	fclose(fp);
-	ts_volume = total;
+	//ts_volume = total;
 	printf("total true sharing volume: %0.2lf\n", total);
 }
 
@@ -170,7 +170,7 @@ void dump_ts_core_matrix()
                 //printf("\n");
         }
         fclose(fp);
-	ts_core_volume = total;
+	//ts_core_volume = total;
         printf("total inter core true sharing volume: %0.2lf\n", total);
 }
 
@@ -202,7 +202,7 @@ void dump_as_matrix()
 		fprintf(fp,"\n");
 		//printf("\n");
 	}
-	as_volume = total;
+	//as_volume = total;
 	printf("total communication volume: %0.2lf, timeprint: %ld\n", total, timeprint);
 	fclose(fp);
 }
@@ -234,7 +234,7 @@ void dump_as_core_matrix()
                 fprintf(fp,"\n");
                 //printf("\n");
         }
-	as_core_volume = total;
+	//as_core_volume = total;
 	cache_line_transfer = total;
 	cache_line_transfer_millions = total/(1000000);
 	cache_line_transfer_gbytes = total*64/(1024*1024*1024);
