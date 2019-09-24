@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <time.h>
 #include "matrix.h"
+#include <limits.h>
 
 int fs_matrix_size;
 int ts_matrix_size;
@@ -28,6 +29,10 @@ long number_of_traps;
 long global_store_sampling_period;
 long global_load_sampling_period;
 
+extern char output_directory[PATH_MAX];
+
+extern const char * hpcrun_files_executable_name();
+
 // before
 __thread long number_of_sample = 0;
 __thread long number_of_load_sample = 0;
@@ -52,8 +57,8 @@ int consecutive_wasted_trap_array[50];
 void dump_fs_matrix()
 {
 	FILE * fp;
-	char file_name[50]; 
-	sprintf(file_name, "%ldfs_matrix.csv", (long) clock()); 
+	char file_name[PATH_MAX]; 
+	sprintf(file_name, "%s/%s-%ld-fs_matrix.csv", output_directory, hpcrun_files_executable_name(), getpid() );
 	fp = fopen (file_name, "w+");
 	//printf("fs_matrix_size: %d\n", fs_matrix_size);
 	double total= 0;
@@ -75,14 +80,15 @@ void dump_fs_matrix()
 		//printf("\n");
 	}
 	fclose(fp);
+	fs_volume = total;
 	printf("total false sharing volume: %0.2lf\n", total);
 }
 
 void dump_fs_core_matrix()
 {
         FILE * fp;
-        char file_name[50];
-	sprintf(file_name, "%ldfs_core_matrix.csv", (long) clock());
+        char file_name[PATH_MAX];
+	sprintf(file_name, "%s/%s-%ld-fs_core_matrix.csv", output_directory, hpcrun_files_executable_name(), getpid() );
         fp = fopen (file_name, "w+");
         //printf("fs_core_matrix_size: %d\n", fs_core_matrix_size);
         double total= 0;
@@ -104,14 +110,15 @@ void dump_fs_core_matrix()
                 //printf("\n");
         }
         fclose(fp);
+	fs_core_volume = total;
         printf("total inter core false sharing volume: %0.2lf\n", total);
 }
 
 void dump_ts_matrix()
 {
 	FILE * fp;
-	char file_name[50];
-	sprintf(file_name, "%ldts_matrix.csv", (long) clock());
+	char file_name[PATH_MAX];
+	sprintf(file_name, "%s/%s-%ld-ts_matrix.csv", output_directory, hpcrun_files_executable_name(), getpid() );
 	fp = fopen (file_name, "w+");
 	//printf("ts_matrix_size: %d\n", ts_matrix_size);
 	double total = 0;
@@ -133,14 +140,15 @@ void dump_ts_matrix()
 		//printf("\n");
 	}
 	fclose(fp);
+	ts_volume = total;
 	printf("total true sharing volume: %0.2lf\n", total);
 }
 
 void dump_ts_core_matrix()
 {
         FILE * fp;
-        char file_name[50];
-	sprintf(file_name, "%ldts_core_matrix.csv", (long) clock());
+        char file_name[PATH_MAX];
+	sprintf(file_name, "%s/%s-%ld-ts_core_matrix.csv", output_directory, hpcrun_files_executable_name(), getpid() );
         fp = fopen (file_name, "w+");
         //printf("ts_core_matrix_size: %d\n", ts_core_matrix_size);
         double total = 0;
@@ -162,15 +170,17 @@ void dump_ts_core_matrix()
                 //printf("\n");
         }
         fclose(fp);
+	ts_core_volume = total;
         printf("total inter core true sharing volume: %0.2lf\n", total);
 }
 
 void dump_as_matrix()
 {
 	FILE * fp;
-	char file_name[50];
+	char file_name[PATH_MAX];
 	long timeprint = (long) clock();
-	sprintf(file_name, "%ldas_matrix.csv", timeprint);
+	sprintf(file_name, "%s/%s-%ld-as_matrix.csv", output_directory, hpcrun_files_executable_name(), getpid() );
+	
 	fp = fopen (file_name, "w+");
 	//printf("as_matrix_size: %d\n", as_matrix_size);
 	double total = 0;
@@ -192,6 +202,7 @@ void dump_as_matrix()
 		fprintf(fp,"\n");
 		//printf("\n");
 	}
+	as_volume = total;
 	printf("total communication volume: %0.2lf, timeprint: %ld\n", total, timeprint);
 	fclose(fp);
 }
@@ -199,9 +210,9 @@ void dump_as_matrix()
 void dump_as_core_matrix()
 {
         FILE * fp;
-        char file_name[50];
+        char file_name[PATH_MAX];
 	long timeprint = (long) clock();
-	sprintf(file_name, "%ldas_core_matrix.csv", timeprint);
+	sprintf(file_name, "%s/%s-%ld-as_core_matrix.csv", output_directory, hpcrun_files_executable_name(), getpid() );
         fp = fopen (file_name, "w+");
         //printf("as_matrix_size: %d\n", as_matrix_size);
         double total = 0;
@@ -223,6 +234,10 @@ void dump_as_core_matrix()
                 fprintf(fp,"\n");
                 //printf("\n");
         }
+	as_core_volume = total;
+	cache_line_transfer = total;
+	cache_line_transfer_millions = total/(1000000);
+	cache_line_transfer_gbytes = total*64/(1024*1024*1024);
         printf("total inter core communication volume: %0.2lf, timeprint: %ld\n", total, timeprint);
 	printf("cache line transfer count: %0.2lf\n", total);
 	printf("cache line transfer count (Millions): %0.2lf\n", total/(1000000));
