@@ -2771,10 +2771,10 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
         	if(startCounter & 1) {
             		continue;
         	}
-        	__sync_synchronize();
+        	//__sync_synchronize();
 		// entry = BulletinBoard.AtomicGet (key= L1 )
         	item = getEntryFromBulletinBoard(cacheLineBaseAddressVar, &item_not_found);
-        	__sync_synchronize();
+        	//__sync_synchronize();
         	int64_t endCounter = bulletinBoard.counter;
         	if(startCounter == endCounter) {
             		break;
@@ -2856,7 +2856,19 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
 		// begin watchpoints
 		int do_not_arm_watchpoint = 0;
 		// getting an unexpired address from BulletinBoard that is not from T
-		struct SharedEntry localSharedData = getEntryRandomlyFromBulletinBoard(me, curtime, &do_not_arm_watchpoint);
+		struct SharedEntry localSharedData;
+		do{ 
+        		int64_t startCounter1 = bulletinBoard.counter;
+        		if(startCounter1 & 1) {
+            			continue;
+        		}
+        		localSharedData = getEntryRandomlyFromBulletinBoard(me, curtime, &do_not_arm_watchpoint);	
+        		int64_t endCounter1 = bulletinBoard.counter;
+        		if(startCounter1 == endCounter1) {
+            			break;
+			}
+    	    	}while(1);
+
 		if((localSharedData.cacheLineBaseAddress != -1) && !do_not_arm_watchpoint) {
 			long  metricThreshold = hpcrun_id2metric(sampledMetricId)->period;
                 	accessedIns += metricThreshold;
@@ -2919,9 +2931,9 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
 				inserted_item.prev_transfer_counter = 0;
 				inserted_item.expiration_period = (storeLastTime == 0 ? 0 : (storeCurTime - storeLastTime));
 				int bb_flag = 0;
-				__sync_synchronize();
+				//__sync_synchronize();
                 		hashInsertwithTime(inserted_item, storeCurTime, storeLastTime);
-				__sync_synchronize();
+				//__sync_synchronize();
                 		bulletinBoard.counter++;
 			}
 		}
