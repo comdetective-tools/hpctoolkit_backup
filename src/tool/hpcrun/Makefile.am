@@ -130,6 +130,7 @@ if OPT_ENABLE_CUDA
 endif
   pkglib_LTLIBRARIES += libhpctoolkit.la
   bin_SCRIPTS += scripts/hpcrun
+  bin_SCRIPTS += scripts/ComDetectiverun
 endif
 
 if OPT_ENABLE_HPCRUN_STATIC

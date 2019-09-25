@@ -133,6 +133,7 @@ pkglibexec_PROGRAMS =
 @OPT_ENABLE_CUDA_TRUE@@OPT_ENABLE_HPCRUN_DYNAMIC_TRUE@am__append_5 = libhpcrun_gpu.la
 @OPT_ENABLE_HPCRUN_DYNAMIC_TRUE@am__append_6 = libhpctoolkit.la
 @OPT_ENABLE_HPCRUN_DYNAMIC_TRUE@am__append_7 = scripts/hpcrun
+@OPT_ENABLE_HPCRUN_DYNAMIC_TRUE@am__append_07 = scripts/ComDetectiverun
 @OPT_ENABLE_HPCRUN_STATIC_TRUE@noinst_PROGRAMS = libhpcrun.o$(EXEEXT)
 @OPT_ENABLE_HPCRUN_STATIC_TRUE@am__append_8 = libhpcrun_wrap.a \
 @OPT_ENABLE_HPCRUN_STATIC_TRUE@	libhpcrun_ga_wrap.a \
@@ -1398,7 +1399,7 @@ PYTHON = python
 @OPT_BGQ_BACKEND_TRUE@SUBDIRS = utilities/bgq-cnk
 plugin_srcdir = $(srcdir)/plugins
 plugin_instdir = $(pkglibdir)/plugins
-bin_SCRIPTS = $(am__append_1) $(am__append_7) $(am__append_12)
+bin_SCRIPTS = $(am__append_1) $(am__append_7) $(am__append_07) $(am__append_12)
 pkglibexec_SCRIPTS = $(am__append_2)
 include_HEADERS = $(am__append_3)
 pkglib_LIBRARIES = $(am__append_8) $(am__append_9) $(am__append_10) \
