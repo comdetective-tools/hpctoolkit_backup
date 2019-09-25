@@ -98,9 +98,9 @@ then
 	if [ $object_flag -eq 1 ]
 	then
 		echo "$install_dir/bin/hpcrun -e WP_COMDETECTIVE -e MEM_UOPS_RETIRED:ALL_LOADS@$period -e MEM_UOPS_RETIRED:ALL_STORES@$period --bulletin-board-size $bulletin_board_size --debug-register-size $debug_register_size --object-size-threshold $object_size_threshold $@"
-		$install_dir/bin/hpcrun -o $output_folder -e WP_COMDETECTIVE -e MEM_UOPS_RETIRED:ALL_LOADS@$period -e MEM_UOPS_RETIRED:ALL_STORES@$period --bulletin-board-size $bulletin_board_size --debug-register-size $debug_register_size --object-size-threshold $object_size_threshold $@ 2>&1 | tee stdout.txt
+		$install_dir/bin/hpcrun -o $output_folder -e WP_COMDETECTIVE -e MEM_UOPS_RETIRED:ALL_LOADS@$period -e MEM_UOPS_RETIRED:ALL_STORES@$period --bulletin-board-size $bulletin_board_size --debug-register-size $debug_register_size --object-size-threshold $object_size_threshold $@ 2>&1 | tee $dump_file
 	else
-		$install_dir/bin/hpcrun -o $output_folder -e WP_COMDETECTIVE -e MEM_UOPS_RETIRED:ALL_LOADS@$period -e MEM_UOPS_RETIRED:ALL_STORES@$period --bulletin-board-size $bulletin_board_size --debug-register-size $debug_register_size $@ 2>&1 | tee stdout.txt
+		$install_dir/bin/hpcrun -o $output_folder -e WP_COMDETECTIVE -e MEM_UOPS_RETIRED:ALL_LOADS@$period -e MEM_UOPS_RETIRED:ALL_STORES@$period --bulletin-board-size $bulletin_board_size --debug-register-size $debug_register_size $@ 2>&1 | tee $dump_file
 	fi
 fi
 
