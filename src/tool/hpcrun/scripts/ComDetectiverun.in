@@ -20,6 +20,7 @@ debug_register_size=4
 bulletin_board_size=127
 object_size_treshold=-1
 output_folder=$(date +%s)"_timestamped_results"
+dump_file=$(echo $$)"_stdout.txt"
 object_flag=0
 while test "x$1" != x
 do
@@ -103,4 +104,4 @@ then
 	fi
 fi
 
-mv stdout.txt $output_folder
+mv $dump_file $output_folder
