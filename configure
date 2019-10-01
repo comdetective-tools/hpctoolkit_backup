@@ -19688,46 +19688,45 @@ $as_echo "$LIBELF" >&6; }
 # Option: --with-libadm=PATH
 #-------------------------------------------------
 
-LIBADM=no
+#LIBADM=no
 
 # Check whether --with-libadm was given.
-if test "${with_libadm+set}" = set; then :
-  withval=$with_libadm; LIBADM="$withval"
-fi
+#if test "${with_libadm+set}" = set; then :
+#  withval=$with_libadm; LIBADM="$withval"
+#fi
 
 
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for libadm" >&5
-$as_echo_n "checking for libadm... " >&6; }
+#{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for libadm" >&5
+#$as_echo_n "checking for libadm... " >&6; }
 
-LIBADM_INC=no
-LIBADM_LIB=no
-LIBADM_COPY=no
+#LIBADM_INC=no
+#LIBADM_LIB=no
+#LIBADM_COPY=no
 
-case "$LIBADM" in
-  /* )
-    if test ! -f "${LIBADM}/include/adm_init_fini.h"
-    then
-      as_fn_error $? "unable to find adm_init_fini.h in: $LIBADM" "$LINENO" 5
-    fi
-    LIBADM_INC="${LIBADM}/include"
-    if test -f "${LIBADM}/src/libadm.so" ; then
-      LIBADM_LIB="${LIBADM}/src"
-    fi
-    if test "$LIBADM_LIB" = no ; then
-      as_fn_error $? "unable to find libadm.so in: $LIBADM" "$LINENO" 5
-    fi
-    LIBADM_COPY=yes
-    ;;
-  no )
-    ;;
-  * )
-    as_fn_error $? "libadm directory must be absolute path: $LIBADM" "$LINENO" 5
-    ;;
-esac
+#case "$LIBADM" in
+#  /* )
+#    if test ! -f "${LIBADM}/include/adm_init_fini.h"
+#    then
+#      as_fn_error $? "unable to find adm_init_fini.h in: $LIBADM" "$LINENO" 5
+#    fi
+#    LIBADM_INC="${LIBADM}/include"
+#    if test -f "${LIBADM}/src/libadm.so" ; then
+#      LIBADM_LIB="${LIBADM}/src"
+#    fi
+#    if test "$LIBADM_LIB" = no ; then
+#      as_fn_error $? "unable to find libadm.so in: $LIBADM" "$LINENO" 5
+#    fi
+#    LIBADM_COPY=yes
+#    ;;
+#  no )
+#    ;;
+#  * )
+#    as_fn_error $? "libadm directory must be absolute path: $LIBADM" "$LINENO" 5
+#    ;;
+#esac
 
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $LIBADM" >&5
-$as_echo "$LIBADM" >&6; }
-
+#{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $LIBADM" >&5
+#$as_echo "$LIBADM" >&6; }
 
 
 
@@ -25337,8 +25336,8 @@ $as_echo "$as_me:   boost:        ${BOOST}" >&6;}
 $as_echo "$as_me:   libdwarf:     ${LIBDWARF}" >&6;}
 { $as_echo "$as_me:${as_lineno-$LINENO}:   libelf:       ${LIBELF}" >&5
   $as_echo "$as_me:   libelf:       ${LIBELF}" >&6;}
-{ $as_echo "$as_me:${as_lineno-$LINENO}:   libadm:       ${LIBADM}" >&5
-$as_echo "$as_me:   libadm:       ${LIBADM}" >&6;}
+#{ $as_echo "$as_me:${as_lineno-$LINENO}:   libadm:       ${LIBADM}" >&5
+#$as_echo "$as_me:   libadm:       ${LIBADM}" >&6;}
 { $as_echo "$as_me:${as_lineno-$LINENO}:   libmonitor:   ${LIBMONITOR}" >&5
 $as_echo "$as_me:   libmonitor:   ${LIBMONITOR}" >&6;}
 { $as_echo "$as_me:${as_lineno-$LINENO}:   monitor/old:  ${MONITOR}" >&5

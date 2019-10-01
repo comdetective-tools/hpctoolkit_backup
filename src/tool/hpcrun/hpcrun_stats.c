@@ -59,15 +59,13 @@
 #include <lib/prof-lean/stdatomic.h>
 #include <lib/prof-lean/hpcrun-fmt.h>
 #include <unwind/common/validate_return_addr.h>
-#include <adm_init_fini.h>
+//#include <adm_init_fini.h>
 #include "matrix.h"
-#include "myposix.h"
+//#include "myposix.h"
 #include "env.h"
 // ***************************************************************************
 // local variables
 // ***************************************************************************
-
-extern void postorder(nary_node * p, int indent);
 
 static atomic_long num_samples_total = ATOMIC_VAR_INIT(0);
 static atomic_long num_samples_attempted = ATOMIC_VAR_INIT(0);
@@ -106,29 +104,6 @@ static atomic_long num_falseWWIns = ATOMIC_VAR_INIT(0);
 static atomic_long num_falseRWIns = ATOMIC_VAR_INIT(0);
 static atomic_long num_falseWRIns = ATOMIC_VAR_INIT(0);
 
-// ComDetective stats begins
-/*
-total false sharing volume: 1692000000.00
-total inter core false sharing volume: 1692000000.00
-total true sharing volume: 0.00
-total inter core true sharing volume: 0.00
-total communication volume: 1692000000.00, timeprint: 219160246
-total inter core communication volume: 1692000000.00, timeprint: 219160304
-cache line transfer count: 1692000000.00
-cache line transfer count (Millions): 1692.00
-cache line transfer size (GBytes): 100.85
-*/
-
-static atomic_long fs_count = ATOMIC_VAR_INIT(0);
-static atomic_long inter_core_fs_count = ATOMIC_VAR_INIT(0);
-static atomic_long ts_count = ATOMIC_VAR_INIT(0);
-static atomic_long inter_core_ts_count = ATOMIC_VAR_INIT(0);
-static atomic_long as_count = ATOMIC_VAR_INIT(0);
-static atomic_long inter_core_as_count = ATOMIC_VAR_INIT(0);
-static atomic_long line_transfer_count = ATOMIC_VAR_INIT(0);
-
-// ComDetective stats ends
-
 static atomic_long num_reuse = ATOMIC_VAR_INIT(0);
 static atomic_long num_latency = ATOMIC_VAR_INIT(0);
 
@@ -149,31 +124,26 @@ double get_consecutiveness_factor(int matrix_size, long consecutiveness) {
 	return 0.3847 + (-0.004227) * matrix_size + (-0.01604) * consecutiveness + (-0.000098) * matrix_size * matrix_size + 0.00026 * matrix_size * consecutiveness + 0.000192 * consecutiveness * consecutiveness;
 }*/
 
-extern char output_directory[PATH_MAX];
-
-extern nary_node * tree_root;
-
 void
 hpcrun_stats_reinit(void)
 {
   //pointers_init();
-  //printf("that???\n");
+  //fprintf(stderr,"that???\n");
   //adm_initialize();
   fs_matrix_size =  0;
   ts_matrix_size =  0;
   as_matrix_size =  0;
   HASHTABLESIZE = atoi(getenv(BULLETIN_BOARD_SIZE));
-  if(getenv(HPCRUN_OBJECT_LEVEL)) {
+  fprintf(stderr, "bulletin board size is %d\n", HASHTABLESIZE);
+  fprintf(stderr, "watchpoint size is %d\n", atoi(getenv(WATCHPOINT_SIZE)));
+  /*if(getenv(HPCRUN_OBJECT_LEVEL)) {
 	fprintf(stderr, "object level is activated\n");
   	OBJECT_THRESHOLD = atoi(getenv(OBJECT_SIZE_THRESHOLD));
-  }
-  fprintf(stderr, "bulletin board size is %d\n", HASHTABLESIZE);  
-  fprintf(stderr, "object threshold is %d\n", OBJECT_THRESHOLD);
-
-  for(int i = 0; i < 50; i++) {
+  }*/
+  /*for(int i = 0; i < 50; i++) {
 	consecutive_access_count_array[i] = 0;
 	consecutive_wasted_trap_array[i] = 0;
-  }
+  }*/
 
   for(int i = 0; i < HASHTABLESIZE; i++) {
 	bulletinBoard.hashTable[i].cacheLineBaseAddress = -1;
@@ -207,16 +177,6 @@ hpcrun_stats_reinit(void)
   atomic_store_explicit(&num_oldBytes, 0, memory_order_relaxed);
   atomic_store_explicit(&num_oldAppxBytes, 0, memory_order_relaxed);
   atomic_store_explicit(&num_loadedBytes, 0, memory_order_relaxed);
-
-  // ComDetective stats begin
-  atomic_store_explicit(&fs_count, 0, memory_order_relaxed);
-  atomic_store_explicit(&inter_core_fs_count, 0, memory_order_relaxed);
-  atomic_store_explicit(&ts_count, 0, memory_order_relaxed);
-  atomic_store_explicit(&inter_core_ts_count, 0, memory_order_relaxed);
-  atomic_store_explicit(&as_count, 0, memory_order_relaxed);
-  atomic_store_explicit(&inter_core_as_count, 0, memory_order_relaxed);
-  atomic_store_explicit(&line_transfer_count, 0, memory_order_relaxed);
-  // ComDetective stats end
 
   atomic_store_explicit(&num_accessedIns, 0, memory_order_relaxed);
   atomic_store_explicit(&num_falseWWIns, 0, memory_order_relaxed);
@@ -396,50 +356,6 @@ hpcrun_stats_num_loadedBytes_inc(long val)
 {
   atomic_fetch_add_explicit(&num_loadedBytes, val, memory_order_relaxed);
 }                
-
-// ComDetective stats begin
-void
-hpcrun_stats_fs_count_inc(long val)
-{
-  atomic_fetch_add_explicit(&fs_count, val, memory_order_relaxed);
-} 
-
-void
-hpcrun_stats_inter_core_fs_count_inc(long val)
-{
-  atomic_fetch_add_explicit(&inter_core_fs_count, val, memory_order_relaxed);
-} 
-
-void
-hpcrun_stats_ts_count_inc(long val)
-{
-  atomic_fetch_add_explicit(&ts_count, val, memory_order_relaxed);
-} 
-
-void
-hpcrun_stats_inter_core_ts_count_inc(long val)
-{
-  atomic_fetch_add_explicit(&inter_core_ts_count, val, memory_order_relaxed);
-} 
-
-void
-hpcrun_stats_as_count_inc(long val)
-{
-  atomic_fetch_add_explicit(&as_count, val, memory_order_relaxed);
-} 
-
-void
-hpcrun_stats_inter_core_as_count_inc(long val)
-{
-  atomic_fetch_add_explicit(&inter_core_as_count, val, memory_order_relaxed);
-}
-
-void
-hpcrun_stats_line_transfer_count_inc(long val)
-{
-  atomic_fetch_add_explicit(&line_transfer_count, val, memory_order_relaxed);
-}
-// ComDetective stats end
 
 void
 hpcrun_stats_num_accessedIns_inc(long val)
@@ -736,20 +652,44 @@ hpcrun_stats_num_samples_yielded(void)
 void
 hpcrun_stats_print_summary(void)
 {
-	//fprintf(stderr, "pretty printing tree in hpctoolkit\n");
-	//postorder(tree_root, 0);
-	int object_flag = 0;
-	if(getenv(HPCRUN_OBJECT_LEVEL))
-		object_flag = 1;
-	//fprintf(stderr, "before adm_finalize\n");
-  	adm_finalize(object_flag, output_directory, hpcrun_files_executable_name(), getpid() );
-	//fprintf(stderr, "after adm_finalize\n");
+	/*printf("matrix before:\n");
+	dump_as_matrix();
+	printf("max_consecutive_count before: %d, matrix_size: %d\n", max_consecutive_count, as_matrix_size + 1);*/
+	//max_consecutive_count = (max_consecutive_count > 21) ? 21 : max_consecutive_count;
+	//printf("max_consecutive_count after: %d\n", max_consecutive_count);
+	/*double tweaking_factor = get_consecutiveness_factor(as_matrix_size, max_consecutive_count + 1);
+	//printf("tweaking_factor: %0.4lf\n", tweaking_factor);
+	for(int i = 0; i <= as_matrix_size; i++) {
+		for(int j = 0; j <= as_matrix_size; j++) {
+			as_matrix[i][j] = as_matrix[i][j] * tweaking_factor;
+		}
+	}
+
+	for(int i = 0; i <= ts_matrix_size; i++) {
+                for(int j = 0; j <= ts_matrix_size; j++) {
+                        ts_matrix[i][j] = ts_matrix[i][j] * tweaking_factor;
+                }
+        }
+
+	for(int i = 0; i <= fs_matrix_size; i++) {
+                for(int j = 0; j <= fs_matrix_size; j++) {
+                        fs_matrix[i][j] = fs_matrix[i][j] * tweaking_factor;
+                }
+        }*/
+
+	//print_adm_db();
+  	//adm_finalize(getenv(HPCRUN_OBJECT_LEVEL));
 	dump_fs_matrix();
 	dump_fs_core_matrix();
 	dump_ts_matrix();
 	dump_ts_core_matrix();
 	dump_as_matrix();
 	dump_as_core_matrix();
+	//printf("a = 32, b = 21, con: %0.4lf\n", get_consecutiveness_factor(8, 21));
+  //printf("number_of_traps: %ld\n", number_of_traps);
+  /*printf("consecutive wasted trap array:\n");
+  for(int i = 0; i < 30; i++)
+	printf("%d consecutive wasted trap count: %d\n", i, consecutive_wasted_trap_array[i]);*/
   long blocked = atomic_load_explicit(&num_samples_blocked_async, memory_order_relaxed) +
     atomic_load_explicit(&num_samples_blocked_dlopen, memory_order_relaxed);
   long errant = atomic_load_explicit(&num_samples_dropped, memory_order_relaxed);

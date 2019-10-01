@@ -61,9 +61,9 @@
 #include "watchpoint_support.h"
 #include <unwind/x86-family/x86-misc.h>
 #include "matrix.h"
-#include <adm_init_fini.h>
+//#include <adm_init_fini.h>
 
-extern int init_adamant;
+//extern int init_adamant;
 
 #define MAX_WP_SLOTS (5)
 #define IS_ALIGNED(address, alignment) (! ((size_t)(address) & (alignment-1)))
@@ -193,10 +193,10 @@ static int OnWatchPoint(int signum, siginfo_t *info, void *context);
 
 __attribute__((constructor))
 static void InitConfig(){
-    if(!init_adamant) {
-	init_adamant = 1;
-    	adm_initialize();
-    }
+    /*if(!init_adamant) {
+	init_adamant = 1;*/
+    	//adm_initialize();
+    //}
     tData.fptr = NULL;
     
     volatile int dummyWP[MAX_WP_SLOTS];
@@ -287,12 +287,12 @@ static void InitConfig(){
     for (int j = 0 ; j < i; j ++) {
         CHECK(close(wpHandles[j]));
     }
-    if(atoi(getenv(WATCHPOINT_SIZE)) < i)
-	wpConfig.maxWP = atoi(getenv(WATCHPOINT_SIZE));
+    int custom_wp_size = atoi(getenv(WATCHPOINT_SIZE));
+    if(custom_wp_size < i)
+        wpConfig.maxWP = custom_wp_size;
     else
-    	wpConfig.maxWP = i;
-    printf("number of watchpoints is %d\n", wpConfig.maxWP);
-    
+        wpConfig.maxWP = i;
+   fprintf(stderr, "custom_wp_size is %d\n", custom_wp_size);
    //wpConfig.maxWP = 1;
     
     // Should we get the floating point type in an access?
@@ -347,6 +347,9 @@ static void InitConfig(){
         // default;
         wpConfig.dontDisassembleWPAddress = false;
     }
+
+    
+    
 }
 
 void RedSpyWPConfigOverride(void *v){

@@ -231,7 +231,6 @@ HPCRUN_DEBUG_FLAGS=
 HPCRUN_EVENT_LIST=
 BULLETIN_BOARD_SIZE=127
 WATCHPOINT_SIZE=4
-BULLETIN_BOARD_S=127
 while test "x$1" != x
 do
     arg="$1" ; shift
@@ -325,22 +324,18 @@ do
 	# --------------------------------------------------
 
         --enable-object-level )
-	    echo "HPCRUN_OBJECT_LEVEL is activated"
             export HPCRUN_OBJECT_LEVEL=1
             ;;
 
 	# --------------------------------------------------
 
-	--object-size-threshold )
+        --mapping )
             arg_ok "$1" || die "missing argument for $arg"
-	    export OBJECT_SIZE_THRESHOLD=$1
-	    export HPCRUN_OBJECT_LEVEL=1
+            export HPCRUN_THREAD_MAPPING="$1"
             shift
             ;;
-
-	# --------------------------------------------------
-
-        --bulletin-board-size )
+	
+	--bulletin-board-size )
             arg_ok "$1" || die "missing argument for $arg"
 	    #BULLETIN_BOARD_SIZE=127
 	    #if ! [[ "$1" =~ ^[0-9]+$ ]]
@@ -367,15 +362,6 @@ do
             WATCHPOINT_SIZE=$1
             #fi
             #export WATCHPOINT_SIZE
-            shift
-            ;;
-
-
-	# --------------------------------------------------
-
-        --mapping )
-            arg_ok "$1" || die "missing argument for $arg"
-            export HPCRUN_THREAD_MAPPING="$1"
             shift
             ;;
 
@@ -435,8 +421,9 @@ do
 	    ;;
     esac
 done
+
 export BULLETIN_BOARD_SIZE
-export OBJECT_SIZE_THRESHOLD
+#export OBJECT_SIZE_THRESHOLD
 export WATCHPOINT_SIZE
 
 # Add default sampling source if needed.

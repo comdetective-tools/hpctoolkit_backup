@@ -135,10 +135,8 @@
 #include <unwind/x86-family/x86-misc.h>
 #include "perf/perf-util.h"
 #include <hpcrun/handling_sample.h>
-#include <adm_init_fini.h>
-#include <execinfo.h>
+//#include <adm_init_fini.h>
 #include "matrix.h"
-#include "myposix.h"
 
 int red_metric_id = -1;
 int redApprox_metric_id = -1;
@@ -198,9 +196,9 @@ __thread WPStats_t wpStats;
 #define WP_TEMPORAL_REUSE_EVENT_NAME "WP_TEMPORAL_REUSE"
 #define WP_SPATIAL_REUSE_EVENT_NAME "WP_SPATIAL_REUSE"
 #define WP_FALSE_SHARING_EVENT_NAME "WP_FALSE_SHARING"
-#define WP_COMDETECTIVE_EVENT_NAME "WP_COMDETECTIVE"
 #define WP_TRUE_SHARING_EVENT_NAME "WP_TRUE_SHARING"
 #define WP_ALL_SHARING_EVENT_NAME "WP_ALL_SHARING"
+#define WP_COMDETECTIVE_EVENT_NAME "WP_COMDETECTIVE"
 #define WP_IPC_FALSE_SHARING_EVENT_NAME "WP_IPC_FALSE_SHARING"
 #define WP_IPC_TRUE_SHARING_EVENT_NAME "WP_IPC_TRUE_SHARING"
 #define WP_IPC_ALL_SHARING_EVENT_NAME "WP_IPC_ALL_SHARING"
@@ -233,9 +231,6 @@ SharedData_t wBulletinBoard = {.counter = 0, .time=0, .wpType = -1, .accessType 
 
 HashTable_t bulletinBoard = {.counter = 0};
 */
-
-SharedData_t wBulletinBoard = {.counter = 0, .time=0, .wpType = -1, .accessType = UNKNOWN, .sampleType = UNKNOWN_SAMPLE_TYPE, .tid = -1, .expiration_period = 0, .address = 0, .matrix_counter = 0};
-/*
 typedef struct SharedData{
     volatile uint64_t counter __attribute__((aligned(CACHE_LINE_SZ)));
     uint64_t time __attribute__((aligned(CACHE_LINE_SZ)));
@@ -246,13 +241,13 @@ typedef struct SharedData{
     int accessLen;
     cct_node_t * node;
     char dummy[CACHE_LINE_SZ];
-} SharedData_t;*/
+} SharedData_t;
 
-//SharedData_t gSharedData = {.counter = 0, .time=0, .wpType = -1, .accessType = UNKNOWN, .tid = -1, .address = 0};
+SharedData_t gSharedData = {.counter = 0, .time=0, .wpType = -1, .accessType = UNKNOWN, .tid = -1, .address = 0};
 
 HashTable_t bulletinBoard = {.counter = 0};
 
-__thread uint64_t prev_timestamp = -1;
+__thread uint64_t prev_timestamp = 0;
 
 // before
 /*
@@ -275,168 +270,6 @@ typedef struct hashTableStruct{
 HashTable_t bulletinBoard = {.counter = 0};
 */
 
-int hashCode(void * key) {
-   return (uint64_t) key % 54121 % HASHTABLESIZE;
-}
-
-
-void execute_backtrace() {
-  unw_cursor_t cursor;
-  unw_context_t context;
-
-  // Initialize cursor to current frame for local unwinding.
-  unw_getcontext(&context);
-  unw_init_local(&cursor, &context);
-
-  // Unwind frames one by one, going up the frame stack.
-  pid_t tid = syscall(__NR_gettid);
-  //fprintf(stderr, "backtrace starts\n");
-  while (unw_step(&cursor) > 0) {
-    unw_word_t offset, pc;
-    unw_get_reg(&cursor, UNW_REG_IP, &pc);
-    if (pc == 0) {
-      break;
-    }
-    //printf("in thread %d, 0x%lx:", omp_get_thread_num(), pc);
-
-    char sym[256];
-    if (unw_get_proc_name(&cursor, sym, sizeof(sym), &offset) == 0) {
-      //printf("(%s+0x%lx) in thread %d\n", sym, pc-offset, tid);
-    } else {
-      printf(" -- error: unable to obtain symbol name for this frame\n");
-    }
-  }
-}
-
-
-
-int hashSearch(void * searchedAddress) {
-   //get the hash
-   //printf("hashSearch begins\n");
-   int hashIndex = hashCode(searchedAddress);
-
-   //move in array until an empty
-   int iter = 0;
-   while(bulletinBoard.hashTable[hashIndex].address != -1 && iter < HASHTABLESIZE) {
-
-      if(bulletinBoard.hashTable[hashIndex].address == searchedAddress) {
-	//printf("hashSearch ends\n");
-         return 1;
-     }
-
-      //go to next cell
-      ++hashIndex;
-
-      //wrap around the table
-      hashIndex %= HASHTABLESIZE;
-      iter++;
-   }
-   //printf("hashSearch ends\n");
-   return -1;
-} 
-
-void hashInsert(struct SharedData item) {
-   printf("hashInsert begins\n");
-
-   //get the hash
-   int hashIndex = hashCode(item.address);
-
-   //move in array until an empty or deleted cell
-   int iter = 0;
-   while(bulletinBoard.hashTable[hashIndex].address != -1 && bulletinBoard.hashTable[hashIndex].address != item.address && iter < HASHTABLESIZE) {
-      //go to next cell
-      ++hashIndex;
-      //wrap around the table
-      hashIndex %= HASHTABLESIZE;
-      iter++;
-   }
-   bulletinBoard.hashTable[hashIndex] = item;
-   printf("hashInsert ends\n");
-}
-
-SharedData_t getEntryFromBulletinBoard(void * cacheLineBaseAddress, int * item_not_found) {
-	int hashIndex = hashCode(cacheLineBaseAddress);
-	int iter = 0;
-	while((bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress != -1) && (cacheLineBaseAddress != bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress) && iter < HASHTABLESIZE) {
-		++hashIndex;
-		hashIndex %= HASHTABLESIZE;
-		iter++;
-	}
-	if(iter == HASHTABLESIZE)
-		*item_not_found = 1;
-	return bulletinBoard.hashTable[hashIndex];
-}
-
-SharedData_t getEntryRandomlyFromBulletinBoard(int tid, uint64_t cur_time, int * do_not_arm_watchpoint) {
-	int hashIndex = rdtsc() % HASHTABLESIZE;
-	int iter = 0;
-	while(1) {
-		if(iter == HASHTABLESIZE) {
-			*do_not_arm_watchpoint = 1;
-			break;
-		}
-		if((bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress != -1) && (bulletinBoard.hashTable[hashIndex].tid != tid) && ((cur_time - bulletinBoard.hashTable[hashIndex].time) < bulletinBoard.hashTable[hashIndex].expiration_period))
-			break;
-		++hashIndex;
-		hashIndex %= HASHTABLESIZE;
-		iter++;
-	}
-	return bulletinBoard.hashTable[hashIndex];
-}
-
-void hashInsertwithTime(struct SharedData item, uint64_t cur_time, uint64_t prev_time) {
-   void * cacheLineBaseAddress = item.cacheLineBaseAddress;
-   int hashIndex = hashCode(cacheLineBaseAddress);
-
-   //move in array until an empty or deleted cell
-   int iter = 0;
-   while(bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress != -1 && cacheLineBaseAddress != bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress && iter < HASHTABLESIZE) {
-      ++hashIndex;
-      hashIndex %= HASHTABLESIZE;
-      iter++;
-   }
-   if (bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress == -1) {
-	//printf("insertion happens hashIndex: %d, tid: %d, address: %lx\n", hashIndex, item.tid, item.address);
-	bulletinBoard.hashTable[hashIndex] = item;
-  } else if((cacheLineBaseAddress == bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress) && ((item.time - bulletinBoard.hashTable[hashIndex].time) > (cur_time - prev_time))) {
-	item.prev_transfer_counter = bulletinBoard.hashTable[hashIndex].prev_transfer_counter;
-	bulletinBoard.hashTable[hashIndex] = item;
-	//printf("insertion2 happens\n");
-  } else {
-        iter = 1;
-	uint64_t oldest_time = bulletinBoard.hashTable[0].time;
-	int targetIndex = 0;
-	hashIndex = 1;
-	while(iter < HASHTABLESIZE) {
-		if(bulletinBoard.hashTable[hashIndex].time < oldest_time) {
-			oldest_time = bulletinBoard.hashTable[hashIndex].time;
-			targetIndex = hashIndex;
-		}
-		++hashIndex;
-      		//wrap around the table   
-      		hashIndex %= HASHTABLESIZE;
-      		iter++;
-	}
-	if((item.time - bulletinBoard.hashTable[targetIndex].time) > (cur_time - prev_time)) {
-		bulletinBoard.hashTable[targetIndex] = item;
-		//printf("insertion3 happens\n");
-	}
-  }
-   //printf("hashInsert ends iter: %d\n", iter);
-}
-
-
-void hashDisplay() {
-   int i = 0;
-   for(i = 0; i<HASHTABLESIZE; i++) {
-      if(bulletinBoard.hashTable[i].address != -1)
-         printf(" (%d, %lx, %ld, %d, %ld)", bulletinBoard.hashTable[i].tid, (uint64_t) (bulletinBoard.hashTable[i].address), bulletinBoard.hashTable[i].time, bulletinBoard.hashTable[i].tid, bulletinBoard.hashTable[i].prev_transfer_counter);
-      else
-         printf(" ~~ ");
-   }
-	
-   printf("\n");
-}
 // after
 
 
@@ -449,6 +282,14 @@ __thread uint64_t deadBytes = 0;
 __thread uint64_t oldBytes = 0;
 __thread uint64_t oldAppxBytes = 0;
 __thread uint64_t newBytes = 0;
+__thread uint64_t accessedIns = 0;
+__thread uint64_t falseWWIns = 0;
+__thread uint64_t falseWRIns = 0;
+__thread uint64_t falseRWIns = 0;
+__thread uint64_t trueWWIns = 0;
+__thread uint64_t trueWRIns = 0;
+__thread uint64_t trueRWIns = 0;
+__thread uint64_t reuse = 0;
 
 // ComDetective stats begin
 __thread uint64_t fs_num = 0;
@@ -459,15 +300,6 @@ __thread uint64_t as_num = 0;
 __thread uint64_t inter_core_as_num = 0;
 __thread uint64_t line_transfer_num = 0;
 // ComDetective stats end
-
-__thread uint64_t accessedIns = 0;
-__thread uint64_t falseWWIns = 0;
-__thread uint64_t falseWRIns = 0;
-__thread uint64_t falseRWIns = 0;
-__thread uint64_t trueWWIns = 0;
-__thread uint64_t trueWRIns = 0;
-__thread uint64_t trueRWIns = 0;
-__thread uint64_t reuse = 0;
 
 // Some stats
 __thread long int correct=0;
@@ -527,8 +359,8 @@ static WPTriggerActionType TemporalReuseWPCallback(WatchPointInfo_t *wpi, int st
 static WPTriggerActionType SpatialReuseWPCallback(WatchPointInfo_t *wpi, int startOffset, int safeAccessLen, WatchPointTrigger_t * wt);
 static WPTriggerActionType LoadLoadWPCallback(WatchPointInfo_t *wpi, int startOffset, int safeAccessLen, WatchPointTrigger_t * wt);
 static WPTriggerActionType FalseSharingWPCallback(WatchPointInfo_t *wpi, int startOffset, int safeAccessLen, WatchPointTrigger_t * wt);
-static WPTriggerActionType ComDetectiveWPCallback(WatchPointInfo_t *wpi, int startOffset, int safeAccessLen, WatchPointTrigger_t * wt);
 static WPTriggerActionType AllSharingWPCallback(WatchPointInfo_t *wpi, int startOffset, int safeAccessLen, WatchPointTrigger_t * wt);
+static WPTriggerActionType ComDetectiveWPCallback(WatchPointInfo_t *wpi, int startOffset, int safeAccessLen, WatchPointTrigger_t * wt);
 static WPTriggerActionType TrueSharingWPCallback(WatchPointInfo_t *wpi, int startOffset, int safeAccessLen, WatchPointTrigger_t * wt);
 static WPTriggerActionType IPCFalseSharingWPCallback(WatchPointInfo_t *wpi, int startOffset, int safeAccessLen, WatchPointTrigger_t * wt);
 static WPTriggerActionType IPCAllSharingWPCallback(WatchPointInfo_t *wpi, int startOffset, int safeAccessLen, WatchPointTrigger_t * wt);
@@ -584,14 +416,6 @@ static WpClientConfig_t wpClientConfig[] = {
         .preWPAction = DISABLE_ALL_WP,
         .configOverrideCallback = FalseSharingWPConfigOverride
     },
-    /**** ComDetective ***/
-    {
-        .id = WP_COMDETECTIVE,
-        .name = WP_COMDETECTIVE_EVENT_NAME,
-        .wpCallback = ComDetectiveWPCallback,
-        .preWPAction = DISABLE_ALL_WP,
-        .configOverrideCallback = ComDetectiveWPConfigOverride
-    },
     /**** All Sharing ***/
     {
         .id = WP_ALL_SHARING,
@@ -599,6 +423,13 @@ static WpClientConfig_t wpClientConfig[] = {
         .wpCallback = AllSharingWPCallback,
         .preWPAction = DISABLE_ALL_WP,
         .configOverrideCallback = AllSharingWPConfigOverride
+    },
+    {    
+        .id = WP_COMDETECTIVE,
+        .name = WP_COMDETECTIVE_EVENT_NAME,
+        .wpCallback = ComDetectiveWPCallback,
+        .preWPAction = DISABLE_ALL_WP,
+        .configOverrideCallback = ComDetectiveWPConfigOverride
     },
     /**** Contention ***/
     {
@@ -807,15 +638,6 @@ static void ClientTermination(){
             break;
         case WP_ALL_SHARING:
 	case WP_COMDETECTIVE:
-	    /*
-	    hpcrun_stats_fs_count_inc(fs_num);
-	    hpcrun_stats_inter_core_fs_count_inc(inter_core_fs_num);
-	    hpcrun_stats_ts_count_inc(ts_num);
-	    hpcrun_stats_inter_core_ts_count_inc(inter_core_ts_num);
-	    hpcrun_stats_as_count_inc(as_num);
-	    hpcrun_stats_inter_core_as_count_inc(inter_core_as_num);
-	    hpcrun_stats_line_transfer_count_inc(line_transfer_num);
-	    */
         case WP_IPC_ALL_SHARING: /*assert(0);
             assert(0);*/
             hpcrun_stats_num_accessedIns_inc(accessedIns);
@@ -1093,8 +915,8 @@ METHOD_FN(process_event_list, int lush_metrics)
             break;
             
         case WP_ALL_SHARING:
-	case WP_COMDETECTIVE:
-        case WP_IPC_ALL_SHARING:
+        case WP_COMDETECTIVE:
+	case WP_IPC_ALL_SHARING:
             // must have a canonical load map across processes
             hpcrun_set_ipc_load_map(true);
             measured_metric_id = hpcrun_new_metric();
@@ -1620,17 +1442,14 @@ static WPTriggerActionType FalseSharingWPCallback(WatchPointInfo_t *wpi, int sta
     cct_metric_data_increment(metricId, node, (cct_metric_data_t){.i = 1});
     return ALREADY_DISABLED;
 }
+// after
 
 static WPTriggerActionType ComDetectiveWPCallback(WatchPointInfo_t *wpi, int startOffset, int safeAccessLen, WatchPointTrigger_t * wt){
-    //printf("REACHED HERE!!!!! NO PROBLEM\n");
     int metricId = -1;
     const void* joinNode;
     int joinNodeIdx = wpi->sample.isSamplePointAccurate? E_ACCURATE_JOIN_NODE_IDX : E_INACCURATE_JOIN_NODE_IDX;
 
-    number_of_caught_traps++;
-
     last_trapped_cacheline = (void *) ALIGN_TO_CACHE_LINE((size_t)wt->va);
-    consecutive_access_count++;
 
 
     did_last_sample_trap = true;
@@ -1643,7 +1462,7 @@ static WPTriggerActionType ComDetectiveWPCallback(WatchPointInfo_t *wpi, int sta
     }
     if(fs_matrix_size < max_thread_num)
     {
-	matrix_size_set(max_thread_num);
+	//matrix_size_set(max_thread_num);
     	fs_matrix_size =  max_thread_num;
     	ts_matrix_size =  max_thread_num;
     	as_matrix_size =  max_thread_num;
@@ -1657,7 +1476,7 @@ static WPTriggerActionType ComDetectiveWPCallback(WatchPointInfo_t *wpi, int sta
     }
     if(fs_core_matrix_size < max_core_num)
     {
-        core_matrix_size_set(max_core_num);
+        //core_matrix_size_set(max_core_num);
         fs_core_matrix_size =  max_core_num;
         ts_core_matrix_size =  max_core_num;
         as_core_matrix_size =  max_core_num;
@@ -1674,175 +1493,63 @@ static WPTriggerActionType ComDetectiveWPCallback(WatchPointInfo_t *wpi, int sta
 
    int core_id1 = wpi->sample.first_accessing_core_id;
    int core_id2 = sched_getcpu();
-   if(prev_timestamp != wpi->sample.bulletinBoardTimestamp) {
    int flag = 0;
-   if(wt->accessType == LOAD && wpi->sample.samplerAccessType == LOAD){
-	//printf("her\n");
-	if(wpi->sample.sampleType == ALL_LOAD) {
-		//printf("THIS!!!\n");
-        	global_sampling_period = global_load_sampling_period;
-		flag = 1;
-		number_of_caught_read_traps++;
-	}
-	//printf("this is happening from %d to %d\n", index1, index2);
-    } else if (wt->accessType == STORE && wpi->sample.samplerAccessType == STORE) {
-	//prntf("to\n");
-        if(wpi->sample.sampleType == ALL_STORE) {
-		//printf("OR THAT!!\n");
-                global_sampling_period = global_store_sampling_period;
-		flag = 1;
-                number_of_caught_write_traps++;
-	}
-    } else if (wt->accessType == LOAD_AND_STORE && wpi->sample.samplerAccessType == LOAD_AND_STORE){
-	if(wpi->sample.sampleType == ALL_LOAD) {
-                //printf("THESE!!!\n");
-                global_sampling_period = global_load_sampling_period;
-                flag = 1;
-                number_of_caught_read_write_traps++;
-        }
-	if(wpi->sample.sampleType == ALL_STORE) {
-                //printf("THOSE!!!\n");
-                global_sampling_period = global_store_sampling_period;
-                flag = 1;
-                number_of_caught_read_write_traps++;
-        }
+   // if ts2 > tprev then
+   if(prev_timestamp < wpi->sample.bulletinBoardTimestamp) {
+   	if(wt->accessType == LOAD && wpi->sample.samplerAccessType == LOAD){
+		if(wpi->sample.sampleType == ALL_LOAD) {
+        		global_sampling_period = global_load_sampling_period;
+			flag = 1;
+			number_of_caught_read_traps++;
+		}
+    	} else if (wt->accessType == STORE && wpi->sample.samplerAccessType == STORE) {
+        	if(wpi->sample.sampleType == ALL_STORE) {
+        	        global_sampling_period = global_store_sampling_period;
+			flag = 1;
+        	        number_of_caught_write_traps++;
+		}
+	} else if (wt->accessType == LOAD_AND_STORE && wpi->sample.samplerAccessType == LOAD_AND_STORE){
+		if(wpi->sample.sampleType == ALL_LOAD) {
+    	            global_sampling_period = global_load_sampling_period;
+    	            flag = 1;
+    	            number_of_caught_read_write_traps++;
+    	    	}
+	    	if(wpi->sample.sampleType == ALL_STORE) {
+            	    global_sampling_period = global_store_sampling_period;
+            	    flag = 1;
+            	    number_of_caught_read_write_traps++;
+        	}
+    	}
     }
-	//consecutive_wasted_trap_array[consecutive_wasted_trap_count]++;
-	//consecutive_wasted_trap_count = 0;
+
+
     if (flag == 1) {
-		prev_timestamp = wpi->sample.bulletinBoardTimestamp;
-		//consecutive_wasted_trap_array[consecutive_wasted_trap_count]++;
-        	//consecutive_wasted_trap_count = 0;
-	}
-    }
+    	void * cacheLineBaseAddress = (void *) ALIGN_TO_CACHE_LINE((size_t)wt->va);    
+    	double increment = (double) CACHE_LINE_SZ/MAX_WP_LENGTH / wpConfig.maxWP * global_sampling_period; 
 
-    void * cacheLineBaseAddress = (void *) ALIGN_TO_CACHE_LINE((size_t)wt->va);    
-
-    double increment_untweaked = (double) CACHE_LINE_SZ/MAX_WP_LENGTH / wpConfig.maxWP * global_sampling_period;
-    double increment = (double) CACHE_LINE_SZ/MAX_WP_LENGTH / wpConfig.maxWP * global_sampling_period; 
-
-    //int node_id = get_id_after_get_id_after_backtrace();
-    if(GET_OVERLAP_BYTES(wpi->sample.target_va, wpi->sample.accessLength, wt->va, wt->accessLength) > 0) {
-	int id = -1;
-	if(getenv(HPCRUN_OBJECT_LEVEL)) {
-		inc_true_matrix( (uint64_t) wt->va, index1, index2, increment);
-		inc_true_count((uint64_t) wt->va, increment);
-		int obj_id1 = get_object_id_by_address(wpi->sample.target_va);
-    		int obj_id2 = get_object_id_by_address(wt->va);
-    		if(obj_id1 == 0 && obj_id2 == 0) {
-			id = get_id_after_backtrace(); 
-    			//fprintf(stderr, "true sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
-			inc_true_matrix_by_object_id(id, core_id1, core_id2, increment);
-        		inc_true_count_by_object_id(id, increment);
-		}
-		if(obj_id1 == 1 && obj_id2 == 1) {
-			if(id == -1)
-				id = get_id_after_backtrace(); 
-    			//fprintf(stderr, "true sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
-			inc_true_matrix_by_object_id(id, core_id1, core_id2, increment);
-        		inc_true_count_by_object_id(id, increment);
-		}
-	}
-
-    	ts_matrix[index1][index2] = ts_matrix[index1][index2] + increment;
-	if(core_id1 != core_id2) {
-		if(getenv(HPCRUN_OBJECT_LEVEL)) {
-			inc_true_core_matrix( (uint64_t) wt->va, core_id1, core_id2, increment);
-        		inc_true_core_count((uint64_t) wt->va, increment);
-			int obj_id1 = get_object_id_by_address(wpi->sample.target_va);
-    			int obj_id2 = get_object_id_by_address(wt->va);
-    			if(obj_id1 == 0 && obj_id2 == 0) {
-				if(id == -1)
-					id = get_id_after_backtrace(); 
-    				//fprintf(stderr, "communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
-				inc_true_core_matrix_by_object_id(id, core_id1, core_id2, increment);
-        			inc_true_core_count_by_object_id(id, increment);
-			}
-			if(obj_id1 == 1 && obj_id2 == 1) {
-				if(id == -1)
-					id = get_id_after_backtrace(); 
-    				//fprintf(stderr, "communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
-				inc_true_core_matrix_by_object_id(id, core_id1, core_id2, increment);
-        			inc_true_core_count_by_object_id(id, increment);
-			}
-		}
-		ts_core_matrix[core_id1][core_id2] = ts_core_matrix[core_id1][core_id2] + increment;
-	}
-
-    } else {
+    	// if [M1 , M1 + δ1 ) overlaps with [M2 , M2 + δ2 ) then
+    	if(GET_OVERLAP_BYTES(wpi->sample.target_va, wpi->sample.accessLength, wt->va, wt->accessLength) > 0) {
 		int id = -1;
-		if(getenv(HPCRUN_OBJECT_LEVEL)) {
-			inc_false_matrix((uint64_t) wpi->sample.target_va, (uint64_t) wt->va, index1, index2, increment);
-			inc_false_count((uint64_t) wpi->sample.target_va, (uint64_t) wt->va, increment);
-			int obj_id1 = get_object_id_by_address(wpi->sample.target_va);
-    			int obj_id2 = get_object_id_by_address(wt->va);
-			// debugging starts
-                        if((obj_id1 == obj_id2) && (obj_id1 == 998)) {
-                        	fprintf(stderr, "false sharing is detected between threads %d and %d on address %ld and address %ld\n", index1, index2, wpi->sample.target_va, wt->va);
-				//sleep(4);
-                        }
-                                        // debugging ends
-    			if(obj_id1 == 0 && obj_id2 == 0) {
-				id = get_id_after_backtrace(); 
-    				//fprintf(stderr, "false sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
-				inc_false_matrix_by_object_id(id, core_id1, core_id2, increment);
-        			inc_false_count_by_object_id(id, increment);
-			}
-			if(obj_id1 == 1 && obj_id2 == 1) {
-				if(id == -1)
-					id = get_id_after_backtrace(); 
-    				//fprintf(stderr, "false sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
-				inc_false_matrix_by_object_id(id, core_id1, core_id2, increment);
-        			inc_false_count_by_object_id(id, increment);
-			}
+		// Record true sharing
+    		ts_matrix[index1][index2] = ts_matrix[index1][index2] + increment;
+		if(core_id1 != core_id2) {
+			ts_core_matrix[core_id1][core_id2] = ts_core_matrix[core_id1][core_id2] + increment;
 		}
 
-		fs_matrix[index1][index2] = fs_matrix[index1][index2] + increment;
-		if(core_id1 != core_id2) {
-			if(getenv(HPCRUN_OBJECT_LEVEL)) {
-				inc_false_core_matrix((uint64_t) wpi->sample.target_va, (uint64_t) wt->va, core_id1, core_id2, increment);
-        			inc_false_core_count((uint64_t) wpi->sample.target_va, (uint64_t) wt->va, increment);
-				int obj_id1 = get_object_id_by_address(wpi->sample.target_va);
-    				int obj_id2 = get_object_id_by_address(wt->va);
-    				if(obj_id1 == 0 && obj_id2 == 0) {
-					if(id == -1)
-						id = get_id_after_backtrace(); 
-    					//fprintf(stderr, "communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
-					inc_false_matrix_by_object_id(id, core_id1, core_id2, increment);
-        				inc_false_count_by_object_id(id, increment);
-				}
-				if(obj_id1 == 1 && obj_id2 == 1) {
-					if(id == -1)
-						id = get_id_after_backtrace(); 
-    					//fprintf(stderr, "communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
-					inc_false_matrix_by_object_id(id, core_id1, core_id2, increment);
-        				inc_false_count_by_object_id(id, increment);
-				}
+    	} else {
+			int id = -1;
+			// Record false sharing
+			fs_matrix[index1][index2] = fs_matrix[index1][index2] + increment;
+			if(core_id1 != core_id2) {
+				fs_core_matrix[core_id1][core_id2] = fs_core_matrix[core_id1][core_id2] + increment;
 			}
-			fs_core_matrix[core_id1][core_id2] = fs_core_matrix[core_id1][core_id2] + increment;
-		}
-    }
-// here ****
-    //fprintf(stderr, "in callback\n");
-    //execute_backtrace();
-    as_matrix[index1][index2] = as_matrix[index1][index2] + increment;
-    if(core_id1 != core_id2) {
-    	as_core_matrix[core_id1][core_id2] = as_core_matrix[core_id1][core_id2] + increment; 
-    }
-    if(wt->accessType == LOAD){
-        falseWRIns ++;
-        metricId = false_wr_metric_id;
-        joinNode = joinNodes[E_FALSE_WR_SHARE][joinNodeIdx];
-    } else {
-        if(wpi->sample.accessType == LOAD) {
-            falseRWIns ++;
-            metricId = false_rw_metric_id;
-            joinNode = joinNodes[E_FALSE_RW_SHARE][joinNodeIdx];
-        } else{
-            falseWWIns ++;
-            metricId =  false_ww_metric_id;
-            joinNode = joinNodes[E_FALSE_WW_SHARE][joinNodeIdx];
-        }
+    	}
+    	as_matrix[index1][index2] = as_matrix[index1][index2] + increment;
+    	if(core_id1 != core_id2) {
+    		as_core_matrix[core_id1][core_id2] = as_core_matrix[core_id1][core_id2] + increment; 
+    	}
+	// tprev = ts2
+	prev_timestamp = wpi->sample.bulletinBoardTimestamp;
     }
 
     sample_val_t v = hpcrun_sample_callpath(wt->ctxt, measured_metric_id, SAMPLE_UNIT_INC, 0, 1, NULL);
@@ -2022,38 +1729,17 @@ static inline bool IsValidAddress(void * addr, void * pc){
     return false;
 }
 
-/*
-void ReadSharedDataTransactionally(SharedData_t *localSharedData, int tid){
+void ReadSharedDataTransactionally(SharedData_t *localSharedData){
     // Laport's STM
-    //printf("An address is read from wBulletinBoard to arm watchpoints by thread %d\n", tid);
     do{
-        int64_t startCounter = wBulletinBoard.counter;
-        if(startCounter & 1) {
-	    //printf("writing or hashUpdate is being performed counter is %lu\n", startCounter);
+        int64_t startCounter = gSharedData.counter;
+        if(startCounter & 1)
             continue; // Some writer is updating
-        }
+        
         __sync_synchronize();
-        *localSharedData = wBulletinBoard;
+        *localSharedData = gSharedData;
         __sync_synchronize();
-        int64_t endCounter = wBulletinBoard.counter;
-        if(startCounter == endCounter)
-            break;
-    }while(1);
-}*/
-
-void ReadSharedDataTransactionally(SharedData_t *localSharedData, int tid){
-    // Laport's STM
-    //printf("An address is read from wBulletinBoard to arm watchpoints by thread %d\n", tid);
-    do{
-        int64_t startCounter = wBulletinBoard.counter;
-        if(startCounter & 1) {
-	    //printf("writing or hashUpdate is being performed counter is %lu\n", startCounter);
-            continue; // Some writer is updating
-        }
-        __sync_synchronize();
-        *localSharedData = wBulletinBoard;
-        __sync_synchronize();
-        int64_t endCounter = wBulletinBoard.counter;
+        int64_t endCounter = gSharedData.counter;
         if(startCounter == endCounter)
             break;
     }while(1);
@@ -2660,6 +2346,76 @@ bool PrintStats(){
 }
 #endif
 
+SharedEntry_t getEntryRandomlyFromBulletinBoard(int tid, uint64_t cur_time, int * do_not_arm_watchpoint) {
+	int hashIndex = rdtsc() % HASHTABLESIZE;
+	int iter = 0;
+	while(1) {
+		if(iter == HASHTABLESIZE) {
+			*do_not_arm_watchpoint = 1;
+			break;
+		}
+		if((bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress != -1) && (bulletinBoard.hashTable[hashIndex].tid != tid) && ((cur_time - bulletinBoard.hashTable[hashIndex].time) < bulletinBoard.hashTable[hashIndex].expiration_period))
+			break;
+		++hashIndex;
+		hashIndex %= HASHTABLESIZE;
+		iter++;
+	}
+	return bulletinBoard.hashTable[hashIndex];
+}
+
+int hashCode(void * key) {
+   return (uint64_t) key % 54121 % HASHTABLESIZE;
+}
+
+SharedEntry_t getEntryFromBulletinBoard(void * cacheLineBaseAddress, int * item_not_found) {
+	int hashIndex = hashCode(cacheLineBaseAddress);
+	int iter = 0;
+	while((bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress != -1) && (cacheLineBaseAddress != bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress) && iter < HASHTABLESIZE) {
+		++hashIndex;
+		hashIndex %= HASHTABLESIZE;
+		iter++;
+	}
+	if(iter == HASHTABLESIZE)
+		*item_not_found = 1;
+	return bulletinBoard.hashTable[hashIndex];
+}
+
+
+void hashInsertwithTime(struct SharedEntry item, uint64_t cur_time, uint64_t prev_time) {
+   void * cacheLineBaseAddress = item.cacheLineBaseAddress;
+   int hashIndex = hashCode(cacheLineBaseAddress);
+
+   int iter = 0;
+   while(bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress != -1 && cacheLineBaseAddress != bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress && iter < HASHTABLESIZE) {
+      ++hashIndex;
+      hashIndex %= HASHTABLESIZE;
+      iter++;
+   }
+   if (bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress == -1) {
+	bulletinBoard.hashTable[hashIndex] = item;
+  } else if((cacheLineBaseAddress == bulletinBoard.hashTable[hashIndex].cacheLineBaseAddress) && ((item.time - bulletinBoard.hashTable[hashIndex].time) > (cur_time - prev_time))) {
+	item.prev_transfer_counter = bulletinBoard.hashTable[hashIndex].prev_transfer_counter;
+	bulletinBoard.hashTable[hashIndex] = item;
+  } else {
+        iter = 1;
+	uint64_t oldest_time = bulletinBoard.hashTable[0].time;
+	int targetIndex = 0;
+	hashIndex = 1;
+	while(iter < HASHTABLESIZE) {
+		if(bulletinBoard.hashTable[hashIndex].time < oldest_time) {
+			oldest_time = bulletinBoard.hashTable[hashIndex].time;
+			targetIndex = hashIndex;
+		}
+		++hashIndex;   
+      		hashIndex %= HASHTABLESIZE;
+      		iter++;
+	}
+	if((item.time - bulletinBoard.hashTable[targetIndex].time) > (cur_time - prev_time)) {
+		bulletinBoard.hashTable[targetIndex] = item;
+	}
+  }
+}
+
 bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, int sampledMetricId) {
     void * data_addr = mmap_data->addr;
     void * precisePC = (mmap_data->header_misc & PERF_RECORD_MISC_EXACT_IP) ? mmap_data->ip : 0;
@@ -2667,7 +2423,7 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
     if (!IsValidAddress(data_addr, precisePC)) {
         goto ErrExit; // incorrect access type
     }
-    
+   
     // do not monitor NULL CCT node
     if (node == NULL) {
         goto ErrExit; // incorrect CCT
@@ -2700,7 +2456,7 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
    }
     // change here
 
-
+    //fprintf(stderr, "OnSample is reached\n");
     // if the context PC and precise PC are not in the same function, then the sample point is inaccurate.
     bool isSamplePointAccurate;
     FunctionType ft = is_same_function(contextPC, precisePC);
@@ -2854,419 +2610,48 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
             break;
         case WP_FALSE_SHARING:
         case WP_TRUE_SHARING:
-        case WP_ALL_SHARING:
-	case WP_COMDETECTIVE: {int sType = -1;
-	    if (strncmp (hpcrun_id2metric(sampledMetricId)->name,"MEM_UOPS_RETIRED:ALL_STORES",27) == 0)
-            	sType = ALL_STORE;
-            else if(strncmp (hpcrun_id2metric(sampledMetricId)->name,"MEM_UOPS_RETIRED:ALL_LOADS",26) == 0)
-               	sType = ALL_LOAD;
-            else sType = UNKNOWN_SAMPLE_TYPE;
-
+        case WP_ALL_SHARING:{
+            
+            // Is the published address old enough (stayed for > 1 sample time span)
             int64_t curTime = rdtsc();
-	    int64_t storeCurTime = 0;
-	    if(/*sType == ALL_STORE*/ (accessType == STORE || (accessType == LOAD_AND_STORE && sType == ALL_STORE)) )
-		storeCurTime = curTime;
             SharedData_t localSharedData;
             int me = TD_GET(core_profile_trace_data.id);
-	    int current_core = sched_getcpu();
             // Get the time, tid, and counter
             // This is definately racy but benign.
-
-	    number_of_sample++;
-	   // find entry here
-	    int update_flag = 0; 
-	    // before
-	    void * cacheLineBaseAddressVar = (void *) ALIGN_TO_CACHE_LINE((size_t)data_addr);
-	    //printf("sampling happens and cacheline address: %lx, address: %lx\n", (uint64_t) cacheLineBaseAddressVar, (uint64_t) data_addr);
-	    int item_not_found = 0;
-	    struct SharedData item;
-	    // before
-	    do{ 
-        	int64_t startCounter = bulletinBoard.counter;
-        	if(startCounter & 1) {
-           	 //printf("writing or hashUpdate is being performed counter is %lu\n", startCounter);
-            		continue; // Some writer is updating
-        	}
-        	__sync_synchronize();
-        	item = getEntryFromBulletinBoard(cacheLineBaseAddressVar, &item_not_found);
-        	__sync_synchronize();
-        	int64_t endCounter = bulletinBoard.counter;
-        	if(startCounter == endCounter) {
-			//printf("retrieved successfully\n");
-            		break;
-		}
-    	    }while(1);
-	   // after
-
-	    //struct SharedData item = getEntryFromBulletinBoard(cacheLineBaseAddressVar, &item_not_found);
-	    int arm_watchpoint_flag = 0;
-	    if((item.cacheLineBaseAddress == -1) || (item_not_found == 1)) {
-		arm_watchpoint_flag = 1;
-		//printf("this region\n");
-	    } else {
-		//printf("that region\n");
-		if((me != item.tid) && (item.time != prev_timestamp)) {
-			//printf("communication is detected here\n");
-   			int flag = 0;
-			double global_sampling_period = 0;
-			//bulletinBoard.hashTable[hashIndex].prev_transfer_counter++;
-        		if(sType == ALL_LOAD) {
-                		global_sampling_period = (double) global_load_sampling_period;
-                		flag = 1;
-        		}
-        		if(sType == ALL_STORE) {
-                		global_sampling_period = (double) global_store_sampling_period;
-                		flag = 1;
-        		}
-    			int max_thread_num = item.tid;
-    			if(max_thread_num < me)
-    			{   
-        			max_thread_num = me;
-    			}
-    			if(as_matrix_size < max_thread_num)
-    			{   
-        			matrix_size_set(max_thread_num);
-        			fs_matrix_size =  max_thread_num;
-        			ts_matrix_size =  max_thread_num;
-        			as_matrix_size =  max_thread_num;  
-    			}
-
-			int max_core_num = item.core_id;
-                        if(max_core_num < current_core)
-                        {
-                                max_core_num = current_core;
-                        }
-                        if(as_core_matrix_size < max_core_num)
-                        {
-                                core_matrix_size_set(max_core_num);
-                                fs_core_matrix_size =  max_core_num;
-                                ts_core_matrix_size =  max_core_num;
-                                as_core_matrix_size =  max_core_num;
-                        }
-   
-			if(flag == 1) {
-			int id = -1;
-			//execute_backtrace();
-			/*if(getenv(HPCRUN_OBJECT_LEVEL)) {
-				int obj_id1 = get_object_id_by_address(item.address);
-				int obj_id2 = get_object_id_by_address(data_addr);
-				if(obj_id1 == 0 || obj_id2 == 0) {
-					id = get_id_after_backtrace();
-					//fprintf(stderr, "communication is detected on an unknown object with increment %0.2lf on node %d\n", global_sampling_period, id); 
-				}
-				if(obj_id1 == 1 || obj_id2 == 1) {
-					int id = get_id_after_backtrace();
-					//fprintf(stderr, "communication is detected on stack objects with increment %0.2lf on node %d\n", global_sampling_period, id);
-				}
-			}*/
-			//int node_id = get_id_after_get_id_after_backtrace();
-			if(GET_OVERLAP_BYTES(item.address, item.accessLen, data_addr, accessLen) > 0/*wpi->sample.target_va ==  wt->va*/) 
-			{
-				if(getenv(HPCRUN_OBJECT_LEVEL)) {
-					inc_true_matrix( (uint64_t) data_addr, item.tid, me, global_sampling_period);
-       	 				inc_true_count((uint64_t) data_addr, global_sampling_period);
-					// before
-					int obj_id1 = get_object_id_by_address(item.address);
-    					int obj_id2 = get_object_id_by_address(data_addr);
-    					if(obj_id1 == 0 && obj_id2 == 0) {
-						id = get_id_after_backtrace(); 
-    						//fprintf(stderr, "true sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", global_sampling_period, id);
-						inc_true_matrix_by_object_id(id, item.tid, me, global_sampling_period);
-        					inc_true_count_by_object_id(id, global_sampling_period);
-					}
-					if(obj_id1 == 1 && obj_id2 == 1) {
-						if(id == -1)
-							id = get_id_after_backtrace(); 
-    						//fprintf(stderr, "true sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", global_sampling_period, id);
-						inc_true_matrix_by_object_id(id, item.tid, me, global_sampling_period);
-        					inc_true_count_by_object_id(id, global_sampling_period);
-					}
-					// after
-				}
-				ts_matrix[item.tid][me] = ts_matrix[item.tid][me] + global_sampling_period;
-				
-				//printf("true sharing is detected due to address 1: %ld length: %d and address 2: %ld length: %d\n", item.address, item.accessLen, data_addr, accessLen);
-				if(item.core_id != current_core) {
-					if(getenv(HPCRUN_OBJECT_LEVEL)) {
-						inc_true_core_matrix( (uint64_t) data_addr, item.core_id, current_core, global_sampling_period);
-                                		inc_true_core_count((uint64_t) data_addr, global_sampling_period);
-						int obj_id1 = get_object_id_by_address(item.address);
-    						int obj_id2 = get_object_id_by_address(data_addr);
-    						if(obj_id1 == 0 && obj_id2 == 0) {
-							if(id == -1)
-								id = get_id_after_backtrace(); 
-    								//fprintf(stderr, "communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
-							inc_true_core_matrix_by_object_id(id, item.core_id, current_core, global_sampling_period);
-        						inc_true_core_count_by_object_id(id, global_sampling_period);
-						}
-						if(obj_id1 == 1 && obj_id2 == 1) {
-							if(id == -1)
-								id = get_id_after_backtrace(); 
-    								//fprintf(stderr, "communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
-							inc_true_core_matrix_by_object_id(id, item.core_id, current_core, global_sampling_period);
-        						inc_true_core_count_by_object_id(id, global_sampling_period);
-						}
-					}
-                                	ts_core_matrix[item.core_id][current_core] = ts_core_matrix[item.core_id][current_core] + global_sampling_period;
-				}
-	
-			} else {
-				//printf("false matrix is incremented by %0.2lf in onsample\n", global_sampling_period);
-				/*inc_false_matrix( (uint64_t) data_addr, item.tid, me, global_sampling_period);
-        			inc_false_count((uint64_t) data_addr, global_sampling_period);
-
-				//printf("false matrix is incremented by %0.2lf in onsample\n", global_sampling_period);
-        			inc_false_matrix( (uint64_t) item.address, item.tid, me, global_sampling_period);
-        			inc_false_count((uint64_t) item.address, global_sampling_period);*/
-
-				if(getenv(HPCRUN_OBJECT_LEVEL)) {
-					inc_false_matrix( (uint64_t) item.address, (uint64_t) data_addr, item.tid, me, global_sampling_period);
-                                	inc_false_count((uint64_t) item.address, (uint64_t) data_addr, global_sampling_period);
-					int obj_id1 = get_object_id_by_address(item.address);
-    					int obj_id2 = get_object_id_by_address(data_addr);
-					// debugging starts
-					if((obj_id1 == obj_id2) && (obj_id1 == 998)) {
-						fprintf(stderr, "false sharing is detected between threads %d and %d on address %ld and address %ld\n", item.tid, me, item.address, data_addr);
-						//sleep(4);
-					}
-					// debugging ends
-    					if(obj_id1 == 0 && obj_id2 == 0) {
-						id = get_id_after_backtrace(); 
-    						//fprintf(stderr, "false sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", global_sampling_period, id);
-						inc_false_matrix_by_object_id(id, item.tid, me, global_sampling_period);
-        					inc_false_count_by_object_id(id, global_sampling_period);
-					}
-					if(obj_id1 == 1 && obj_id2 == 1) {
-						if(id == -1)
-							id = get_id_after_backtrace(); 
-    						//fprintf(stderr, "false sharing communication is detected on an unknown object with increment %0.2lf on node %d\n", global_sampling_period, id);
-						inc_false_matrix_by_object_id(id, item.tid, me, global_sampling_period);
-        					inc_false_count_by_object_id(id, global_sampling_period);
-					}
-				}
-				fs_matrix[item.tid][me] = fs_matrix[item.tid][me] + global_sampling_period;
-				//printf("false sharing is detected between thread %d and thread %d due to address 1: %ld length: %d and address 2: %ld length: %d\n", item.tid, me, item.address, item.accessLen, data_addr, accessLen);
-
-				if(item.core_id != current_core) {
-					//printf("false core matrix is incremented by %0.2lf in onsample\n", global_sampling_period);
-					/*inc_false_core_matrix( (uint64_t) data_addr, item.core_id, current_core, global_sampling_period);
-                                	inc_false_core_count((uint64_t) data_addr, global_sampling_period);
-
-					//printf("false core matrix is incremented by %0.2lf in onsample\n", global_sampling_period);
-                                	inc_false_core_matrix( (uint64_t) item.address, item.core_id, current_core, global_sampling_period);
-                                	inc_false_core_count((uint64_t) item.address, global_sampling_period);*/
-					if(getenv(HPCRUN_OBJECT_LEVEL)) {
-						inc_false_core_matrix( (uint64_t) item.address, (uint64_t) data_addr, item.core_id, current_core, global_sampling_period);
-                                		inc_false_core_count((uint64_t) item.address, (uint64_t) data_addr, global_sampling_period);
-						int obj_id1 = get_object_id_by_address(item.address);
-    						int obj_id2 = get_object_id_by_address(data_addr);
-    						if(obj_id1 == 0 && obj_id2 == 0) {
-							if(id == -1)
-								id = get_id_after_backtrace(); 
-    							//fprintf(stderr, "communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
-							inc_false_matrix_by_object_id(id, item.core_id, current_core, global_sampling_period);
-        						inc_false_count_by_object_id(id, global_sampling_period);
-						}
-						if(obj_id1 == 1 && obj_id2 == 1) {
-							if(id == -1)
-								id = get_id_after_backtrace(); 
-    							//fprintf(stderr, "communication is detected on an unknown object with increment %0.2lf on node %d\n", increment, id);
-							inc_false_matrix_by_object_id(id, item.core_id, current_core, global_sampling_period);
-        						inc_false_count_by_object_id(id, global_sampling_period);
-						}
-					}
-
-                                	fs_core_matrix[item.core_id][current_core] = fs_core_matrix[item.core_id][current_core] + global_sampling_period;
-				}
-			}
-
-			as_matrix[item.tid][me] = as_matrix[item.tid][me] + global_sampling_period;
-			if(item.core_id != current_core) {
-				as_core_matrix[item.core_id][current_core] = as_core_matrix[item.core_id][current_core] + global_sampling_period;
-                	}
-			prev_timestamp = item.time;
-			}
-		// show call path here
-		//fprintf(stderr, "communication is detected in ");
-		/*char * var_name = adm_get_var_name(data_addr);
-		if(var_name != NULL && strlen(var_name) >= 7 && strcmp(var_name,"[stack]")==0) {
-			//fprintf(stderr, "stack is detcted in variable %s\n", adm_get_var_name(data_addr));
-			get_id_after_get_id_after_backtrace();
-		}*/
-		//get_id_after_get_id_after_backtrace();
-		//get_id_after_backtrace2();
-
-		// after
-		//printf("entry is not empty\n");
-	    	} else {
-			/*if(item.tid != me)
-				printf("communication is wasted due to timestamp\n");*/
-			arm_watchpoint_flag = 1;	
-		}
-	    }
-	    uint64_t curtime1 = rdtsc();
-	    if((sType == ALL_LOAD) || ((item.cacheLineBaseAddress != -1) && ((curtime1 - item.time) <= (storeCurTime - storeLastTime)))) {
-		//printf("not inserted\n");
-	    } else {
-		uint64_t bulletinCounter = bulletinBoard.counter;
-		if((bulletinCounter & 1) == 0) {
-			// before **
-			if(__sync_bool_compare_and_swap(&bulletinBoard.counter, bulletinCounter, bulletinCounter+1)){
-	    		//int itemflag = hashSearch(data_addr);
-				struct SharedData inserted_item;
-                        	//printf("insertion is supposed to happen\n");
-                		inserted_item.time = curtime1;
-                		inserted_item.tid = me;
-				inserted_item.core_id = sched_getcpu();
-                		inserted_item.wpType = WP_RW;
-                		inserted_item.accessType = accessType;
-                		inserted_item.sampleType = sType;
-                		inserted_item.address = data_addr;
-                		inserted_item.accessLen = accessLen;
-				inserted_item.node = node;
-				inserted_item.cacheLineBaseAddress = cacheLineBaseAddressVar;
-				inserted_item.prev_transfer_counter = 0;
-				inserted_item.expiration_period = (storeLastTime == 0 ? 0 : (storeCurTime - storeLastTime));
-				int bb_flag = 0;
-                		hashInsertwithTime(inserted_item, storeCurTime, storeLastTime);
-				//hashDisplay();
-				__sync_synchronize();
-                		bulletinBoard.counter++;
-			}
-			// after **
-		}
-	    }
-
-	    // after
-            /*
-	    if((accessType == STORE || (accessType == LOAD_AND_STORE && sType == ALL_STORE)) && (bulletinCounter & 1) == 0) {
-		//uint64_t bulletinCounter = bulletinBoard.counter;
-                if(__sync_bool_compare_and_swap(&bulletinBoard.counter, bulletinCounter, bulletinCounter+1)){
-	    		//int itemflag = hashSearch(data_addr);
-			struct SharedData item;
-                        //printf("after malloc thread %d\n", me);
-                	item.time = rdtsc();
-                	item.tid = me;
-                	item.wpType = WP_RW;
-                	item.accessType = accessType;
-                	item.sampleType = sType;
-                	item.address = data_addr;
-                	item.accessLen = accessLen;
-			item.node = node;
-			item.cacheLineBaseAddress = (void *) ALIGN_TO_CACHE_LINE((size_t)data_addr);
-			item.prev_transfer_counter = 0;
-			int bb_flag = 0;
-                	hashInsertwithTime(item, storeLastTime, &update_flag, &bb_flag);
-			item.counter = wBulletinBoard.counter;
-			item.expiration_period = (storeLastTime == 0 ? 0 : (storeCurTime - storeLastTime));
-			if(update_flag && (item.counter & 1) == 0) {
-				uint64_t theCounter = item.counter;
-				item.counter++;
-				if(__sync_bool_compare_and_swap(&wBulletinBoard.counter, theCounter, theCounter+1)){
-					//printf("counter before %lu\n", wBulletinBoard.counter);
-					wBulletinBoard = item;
-					__sync_synchronize();
-					wBulletinBoard.counter++;
-					//printf("counter after %lu\n", wBulletinBoard.counter);
-				}
-			}
-			//hashDisplay();
-			__sync_synchronize();
-                	bulletinBoard.counter++;
-		}
-	   }
-	   int target_index = -1;
-	   int arm_watchpoint_flag = 0;
-	   int update_chance = 0;
-	   if(!update_flag) {
-		// retrieve entry and update matrix
-		uint64_t bulletinCounter;
-		// before
-		int iter = 0;
-		do {
-			bulletinCounter = bulletinBoard.counter;
-        		if(bulletinCounter & 1) {
-            			continue;
-        		}
-			//printf("thread %d is waiting %d, counter: %ld\n", me, iter, bulletinCounter);
-			
-		// after
-                	if(__sync_bool_compare_and_swap(&bulletinBoard.counter, bulletinCounter, bulletinCounter+1)){
-				update_chance = 1;
-				//printf("matrix tries to be updated for address: %lx, update_flag: %d by thread %d\n", data_addr, update_flag, me);
-				//hashDisplay();
-				__sync_synchronize();
-				target_index = hashUpdateMatrix(data_addr, me, accessType, sType, accessLen, &localSharedData, &arm_watchpoint_flag);
-				__sync_synchronize();
-				__sync_synchronize();
-				bulletinBoard.counter++;
-            		}
-			if(update_chance == 1)
-				break;
-			iter++;
-		} while (1);
-		//bulletinBoard.counter++;
-	}
-	if(!update_flag && !update_chance)
-		printf("error happens\n");
-	   //}
-
-	    // before
-	    /*struct DataItem *item = (struct DataItem*) malloc(sizeof(struct DataItem));
-   	    item->data = data;  
-            item->key = key;*/
-	    //if((bulletinBoard.counter & 1) == 0) {
-	    // after
-		/*
-            localSharedData.time = wBulletinBoard.time;
-	    localSharedData.expiration_period = wBulletinBoard.expiration_period;
-            localSharedData.tid = wBulletinBoard.tid;
-            localSharedData.counter = wBulletinBoard.counter;
-		
-
+            localSharedData.time = gSharedData.time;
+            localSharedData.tid = gSharedData.tid;
+            localSharedData.counter = gSharedData.counter;
+            
             //ReadSharedDataTransactionally(&localSharedData);
-            if( sType == ALL_STORE && ((storeCurTime-localSharedData.time) > (localSharedData.expiration_period)) // Sufficient time passed since the last time somebody published
+            if( ((curTime-localSharedData.time) > 2 * (curTime-lastTime)) // Sufficient time passed since the last time somebody published
                &&
                ((localSharedData.counter & 1) == 0) // Nobody is in the process of publishing
                ) {
                 // Attempt to replace WP with my new address
-		//printf("update happens expiration period: %ld, storeCurTime: %ld, storeLastTime: %ld, localSharedData.time: %ld, curTime: %ld, lastTime: %ld\n", storeCurTime - storeLastTime, storeCurTime, storeLastTime, localSharedData.time, curTime, lastTime);
-		number_of_bulletin_board_updates_before++;
                 uint64_t theCounter = localSharedData.counter;
                 localSharedData.time = rdtsc();
-		localSharedData.expiration_period = (storeLastTime == 0 ? 0 : (storeCurTime - storeLastTime));
                 localSharedData.tid = me;
-                localSharedData.wpType = WP_RW; //(accessType == LOAD) ? WP_WRITE : WP_RW;
+                localSharedData.wpType = accessType == LOAD ? WP_WRITE : WP_RW;
                 localSharedData.accessType = accessType;
                 localSharedData.address = data_addr;
                 localSharedData.accessLen = accessLen;
                 localSharedData.counter ++; // makes the counter odd
                 localSharedData.node = node;
                 
-                if(__sync_bool_compare_and_swap(&wBulletinBoard.counter, theCounter, theCounter+1)){
-		    //printf("bulletin board update by thread %d\n", me);
-		    number_of_bulletin_board_updates++;
-                    wBulletinBoard = localSharedData;
+                if(__sync_bool_compare_and_swap(&gSharedData.counter, theCounter, theCounter+1)){
+                    gSharedData = localSharedData;
                     __sync_synchronize();
-                    wBulletinBoard.counter++; // makes the counter even
+                    gSharedData.counter++; // makes the counter even
                 } else {
                     // Failed to update ==> someone else succeeded ==> Fetch that address and set a WP for that
                     goto SET_FS_WP;
                 }
-            } else*
-
-		// extract latestIndex here
-		// extract entry of latest index here
-
-	    //localSharedData.tid = wBulletinBoard.tid;
-*/                
-                if (arm_watchpoint_flag){
-               // select randomly
-		int do_not_arm_watchpoint = 0;
-		struct SharedData localSharedData = getEntryRandomlyFromBulletinBoard(me, curtime1, &do_not_arm_watchpoint);
-		if((localSharedData.cacheLineBaseAddress != -1) && !do_not_arm_watchpoint) {
+            } else if ((localSharedData.tid != me)  && (localSharedData.tid != -1)/* dont set WP for my own accessed locations */){
+                // If the data is "new" set the WP
+            SET_FS_WP: ReadSharedDataTransactionally(&localSharedData);
                 long  metricThreshold = hpcrun_id2metric(sampledMetricId)->period;
                 accessedIns += metricThreshold;
+                
                 switch (theWPConfig->id) {
                     case WP_TRUE_SHARING:{
                         // Set WP at the same address
@@ -3280,9 +2665,7 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
                             .sampledMetricId=sampledMetricId,
                             .isSamplePointAccurate = isSamplePointAccurate,
                             .preWPAction=theWPConfig->preWPAction,
-                            .isBackTrace = false,
-			    .first_accessing_tid = localSharedData.tid,
-			    .bulletinBoardTimestamp = localSharedData.time
+                            .isBackTrace = false
                         };
                         SubscribeWatchpoint(&sd, OVERWRITE, false /* capture value */);
                     }
@@ -3312,103 +2695,10 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
                                 .preWPAction=theWPConfig->preWPAction,
                                 .isBackTrace = false
                             };
+			    //fprintf(stderr, "watchpoint is set\n");
                             SubscribeWatchpoint(&sd, OVERWRITE, false /* capture value */);
                         }
                     }
-                        break;
-		    case WP_COMDETECTIVE: {
-                        //printf("this part is executed\n");
-			void * cacheLineBaseAddress = localSharedData.cacheLineBaseAddress;//(void *) ALIGN_TO_CACHE_LINE((size_t)localSharedData.address);
-
-			//  reset here
-			//if((cacheLineBaseAddress != last_trapped_cacheline) || (did_last_sample_trap == false)) {
-				/*if(cacheLineBaseAddress != last_trapped_cacheline)
-					printf("counter in thread %d is reset because different cache line is published\n", TD_GET(core_profile_trace_data.id));
-				if(did_last_sample_trap == false)
-					printf("counter in thread %d is reset because the last sample didn't cause trap\n", TD_GET(core_profile_trace_data.id));*/
-				// update as_matrix
-				/*double tweaking_factor = get_consecutiveness_factor(as_matrix_size, consecutive_access_count);
-				for(int i = 0; i < unique_consecutive_communication_count; i++) {
-					int index1 = consecutive_indices_unique[i];
-					as_matrix[index1][me] = as_matrix[index1][me] + consecutive_new_values_untweaked[i] * tweaking_factor;
-				}
-				// update ts_matrix
-				for(int i = 0; i < ts_unique_consecutive_communication_count; i++) {
-                                        int index1 = ts_consecutive_indices_unique[i];
-                                        ts_matrix[index1][me] = ts_matrix[index1][me] + ts_consecutive_new_values_untweaked[i] * tweaking_factor;
-                                }
-				// update fs_matrix
-				for(int i = 0; i < fs_unique_consecutive_communication_count; i++) {
-                                        int index1 = fs_consecutive_indices_unique[i];
-                                        fs_matrix[index1][me] = fs_matrix[index1][me] + fs_consecutive_new_values_untweaked[i] * tweaking_factor;
-                                }*/
-				/*consecutive_access_count_array[consecutive_access_count]++;
-				consecutive_access_count = 0;
-				ts_unique_consecutive_communication_count = 0;
-				fs_unique_consecutive_communication_count = 0;
-				unique_consecutive_communication_count = 0;
-    			}
-			did_last_sample_trap = false;*/
-
-                        // Find 4 slots in the cacheline
-			// FIXME: make dynamic
-                        int shuffleNums[CACHE_LINE_SZ/MAX_WP_LENGTH] = {0, 1, 2, 3, 4, 5, 6, 7}; // hard coded
-                        for(int i = 0; i < wpConfig.maxWP; i ++) {
-                            int idx = rdtsc() & (CACHE_LINE_SZ/MAX_WP_LENGTH -1);
-                            int tmpVal = shuffleNums[idx];
-                            shuffleNums[idx] = shuffleNums[i];
-                            shuffleNums[i] = tmpVal;
-                        }
-			number_of_arming++;
-			/*
-			if(localSharedData.accessType == LOAD_AND_STORE)
-				printf("LOAD AND STORE sample happens\n");*/
-			/*if(sType == ALL_LOAD && accessType == LOAD)
-				printf("everything is normal\n");*/
-			//printf("%d %d\n", sType, localSharedData.wpType);
-
-                        for(int i = 0; i < wpConfig.maxWP; i ++) {
-                            SampleData_t sd= {
-                                .va = cacheLineBaseAddress + (shuffleNums[i] << 3),
-				.target_va = localSharedData.address,
-                                .node = localSharedData.node,
-				.samplerAccessType = accessType,
-                                .accessType=localSharedData.accessType,
-				.sampleType=sType,
-                                .type=localSharedData.wpType,
-                                .wpLength = MAX_WP_LENGTH,
-                                .accessLength= accessLen,
-                                .sampledMetricId=sampledMetricId,
-                                .isSamplePointAccurate = isSamplePointAccurate,
-                                .preWPAction=theWPConfig->preWPAction,
-                                .isBackTrace = false,
-				.first_accessing_tid = localSharedData.tid,
-				.first_accessing_core_id = localSharedData.core_id,
-				.bulletinBoardTimestamp = curtime1
-				//.expiration_period = (storeLastTime == 0 ? 0 : (storeCurTime - storeLastTime));
-                            };
-			   if(sd.va == sd.target_va) {
-				/*if(sd.sampleType == ALL_STORE) {
-					if(localSharedData.accessType == STORE)
-					printf("true sharing is armed by ALL_STORE %d with type STORE\n", sd.sampleType);
-					if(localSharedData.accessType == LOAD_AND_STORE)
-					printf("true sharing is armed by ALL_STORE %d with type LOAD_AND_STORE\n", sd.sampleType);
-					if(localSharedData.accessType == LOAD)
-                                        printf("true sharing is armed by ALL_STORE %d with type LOAD\n", sd.sampleType);
-				}*/
-				/*if(sd.sampleType == ALL_LOAD) {
-                                        if(localSharedData.accessType == STORE)
-                                        printf("true sharing is armed by ALL_LOAD %d with type STORE\n", sd.sampleType);
-                                        if(localSharedData.accessType == LOAD_AND_STORE)
-                                        printf("true sharing is armed by ALL_LOAD %d with type LOAD_AND_STORE\n", sd.sampleType);
-                                        if(localSharedData.accessType == LOAD)
-                                        printf("true sharing is armed by ALL_LOAD %d with type LOAD\n", sd.sampleType);
-				}*/
-			   }
-                            SubscribeWatchpointWithTime(&sd, OVERWRITE, false /* capture value */, curTime, lastTime);
-                        }
-                    }
-
                         break;
                     case WP_ALL_SHARING: {
                         void * cacheLineBaseAddress = (void *) ALIGN_TO_CACHE_LINE((size_t)localSharedData.address);
@@ -3441,14 +2731,10 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
                     default:
                         break;
                 }
-	    }
             }else{
                 /* dont set WP for my own accessed locations */
-		number_of_residues++;
             }
             lastTime = curTime;
-	    if(accessType == STORE || (accessType == LOAD_AND_STORE && sType == ALL_STORE) /*accessType == STORE || accessType == LOAD_AND_STORE*/)
-		storeLastTime = storeCurTime;
         }
             break;
             
@@ -3458,6 +2744,211 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
             HandleIPCFalseSharing(data_addr, precisePC, node, accessLen, accessType, sampledMetricId, isSamplePointAccurate);
         }
             break;
+	case WP_COMDETECTIVE: {
+
+	    int sType = -1;
+	    if (strncmp (hpcrun_id2metric(sampledMetricId)->name,"MEM_UOPS_RETIRED:ALL_STORES",27) == 0)
+            	sType = ALL_STORE;
+            else if(strncmp (hpcrun_id2metric(sampledMetricId)->name,"MEM_UOPS_RETIRED:ALL_LOADS",26) == 0)
+               	sType = ALL_LOAD;
+            else sType = UNKNOWN_SAMPLE_TYPE;
+	    uint64_t curtime = rdtsc();
+
+	    int64_t storeCurTime = 0;
+	    if(/*sType == ALL_STORE*/ (accessType == STORE || (accessType == LOAD_AND_STORE && sType == ALL_STORE)) )
+		storeCurTime = curtime;
+
+
+	    int me = TD_GET(core_profile_trace_data.id);
+	    int current_core = sched_getcpu();
+	    // L1 = getCacheline ( M1 )
+	    void * cacheLineBaseAddressVar = (void *) ALIGN_TO_CACHE_LINE((size_t)data_addr);
+	    int item_not_found = 0;
+	    struct SharedEntry item;
+	    do{ 
+        	int64_t startCounter = bulletinBoard.counter;
+        	if(startCounter & 1) {
+            		continue;
+        	}
+        	//__sync_synchronize();
+		// entry = BulletinBoard.AtomicGet (key= L1 )
+        	item = getEntryFromBulletinBoard(cacheLineBaseAddressVar, &item_not_found);
+        	//__sync_synchronize();
+        	int64_t endCounter = bulletinBoard.counter;
+        	if(startCounter == endCounter) {
+            		break;
+		}
+    	    }while(1);
+
+	    int arm_watchpoint_flag = 0;
+
+	    // if entry == NULL then
+	    if((item.cacheLineBaseAddress == -1) || (item_not_found == 1)) {
+		//fprintf(stderr, "not found\n");
+		// TryArmWatchpoint( T 1 )
+		arm_watchpoint_flag = 1;
+	    // else
+	    } else {
+		//fprintf(stderr, "found\n");
+		// < M2 , δ2 , ts2 , T2 > = getEntryAttributes (entry)
+		// if T1 != T2 and ts2 > tprev then
+		if((me != item.tid) && (item.time > prev_timestamp)) {
+			int flag = 0;
+			double global_sampling_period = 0;
+			if(sType == ALL_LOAD) {
+                		global_sampling_period = (double) global_load_sampling_period;
+                		flag = 1;
+        		}
+        		if(sType == ALL_STORE) {
+                		global_sampling_period = (double) global_store_sampling_period;
+                		flag = 1;
+        		}
+			int max_thread_num = item.tid;
+    			if(max_thread_num < me)
+    			{   
+        			max_thread_num = me;
+    			}
+    			if(as_matrix_size < max_thread_num)
+    			{   
+        			//matrix_size_set(max_thread_num);
+        			fs_matrix_size =  max_thread_num;
+        			ts_matrix_size =  max_thread_num;
+        			as_matrix_size =  max_thread_num;  
+    			}
+
+			int max_core_num = item.core_id;
+                	if(max_core_num < current_core)
+                	{
+                		max_core_num = current_core;
+                	}
+                	if(as_core_matrix_size < max_core_num)
+                	{
+                		//core_matrix_size_set(max_core_num);
+                		fs_core_matrix_size =  max_core_num;
+                        	ts_core_matrix_size =  max_core_num;
+                        	as_core_matrix_size =  max_core_num;
+                	}
+			if(flag == 1) {
+				// if [M1 , M1 + δ1 ) overlaps with [M2 , M2 + δ2 ) then
+				if(GET_OVERLAP_BYTES(item.address, item.accessLen, data_addr, accessLen) > 0) {
+					// Record true sharing
+					ts_matrix[item.tid][me] = ts_matrix[item.tid][me] + global_sampling_period;
+					if(item.core_id != current_core) {
+                                		ts_core_matrix[item.core_id][current_core] = ts_core_matrix[item.core_id][current_core] + global_sampling_period;
+					}
+				} else {
+					// Record false sharing
+					fs_matrix[item.tid][me] = fs_matrix[item.tid][me] + global_sampling_period;
+					if(item.core_id != current_core) {
+						fs_core_matrix[item.core_id][current_core] = fs_core_matrix[item.core_id][current_core] + global_sampling_period;
+					}
+				}
+				as_matrix[item.tid][me] = as_matrix[item.tid][me] + global_sampling_period;
+				if(item.core_id != current_core) {
+					as_core_matrix[item.core_id][current_core] = as_core_matrix[item.core_id][current_core] + global_sampling_period;
+                		}	
+				// tprev = ts2
+				prev_timestamp = item.time;
+	    		}
+
+	    	} else {
+			// TryArmWatchpoint(T1)
+			arm_watchpoint_flag = 1;
+		}
+	    }
+	    
+	    if (arm_watchpoint_flag) {
+		// begin watchpoints
+		int do_not_arm_watchpoint = 0;
+		// getting an unexpired address from BulletinBoard that is not from T
+		struct SharedEntry localSharedData;
+		do{ 
+        		int64_t startCounter1 = bulletinBoard.counter;
+        		if(startCounter1 & 1) {
+            			continue;
+        		}
+        		localSharedData = getEntryRandomlyFromBulletinBoard(me, curtime, &do_not_arm_watchpoint);	
+        		int64_t endCounter1 = bulletinBoard.counter;
+        		if(startCounter1 == endCounter1) {
+            			break;
+			}
+    	    	}while(1);
+
+		if((localSharedData.cacheLineBaseAddress != -1) && !do_not_arm_watchpoint) {
+			long  metricThreshold = hpcrun_id2metric(sampledMetricId)->period;
+                	accessedIns += metricThreshold;
+			void * cacheLineBaseAddress = localSharedData.cacheLineBaseAddress;
+			int shuffleNums[CACHE_LINE_SZ/MAX_WP_LENGTH] = {0, 1, 2, 3, 4, 5, 6, 7}; // hard coded
+                        for(int i = 0; i < wpConfig.maxWP; i ++) {
+                            int idx = rdtsc() & (CACHE_LINE_SZ/MAX_WP_LENGTH -1);
+                            int tmpVal = shuffleNums[idx];
+                            shuffleNums[idx] = shuffleNums[i];
+                            shuffleNums[i] = tmpVal;
+                        }
+			number_of_arming++;
+
+                        for(int i = 0; i < wpConfig.maxWP; i ++) {
+                            SampleData_t sd= {
+                                .va = cacheLineBaseAddress + (shuffleNums[i] << 3),
+				.target_va = localSharedData.address,
+                                .node = localSharedData.node,
+				.samplerAccessType = accessType,
+                                .accessType=localSharedData.accessType,
+				.sampleType=sType,
+                                .type=localSharedData.wpType,
+                                .wpLength = MAX_WP_LENGTH,
+                                .accessLength= accessLen,
+                                .sampledMetricId=sampledMetricId,
+                                .isSamplePointAccurate = isSamplePointAccurate,
+                                .preWPAction=theWPConfig->preWPAction,
+                                .isBackTrace = false,
+				.first_accessing_tid = localSharedData.tid,
+				.first_accessing_core_id = localSharedData.core_id,
+				.bulletinBoardTimestamp = curtime
+                            };
+			    // if current WPs in T are old then
+				// Disarm any previously armed WPs
+				// Set WPs on an unexpired address from BulletinBoard that is not from T
+                            SubscribeWatchpointWithTime(&sd, OVERWRITE, false /* capture value */, curtime, lastTime);
+                        }
+		}
+		// end watchpoints
+	    }
+
+	    // if ( A1 is not STORE) or (entry != NULL and M2 has not expired) then
+	    if((sType == ALL_LOAD) || ((item.cacheLineBaseAddress != -1) && ((curtime - item.time) <= (storeCurTime - storeLastTime)))) {
+	    } else {
+		// BulletinBoard.TryAtomicPut(key = L1 , value = < M1 , δ1 , ts1 , T1 >)
+		uint64_t bulletinCounter = bulletinBoard.counter;
+		if((bulletinCounter & 1) == 0) {
+			if(__sync_bool_compare_and_swap(&bulletinBoard.counter, bulletinCounter, bulletinCounter+1)){
+				struct SharedEntry inserted_item;
+                		inserted_item.time = curtime;
+                		inserted_item.tid = me;
+				inserted_item.core_id = sched_getcpu();
+                		inserted_item.wpType = WP_RW;
+                		inserted_item.accessType = accessType;
+                		inserted_item.sampleType = sType;
+                		inserted_item.address = data_addr;
+                		inserted_item.accessLen = accessLen;
+				inserted_item.node = node;
+				inserted_item.cacheLineBaseAddress = cacheLineBaseAddressVar;
+				inserted_item.prev_transfer_counter = 0;
+				inserted_item.expiration_period = (storeLastTime == 0 ? 0 : (storeCurTime - storeLastTime));
+				int bb_flag = 0;
+				//__sync_synchronize();
+                		hashInsertwithTime(inserted_item, storeCurTime, storeLastTime);
+				//__sync_synchronize();
+                		bulletinBoard.counter++;
+			}
+		}
+	    }
+	    // ends
+
+	    lastTime = curtime;
+	    if(accessType == STORE || (accessType == LOAD_AND_STORE && sType == ALL_STORE))
+		storeLastTime = storeCurTime;
+	}
         default:
             break;
     }

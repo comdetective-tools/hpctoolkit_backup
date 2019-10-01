@@ -6,7 +6,6 @@
 #include <errno.h>
 #include <sched.h>
 #include "env.h"
-#include "myposix.h"
 
 int mapping_vector[1024];
 

@@ -91,16 +91,16 @@ do
 	esac
 done
 
+#export LD_LIBRARY_PATH=$adm_libdir:$LD_LIBRARY_PATH
+
 if [ $error_flag -eq 0 ]
 then
 	if [ $object_flag -eq 1 ]
 	then
-		echo "this one"
-		echo "LD_LIBRARY_PATH=$adm_libdir /usr/bin/time -f \"Elapsed Time , %e, system, %S, user, %U, memory, %M\" $install_dir/bin/hpcrun -o test1_output_folder -e MEM_UOPS_RETIRED:ALL_LOADS@$period -e MEM_UOPS_RETIRED:ALL_STORES@$period --bulletin-board-size $bulletin_board_size --debug-register-size $debug_register_size --object-size-threshold $object_size_threshold $@"
-		LD_LIBRARY_PATH=$adm_libdir $install_dir/bin/hpcrun -o $output_folder -e WP_COMDETECTIVE -e MEM_UOPS_RETIRED:ALL_LOADS@$period -e MEM_UOPS_RETIRED:ALL_STORES@$period --bulletin-board-size $bulletin_board_size --debug-register-size $debug_register_size --object-size-threshold $object_size_threshold $@ 2>&1 | tee $dump_file
+		echo "$install_dir/bin/hpcrun -e WP_COMDETECTIVE -e MEM_UOPS_RETIRED:ALL_LOADS@$period -e MEM_UOPS_RETIRED:ALL_STORES@$period --bulletin-board-size $bulletin_board_size --debug-register-size $debug_register_size --object-size-threshold $object_size_threshold $@"
+		$install_dir/bin/hpcrun -o $output_folder -e WP_COMDETECTIVE -e MEM_UOPS_RETIRED:ALL_LOADS@$period -e MEM_UOPS_RETIRED:ALL_STORES@$period --bulletin-board-size $bulletin_board_size --debug-register-size $debug_register_size --object-size-threshold $object_size_threshold $@ 2>&1 | tee $dump_file
 	else
-		echo "that one"
-		LD_LIBRARY_PATH=$adm_libdir $install_dir/bin/hpcrun -o $output_folder -e WP_COMDETECTIVE -e MEM_UOPS_RETIRED:ALL_LOADS@$period -e MEM_UOPS_RETIRED:ALL_STORES@$period --bulletin-board-size $bulletin_board_size --debug-register-size $debug_register_size $@ 2>&1 | tee $dump_file
+		$install_dir/bin/hpcrun -o $output_folder -e WP_COMDETECTIVE -e MEM_UOPS_RETIRED:ALL_LOADS@$period -e MEM_UOPS_RETIRED:ALL_STORES@$period --bulletin-board-size $bulletin_board_size --debug-register-size $debug_register_size $@ 2>&1 | tee $dump_file
 	fi
 fi
 

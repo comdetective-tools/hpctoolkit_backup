@@ -7,7 +7,7 @@
 #include <string.h>
 #define UNW_LOCAL_ONLY
 #include <libunwind.h>
-#include <adm_init_fini.h>
+//#include <adm_init_fini.h>
 #include "env.h"
 //#define ENABLE_OBJECT_LEVEL 1
 #include <sys/mman.h>
@@ -17,7 +17,7 @@
 #include "myposix.h"
 #include <pthread.h>
 #include <stdlib.h>
-
+/*
 static char empty_data[2048];
 
 int empty_pos = 0;
@@ -45,28 +45,6 @@ void postorder(nary_node * p, int indent)
     }
 }
 
-/*
-void get_id_after_backtrace(void)
-{
-        static const char start[] = "BACKTRACE ------------\n";
-        static const char end[] = "----------------------\n";
-
-        void *bt[1024];
-        int bt_size;
-        char **bt_syms;
-        int i;
-
-        bt_size = backtrace(bt, 1024);
-        bt_syms = backtrace_symbols(bt, bt_size);
-        //full_write(STDERR_FILENO, start, strlen(start));
-	fprintf(stderr, "%s", start);
-        for (i = 1; i < bt_size; i++) {
-                size_t len = strlen(bt_syms[i]);
-		fprintf(stderr, "%s\n", bt_syms[i]);
-        }
-        fprintf(stderr, "%s\n", end);
-    free(bt_syms);
-}*/
 
 nary_node * tree_root;
 
@@ -196,41 +174,6 @@ int get_id_after_backtrace() {
   return insert_call_path_to_nary_tree (downward_sequence, stack_size);
   //printf(stderr, "after\n");
 }
-
-/*void get_id_after_backtrace() {
-  unw_cursor_t cursor;
-  unw_context_t context;
-
-  // Initialize cursor to current frame for local unwinding.
-  unw_getcontext(&context);
-  unw_init_local(&cursor, &context);
-
-  // Unwind frames one by one, going up the frame stack.
-  int print_flag = 0;
-  while (unw_step(&cursor) > 0) {
-    unw_word_t offset, pc;
-    unw_get_reg(&cursor, UNW_REG_IP, &pc);
-    if (pc == 0) {
-      break;
-    }
-    //printf("0x%lx:", pc);
-
-    char sym[256];
-    if (unw_get_proc_name(&cursor, sym, sizeof(sym), &offset) == 0) {
-      //if(print_flag == 1) {
-	 //pid_t tid = syscall(__NR_gettid);
-         //printf(" in thread %d (%s+0x%lx)\n", tid, sym, offset);
-	fprintf(stderr, "%s:%lx ", sym, pc - offset);
-      //}
-      if(strcmp(sym, "killpg") == 0) {
-      	print_flag = 1;
-      }
-    } else {
-      fprintf(stderr, " -- error: unable to obtain symbol name for this frame\n");
-    }
-  }
-  fprintf(stderr, "\n");
-}*/
 
 static void* (*real_calloc)(size_t, size_t)=NULL;
 
@@ -449,40 +392,6 @@ void free(void* ptr)
     }
 }
 
-/*
-void* realloc(void *ptr, size_t size) 
-{
-    //fprintf(stderr, "in realloc\n");
-    if (getenv(HPCRUN_OBJECT_LEVEL)) {
-    	if(!init_adamant) {
-        	init_adamant = 1;
-        	adm_initialize();
-    	}
-    }
-
-    if(real_realloc==NULL) {
-        realloc_init();
-    }
-
-    if(real_malloc==NULL) {
-        malloc_init();
-    }
-
-    void *p = NULL;
-    //fprintf(stderr, "realloc(%p, %ld)\n", ptr, size);
-    p = real_realloc(ptr, size);
-    //fprintf(stderr, "%p\n", p);
-    if (getenv(HPCRUN_OBJECT_LEVEL)) {
-    	if(real_malloc && (size > OBJECT_THRESHOLD)) {
-		//backtrace();
-		int node_id = get_id_after_backtrace();
-    		realloc_adm(p, size, node_id);
-	}
-    }
-    //fprintf(stderr, "realloc: %lx\n", (long unsigned int) p);
-    return p;
-}*/
-
 int posix_memalign(void** memptr, size_t alignment, size_t size)
 {
    //fprintf(stderr, "in posix_memalign\n");
@@ -694,44 +603,6 @@ void *numa_alloc_interleaved(size_t size) {
     return p;
 }
 
-/*
-void *mmap(void *start, size_t length, int prot, int flags, int fd, off_t offset) {
-
-   //fprintf(stderr, "mmap is intercepted\n");
-   if (getenv(HPCRUN_OBJECT_LEVEL)) {
-    	if(!init_adamant) {
-        	init_adamant = 1;
-        	adm_initialize();
-    	}
-    }
-    
-    //fprintf(stderr, "mmap is intercepted 1\n");
-    if(real_mmap == NULL) {
-        mmap_init();
-    }
-
-    //fprintf(stderr, "mmap is intercepted 2\n");
-    if(real_malloc==NULL) {
-        malloc_init();
-    }
-
-    //fprintf(stderr, "mmap is intercepted 3\n");
-    void* p;
-    p = real_mmap(start, length, prot, flags, fd, offset);
-    //fprintf(stderr, "mmap is intercepted 4\n");
-    if (getenv(HPCRUN_OBJECT_LEVEL)) {
-	//fprintf(stderr, "mmap is intercepted 5\n");
-    	if(real_malloc && (length > OBJECT_THRESHOLD)) {
-		//fprintf(stderr, "mmap is intercepted 6\n");
-		int node_id = get_id_after_backtrace();
-		//fprintf(stderr, "mmap is intercepted 7\n");
-    		mmap_adm(p, length, node_id);
-	}
-    }
-    //get_id_after_backtrace();
-    return p;
-}*/
-
 void *mmap64(void *start, size_t length, int prot, int flags, int fd, off_t offset) {
 
    if (getenv(HPCRUN_OBJECT_LEVEL)) {
@@ -760,3 +631,4 @@ void *mmap64(void *start, size_t length, int prot, int flags, int fd, off_t offs
     }
     return p;
 }
+*/

@@ -4,8 +4,6 @@
 #include "matrix.h"
 #include <limits.h>
 
-int HASHTABLESIZE;
-
 int fs_matrix_size;
 int ts_matrix_size;
 int as_matrix_size;
@@ -15,6 +13,8 @@ int ts_core_matrix_size;
 int as_core_matrix_size;
 
 int max_consecutive_count = 0;
+
+int HASHTABLESIZE;
 
 double fs_matrix[2000][2000];
 double ts_matrix[2000][2000];
@@ -94,7 +94,6 @@ void dump_fs_matrix()
 	}
 	fclose(fp);
 	fs_volume = total;
-	printf("total false sharing volume: %0.2lf\n", total);
 }
 
 void dump_fs_core_matrix()
@@ -124,7 +123,6 @@ void dump_fs_core_matrix()
         }
         fclose(fp);
 	fs_core_volume = total;
-        printf("total inter core false sharing volume: %0.2lf\n", total);
 }
 
 void dump_ts_matrix()
@@ -154,7 +152,6 @@ void dump_ts_matrix()
 	}
 	fclose(fp);
 	ts_volume = total;
-	printf("total true sharing volume: %0.2lf\n", total);
 }
 
 void dump_ts_core_matrix()
@@ -184,7 +181,6 @@ void dump_ts_core_matrix()
         }
         fclose(fp);
 	ts_core_volume = total;
-        printf("total inter core true sharing volume: %0.2lf\n", total);
 }
 
 void dump_as_matrix()
@@ -216,7 +212,6 @@ void dump_as_matrix()
 		//printf("\n");
 	}
 	as_volume = total;
-	printf("total communication volume: %0.2lf, timeprint: %ld\n", total, timeprint);
 	fclose(fp);
 }
 
@@ -251,9 +246,5 @@ void dump_as_core_matrix()
 	cache_line_transfer = total;
 	cache_line_transfer_millions = total/(1000000);
 	cache_line_transfer_gbytes = total*64/(1024*1024*1024);
-        printf("total inter core communication volume: %0.2lf, timeprint: %ld\n", total, timeprint);
-	printf("cache line transfer count: %0.2lf\n", total);
-	printf("cache line transfer count (Millions): %0.2lf\n", total/(1000000));
-	printf("cache line transfer size (GBytes): %0.2lf\n", total*64/(1024*1024*1024));
         fclose(fp);
 }

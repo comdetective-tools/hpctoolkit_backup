@@ -60,7 +60,7 @@ VERSION='2017.11'
 
 # If this script can't find its own install prefix, or if the script
 # is moved elsewhere, then set HPCTOOLKIT here.
-# HPCTOOLKIT='/home/msasongko17/project/feather-project/github_repo/hpctoolkit-bin'
+# HPCTOOLKIT='/home/aditya/Documents/new_research/comdetective-tools/hpctoolkit-bin'
 
 # Relative paths are relative to HPCTOOLKIT.
 ext_libs_dir='lib/hpctoolkit/ext-libs'

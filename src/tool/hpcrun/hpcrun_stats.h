@@ -78,17 +78,6 @@ void hpcrun_stats_num_falseWRIns_inc(long val);
 void hpcrun_stats_num_trueWWIns_inc(long val);
 void hpcrun_stats_num_trueRWIns_inc(long val);
 void hpcrun_stats_num_trueWRIns_inc(long val);
-
-// before
-void hpcrun_stats_fs_count_inc(long val);
-void hpcrun_stats_inter_core_fs_count_inc(long val);
-void hpcrun_stats_ts_count_inc(long val);
-void hpcrun_stats_inter_core_ts_count_inc(long val);
-void hpcrun_stats_as_count_inc(long val);
-void hpcrun_stats_inter_core_as_count_inc(long val);
-void hpcrun_stats_line_transfer_count_inc(long val);
-// after
-
 void hpcrun_stats_num_accessedIns_inc(long val);
 void hpcrun_stats_num_writtenBytes_inc(long val);
 void hpcrun_stats_num_usedBytes_inc(long val);
@@ -214,5 +203,7 @@ long hpcrun_stats_trolled_frames(void);
 void hpcrun_stats_print_summary(void);
 
 void adm_initialize();
+
+//void adm_finalize(int flag);
 
 void adm_finalize(int flag, char output_directory[], const char * executable_name, int pid);

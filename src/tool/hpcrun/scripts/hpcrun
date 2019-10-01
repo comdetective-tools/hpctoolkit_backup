@@ -47,7 +47,7 @@
 
 # If this script can't find its own install prefix, or if the script
 # is moved elsewhere, then set HPCTOOLKIT here.
-# HPCTOOLKIT='/home/msasongko17/project/feather-project/github_repo/hpctoolkit-bin'
+# HPCTOOLKIT='/home/aditya/Documents/new_research/comdetective-tools/hpctoolkit-bin'
 
 VERSION='2017.11'
 
@@ -57,7 +57,7 @@ hpcrun_dir='lib/hpctoolkit'
 libmonitor_dir='lib/hpctoolkit/ext-libs'
 libunwind_dir='@LIBUNWIND_RUN_DIR@'
 papi_libdir=''
-perfmon_libdir='/home/msasongko17/project/feather-project/github_repo/hpctoolkit-externals/x86_64-unknown-linux-gnu/perfmon/lib'
+perfmon_libdir='/home/aditya/Documents/new_research/comdetective-tools/hpctoolkit-externals/x86_64-unknown-linux-gnu/perfmon/lib'
 
 #------------------------------------------------------------
 # Find path to this script
@@ -272,9 +272,7 @@ arg_ok()
 preload_list=
 HPCRUN_DEBUG_FLAGS=
 HPCRUN_EVENT_LIST=
-BULLETIN_BOARD_SIZE=127
-WATCHPOINT_SIZE=4
-BULLETIN_BOARD_S=127
+
 while test "x$1" != x
 do
     arg="$1" ; shift
@@ -368,51 +366,8 @@ do
 	# --------------------------------------------------
 
         --enable-object-level )
-	    echo "HPCRUN_OBJECT_LEVEL is activated"
             export HPCRUN_OBJECT_LEVEL=1
             ;;
-
-	# --------------------------------------------------
-
-	--object-size-threshold )
-            arg_ok "$1" || die "missing argument for $arg"
-	    export OBJECT_SIZE_THRESHOLD=$1
-	    export HPCRUN_OBJECT_LEVEL=1
-            shift
-            ;;
-
-	# --------------------------------------------------
-
-        --bulletin-board-size )
-            arg_ok "$1" || die "missing argument for $arg"
-	    #BULLETIN_BOARD_SIZE=127
-	    #if ! [[ "$1" =~ ^[0-9]+$ ]]
-	    #then
-	    #	echo $1
-	    #	echo "Sorry, bulletin board size should be integers only, default value of 127 is set."
-	    #else
-	    BULLETIN_BOARD_SIZE=$1
-	    #fi
-            #export BULLETIN_BOARD_SIZE
-            shift
-            ;;
-
-	# --------------------------------------------------
-
-        --debug-register-size )
-            arg_ok "$1" || die "missing argument for $arg"
-            #BULLETIN_BOARD_SIZE=127
-            #if ! [[ "$1" =~ ^[0-9]+$ ]]
-            #then
-            #   echo $1
-            #   echo "Sorry, bulletin board size should be integers only, default value of 127 is set."
-            #else
-            WATCHPOINT_SIZE=$1
-            #fi
-            #export WATCHPOINT_SIZE
-            shift
-            ;;
-
 
 	# --------------------------------------------------
 
@@ -478,9 +433,6 @@ do
 	    ;;
     esac
 done
-export BULLETIN_BOARD_SIZE
-export OBJECT_SIZE_THRESHOLD
-export WATCHPOINT_SIZE
 
 # Add default sampling source if needed.
 case "$HPCRUN_EVENT_LIST" in

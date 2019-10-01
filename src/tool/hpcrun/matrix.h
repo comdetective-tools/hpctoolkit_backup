@@ -68,7 +68,7 @@ extern double cache_line_transfer;
 extern double cache_line_transfer_millions;
 extern double cache_line_transfer_gbytes;
 
-typedef struct SharedData{
+typedef struct SharedEntry{
     volatile uint64_t counter __attribute__((aligned(CACHE_LINE_SZ)));
     uint64_t time __attribute__((aligned(CACHE_LINE_SZ)));
     int64_t expiration_period;
@@ -84,11 +84,11 @@ typedef struct SharedData{
     cct_node_t * node;
     volatile uint64_t matrix_counter __attribute__((aligned(CACHE_LINE_SZ))); 
     char dummy[CACHE_LINE_SZ];
-} SharedData_t;
+} SharedEntry_t;
 
 typedef struct hashTableStruct{
         volatile uint64_t counter __attribute__((aligned(64)));
-        struct SharedData hashTable[503];
+        struct SharedEntry hashTable[503];
 	//struct SharedData * hashTable;
 } HashTable_t;
 

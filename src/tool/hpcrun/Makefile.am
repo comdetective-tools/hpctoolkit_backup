@@ -437,8 +437,9 @@ MY_INCLUDE_DIRS =			\
 	$(LIBUNWIND_IFLAGS)		\
 	-I$(HPCFNBOUNDS_INC)		\
         $(OPT_CUPTI_IFLAGS)             \
-	-I$(LIBMONITOR_INC)	\
-	-I$(LIBADM_INC)
+	-I$(LIBMONITOR_INC)
+
+#-I$(LIBADM_INC)
 
 MY_MIPS_INCLUDE_DIRS = \
 	-I$(srcdir)/unwind/mips
@@ -688,7 +689,7 @@ if OPT_BGQ_BACKEND
 endif
 
 libhpcrun_la_LDFLAGS = -Wl,-Bsymbolic 	\
-	-L$(LIBMONITOR_LIB) -lmonitor -L$(LIBADM_LIB) -ladm -lpthread -lrt -lnuma -rdynamic \
+	-L$(LIBMONITOR_LIB) -lmonitor -lpthread -lrt \
         $(LIBUNWIND_LDFLAGS_DYN) $(LZMA_LDFLAGS_DYN) \
         $(PERFMON_LDFLAGS_DYN)
 
