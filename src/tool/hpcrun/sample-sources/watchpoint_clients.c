@@ -135,7 +135,7 @@
 #include <unwind/x86-family/x86-misc.h>
 #include "perf/perf-util.h"
 #include <hpcrun/handling_sample.h>
-#include <adm_init_fini.h>
+//#include <adm_init_fini.h>
 #include "matrix.h"
 
 int red_metric_id = -1;

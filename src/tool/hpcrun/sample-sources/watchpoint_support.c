@@ -61,7 +61,7 @@
 #include "watchpoint_support.h"
 #include <unwind/x86-family/x86-misc.h>
 #include "matrix.h"
-#include <adm_init_fini.h>
+//#include <adm_init_fini.h>
 
 //extern int init_adamant;
 

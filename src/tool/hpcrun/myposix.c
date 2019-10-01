@@ -7,7 +7,7 @@
 #include <string.h>
 #define UNW_LOCAL_ONLY
 #include <libunwind.h>
-#include <adm_init_fini.h>
+//#include <adm_init_fini.h>
 #include "env.h"
 //#define ENABLE_OBJECT_LEVEL 1
 #include <sys/mman.h>

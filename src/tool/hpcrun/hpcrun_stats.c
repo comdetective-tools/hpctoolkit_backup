@@ -59,7 +59,7 @@
 #include <lib/prof-lean/stdatomic.h>
 #include <lib/prof-lean/hpcrun-fmt.h>
 #include <unwind/common/validate_return_addr.h>
-#include <adm_init_fini.h>
+//#include <adm_init_fini.h>
 #include "matrix.h"
 //#include "myposix.h"
 #include "env.h"

@@ -91,7 +91,7 @@ do
 	esac
 done
 
-export LD_LIBRARY_PATH=$adm_libdir:$LD_LIBRARY_PATH
+#export LD_LIBRARY_PATH=$adm_libdir:$LD_LIBRARY_PATH
 
 if [ $error_flag -eq 0 ]
 then
