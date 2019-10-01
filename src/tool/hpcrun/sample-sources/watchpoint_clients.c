@@ -1462,7 +1462,7 @@ static WPTriggerActionType ComDetectiveWPCallback(WatchPointInfo_t *wpi, int sta
     }
     if(fs_matrix_size < max_thread_num)
     {
-	matrix_size_set(max_thread_num);
+	//matrix_size_set(max_thread_num);
     	fs_matrix_size =  max_thread_num;
     	ts_matrix_size =  max_thread_num;
     	as_matrix_size =  max_thread_num;
@@ -1476,7 +1476,7 @@ static WPTriggerActionType ComDetectiveWPCallback(WatchPointInfo_t *wpi, int sta
     }
     if(fs_core_matrix_size < max_core_num)
     {
-        core_matrix_size_set(max_core_num);
+        //core_matrix_size_set(max_core_num);
         fs_core_matrix_size =  max_core_num;
         ts_core_matrix_size =  max_core_num;
         as_core_matrix_size =  max_core_num;
@@ -2810,7 +2810,7 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
     			}
     			if(as_matrix_size < max_thread_num)
     			{   
-        			matrix_size_set(max_thread_num);
+        			//matrix_size_set(max_thread_num);
         			fs_matrix_size =  max_thread_num;
         			ts_matrix_size =  max_thread_num;
         			as_matrix_size =  max_thread_num;  
@@ -2823,7 +2823,7 @@ bool OnSample(perf_mmap_data_t * mmap_data, void * contextPC, cct_node_t *node, 
                 	}
                 	if(as_core_matrix_size < max_core_num)
                 	{
-                		core_matrix_size_set(max_core_num);
+                		//core_matrix_size_set(max_core_num);
                 		fs_core_matrix_size =  max_core_num;
                         	ts_core_matrix_size =  max_core_num;
                         	as_core_matrix_size =  max_core_num;

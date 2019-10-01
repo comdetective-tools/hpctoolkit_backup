@@ -688,7 +688,7 @@ if OPT_BGQ_BACKEND
 endif
 
 libhpcrun_la_LDFLAGS = -Wl,-Bsymbolic 	\
-	-L$(LIBMONITOR_LIB) -lmonitor -L$(LIBADM_LIB) -ladm -lpthread -lrt \
+	-L$(LIBMONITOR_LIB) -lmonitor -L$(LIBADM_LIB) -lpthread -lrt \
         $(LIBUNWIND_LDFLAGS_DYN) $(LZMA_LDFLAGS_DYN) \
         $(PERFMON_LDFLAGS_DYN)
 
