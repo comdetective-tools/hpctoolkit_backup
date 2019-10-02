@@ -872,6 +872,8 @@ METHOD_FN(process_event_list, int lush_metrics)
     for(int i = 0; i < WP_MAX_CLIENTS; i++) {
         if (hpcrun_ev_is(event, wpClientConfig[i].name)) {
             theWPConfig  = &wpClientConfig[i];
+	    if(theWPConfig->id == WP_COMDETECTIVE)
+	    	fprintf(stderr, "watchpoint client configuration is retrieved and the id is WP_COMDETECTIVE\n");
             break;
         }
     }
@@ -2960,5 +2962,16 @@ ErrExit:
     wpStats.numImpreciseSamples ++;
     return false;
     
+}
+
+void dump_comdetective_matrices() {
+	if(theWPConfig->id == WP_COMDETECTIVE) {
+		dump_fs_matrix();
+		dump_fs_core_matrix();
+		dump_ts_matrix();
+		dump_ts_core_matrix();
+		dump_as_matrix();
+		dump_as_core_matrix();
+	}
 }
 
