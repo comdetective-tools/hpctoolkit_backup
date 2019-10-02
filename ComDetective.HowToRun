@@ -6,10 +6,10 @@ ComDetectiverun <./your_executable> your_args
 
 
 
-To run ComDetective with custom configuration (user-chosen sampling period, bulletin board size, number of watchpoints, and minimum size threshold of heap objects to be monitored):
+To run ComDetective with custom configuration (user-chosen sampling period, bulletin board size, and number of watchpoints):
 
-ComDetectiverun --period <sampling rate> --bulletin-board-size <bulletin board size> --debug-register-size <number of debug registers> --object-size-threshold <minimum threshold of heap object size> <./your_executable> your_args
+ComDetectiverun --period <sampling rate> --bulletin-board-size <bulletin board size> --debug-register-size <number of debug registers> <./your_executable> your_args
 
 or
 
-ComDetectiverun -p <sampling rate> -b <bulletin board size> -d <number of debug registers> -t <minimum threshold of heap object size> <./your_executable> args_for_executable
+ComDetectiverun -p <sampling rate> -b <bulletin board size> -d <number of debug registers> <./your_executable> args_for_executable

@@ -1,12 +1,14 @@
+Requirement
+===============
+Linux kernel version 5.0.0-25+
+
 Installation
 ===============
+1. Install hpctoolkit-externals from https://github.com/WitchTools/hpctoolkit-externals.
+2. Install the custom libmonitor from https://github.com/WitchTools/libmonitor.
+3. Install HPCToolkit with ComDetective extensions from https://github.com/comdetective-tools/ComDetective pointing to the installations of hpctoolkit-externals and libmonitor from steps \#1 and \#2. This step is performed with the following commands.
 
-1. Install the custom Linux version from https://github.com/WitchTools/linux.
-2. Install hpctoolkit-externals from https://github.com/WitchTools/hpctoolkit-externals.
-3. Install the custom libmonitor from https://github.com/WitchTools/libmonitor.
-4. Install HPCToolkit with ComDetective extensions from (ComDetective source) pointing to the installations of hpctoolkit-externals, libmonitor, and adamant from step \#2, \#3, and \#4. This step is performed with the following commands.
-
-1. ./configure --prefix=<targeted installation directory for ComDetective> --with-externals=<installation directory of hpctoolkit externals> --with-libmonitor=<installation directory of libmonitor> --with-libadm=<installation directory of custom adamant> 
+1. ./configure --prefix=<targeted installation directory for ComDetective> --with-externals=<installation directory of hpctoolkit externals> --with-libmonitor=<installation directory of libmonitor> 
 
 2. make
 
