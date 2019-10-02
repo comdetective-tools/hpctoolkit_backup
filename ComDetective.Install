@@ -8,8 +8,8 @@ Installation
 2. Install the custom libmonitor from https://github.com/WitchTools/libmonitor.
 3. Install HPCToolkit with ComDetective extensions from https://github.com/comdetective-tools/ComDetective pointing to the installations of hpctoolkit-externals and libmonitor from steps \#1 and \#2. This step is performed with the following commands.
 
-1. ./configure --prefix=<targeted installation directory for ComDetective> --with-externals=<installation directory of hpctoolkit externals> --with-libmonitor=<installation directory of libmonitor> 
+a. ./configure --prefix=<targeted installation directory for ComDetective> --with-externals=<installation directory of hpctoolkit externals> --with-libmonitor=<installation directory of libmonitor> 
 
-2. make
+b. make
 
-3. make install
+c. make install
